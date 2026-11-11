@@ -1,5 +1,6 @@
 import fs from "fs";
 import path from "path";
+import os from "os";
 import crypto from "crypto";
 import bcrypt from "bcryptjs";
 import mongoose from "mongoose";
@@ -22,7 +23,16 @@ import type {
   MeetingRequestSubmission,
 } from "@/types";
 
-const DATA_DIR = path.join(process.cwd(), ".data");
+function resolveDataDir(): string {
+  // In serverless environments (Vercel, AWS Lambda, Cloudflare),
+  // process.cwd() is read-only. We safely use os.tmpdir() for local fallback.
+  if (process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME || process.env.NODE_ENV === "production") {
+    return path.join(os.tmpdir(), "cognirex-data");
+  }
+  return path.join(process.cwd(), ".data");
+}
+
+let DATA_DIR = resolveDataDir();
 const UPLOADS_DIR = path.join(process.cwd(), "public", "uploads", "cms");
 
 type GlobalWithMongoose = typeof globalThis & {
@@ -45,7 +55,10 @@ export async function ensureDb(): Promise<boolean> {
   const g = globalThis as GlobalWithMongoose;
   if (!g.__cognirexMongoPromise) {
     g.__cognirexMongoPromise = mongoose
-      .connect(process.env.MONGODB_URI!.trim(), { bufferCommands: false })
+      .connect(process.env.MONGODB_URI!.trim(), {
+        bufferCommands: false,
+        serverSelectionTimeoutMS: 4000,
+      })
       .catch((err) => {
         console.warn("MongoDB connection failed, falling back to local .data store:", err.message);
         g.__cognirexMongoPromise = undefined;
@@ -60,8 +73,21 @@ export async function ensureDb(): Promise<boolean> {
 // ---------- Local JSON helpers (zero-config dev / fallback store) ----------
 
 function ensureDir(dir: string) {
-  if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir, { recursive: true });
+  try {
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
+    }
+  } catch (err) {
+    if (dir === DATA_DIR && DATA_DIR !== path.join(os.tmpdir(), "cognirex-data")) {
+      DATA_DIR = path.join(os.tmpdir(), "cognirex-data");
+      try {
+        if (!fs.existsSync(DATA_DIR)) {
+          fs.mkdirSync(DATA_DIR, { recursive: true });
+        }
+      } catch {
+        // Safe to ignore in strict read-only environments
+      }
+    }
   }
 }
 
@@ -77,8 +103,12 @@ function readJson<T>(file: string, fallback: T): T {
 }
 
 function writeJson<T>(file: string, data: T): void {
-  ensureDir(DATA_DIR);
-  fs.writeFileSync(path.join(DATA_DIR, file), JSON.stringify(data, null, 2), "utf-8");
+  try {
+    ensureDir(DATA_DIR);
+    fs.writeFileSync(path.join(DATA_DIR, file), JSON.stringify(data, null, 2), "utf-8");
+  } catch (err) {
+    console.warn(`[CMS Store] Non-fatal: could not write local cache file ${file}:`, err);
+  }
 }
 
 // ---------- Types exposed to CMS API ----------
@@ -631,29 +661,37 @@ export async function recordInquiryFromWebsite(
   enquiry: ContactEnquirySubmission
 ): Promise<{ success: boolean; id: string; message: string }> {
   const id = `ENQ-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
-  const useDb = await ensureDb();
 
-  if (useDb) {
-    await ContactInquiryModel.create({
-      externalId: id,
-      ...enquiry,
-      status: "new",
-      submittedAt: new Date(),
-    });
+  try {
+    const useDb = await ensureDb();
+    if (useDb) {
+      await ContactInquiryModel.create({
+        externalId: id,
+        ...enquiry,
+        status: "new",
+        submittedAt: new Date(),
+      });
+    }
+  } catch (dbErr) {
+    console.warn("[CMS Store] DB inquiry creation non-fatal error:", dbErr);
   }
 
-  // Always maintain legacy JSON file for local continuity
-  const list = readJson<Array<ContactEnquirySubmission & { status?: string }>>(
-    "contact_enquiries.json",
-    []
-  );
-  list.unshift({
-    ...enquiry,
-    id,
-    status: "new",
-    createdAt: new Date().toISOString(),
-  });
-  writeJson("contact_enquiries.json", list);
+  // Maintain local fallback without throwing
+  try {
+    const list = readJson<Array<ContactEnquirySubmission & { status?: string }>>(
+      "contact_enquiries.json",
+      []
+    );
+    list.unshift({
+      ...enquiry,
+      id,
+      status: "new",
+      createdAt: new Date().toISOString(),
+    });
+    writeJson("contact_enquiries.json", list);
+  } catch (fsErr) {
+    console.warn("[CMS Store] Local file inquiry write non-fatal error:", fsErr);
+  }
 
   return {
     success: true,
@@ -773,7 +811,13 @@ export async function isSlotAvailable(date: string, time: string): Promise<boole
 export async function recordConsultationFromWebsite(
   request: Omit<MeetingRequestSubmission, "id" | "createdAt" | "status">
 ): Promise<{ success: boolean; id?: string; message: string; isConflict?: boolean }> {
-  const available = await isSlotAvailable(request.preferredDate, request.preferredTime);
+  let available = true;
+  try {
+    available = await isSlotAvailable(request.preferredDate, request.preferredTime);
+  } catch {
+    available = true;
+  }
+
   if (!available) {
     return {
       success: false,
@@ -783,24 +827,33 @@ export async function recordConsultationFromWebsite(
   }
 
   const id = `MTG-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
-  const useDb = await ensureDb();
-  if (useDb) {
-    await ConsultationRequestModel.create({
-      externalId: id,
-      ...request,
-      status: "confirmed",
-      submittedAt: new Date(),
-    });
+
+  try {
+    const useDb = await ensureDb();
+    if (useDb) {
+      await ConsultationRequestModel.create({
+        externalId: id,
+        ...request,
+        status: "confirmed",
+        submittedAt: new Date(),
+      });
+    }
+  } catch (dbErr) {
+    console.warn("[CMS Store] DB consultation creation non-fatal error:", dbErr);
   }
 
-  const list = readJson<MeetingRequestSubmission[]>("meeting_requests.json", []);
-  list.unshift({
-    ...request,
-    id,
-    status: "confirmed",
-    createdAt: new Date().toISOString(),
-  });
-  writeJson("meeting_requests.json", list);
+  try {
+    const list = readJson<MeetingRequestSubmission[]>("meeting_requests.json", []);
+    list.unshift({
+      ...request,
+      id,
+      status: "confirmed",
+      createdAt: new Date().toISOString(),
+    });
+    writeJson("meeting_requests.json", list);
+  } catch (fsErr) {
+    console.warn("[CMS Store] Local file consultation write non-fatal error:", fsErr);
+  }
 
   return {
     success: true,
@@ -917,36 +970,45 @@ export async function recordCareerApplicationFromWebsite(
   application: CareerApplicationSubmission
 ): Promise<{ success: boolean; id: string; message: string }> {
   const id = `APP-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
-  const useDb = await ensureDb();
-  if (useDb) {
-    await CareerApplicationModel.create({
-      externalId: id,
-      fullName: application.fullName,
-      email: application.email,
-      phone: application.phone,
-      positionOfInterest: application.positionOfInterest,
-      experience: application.experience,
-      linkedIn: application.linkedIn,
-      resumeFileName: application.resumeFileName,
-      shortIntroduction: application.shortIntroduction,
-      privacyConsent: application.privacyConsent,
-      status: "new",
-      submittedAt: new Date(),
-    });
+
+  try {
+    const useDb = await ensureDb();
+    if (useDb) {
+      await CareerApplicationModel.create({
+        externalId: id,
+        fullName: application.fullName,
+        email: application.email,
+        phone: application.phone,
+        positionOfInterest: application.positionOfInterest,
+        experience: application.experience,
+        linkedIn: application.linkedIn,
+        resumeFileName: application.resumeFileName,
+        shortIntroduction: application.shortIntroduction,
+        privacyConsent: application.privacyConsent,
+        status: "new",
+        submittedAt: new Date(),
+      });
+    }
+  } catch (dbErr) {
+    console.warn("[CMS Store] DB career creation non-fatal error:", dbErr);
   }
 
-  const list = readJson<Array<CareerApplicationSubmission & { status?: string }>>(
-    "career_applications.json",
-    []
-  );
-  list.unshift({
-    ...application,
-    id,
-    status: "new",
-    resumeBase64: application.resumeBase64 ? "[STORED_SECURELY]" : undefined,
-    createdAt: new Date().toISOString(),
-  });
-  writeJson("career_applications.json", list);
+  try {
+    const list = readJson<Array<CareerApplicationSubmission & { status?: string }>>(
+      "career_applications.json",
+      []
+    );
+    list.unshift({
+      ...application,
+      id,
+      status: "new",
+      resumeBase64: application.resumeBase64 ? "[STORED_SECURELY]" : undefined,
+      createdAt: new Date().toISOString(),
+    });
+    writeJson("career_applications.json", list);
+  } catch (fsErr) {
+    console.warn("[CMS Store] Local file career write non-fatal error:", fsErr);
+  }
 
   return {
     success: true,

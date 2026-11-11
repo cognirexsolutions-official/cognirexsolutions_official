@@ -45,12 +45,16 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Send email notification to company inbox
+    // Send email notification to company inbox (non-fatal if unconfigured)
     if (result.id) {
-      await sendMeetingRequestEmail({
-        ...parsed.data,
-        id: result.id,
-      });
+      try {
+        await sendMeetingRequestEmail({
+          ...parsed.data,
+          id: result.id,
+        });
+      } catch (emailErr) {
+        console.warn("Meeting request email dispatch warning:", emailErr);
+      }
     }
 
     return NextResponse.json(result, { status: 201 });

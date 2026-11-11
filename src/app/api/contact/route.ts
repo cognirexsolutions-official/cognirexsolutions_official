@@ -34,11 +34,15 @@ export async function POST(req: NextRequest) {
 
     const result = await saveContactEnquiry(parsed.data);
 
-    // Send email notification via SMTP
-    await sendContactEnquiryEmail({
-      ...parsed.data,
-      id: result.id,
-    });
+    // Send email notification via SMTP (non-fatal if SMTP server is unreachable or unconfigured)
+    try {
+      await sendContactEnquiryEmail({
+        ...parsed.data,
+        id: result.id,
+      });
+    } catch (emailErr) {
+      console.warn("SMTP email dispatch warning:", emailErr);
+    }
 
     return NextResponse.json(result, { status: 201 });
   } catch (err: unknown) {

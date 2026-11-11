@@ -58,12 +58,16 @@ export async function POST(req: NextRequest) {
 
     const result = await saveCareerApplication(parsed.data);
 
-    // Dispatch email to Cognirex Solutions team via SMTP
-    await sendCareerApplicationEmail({
-      ...parsed.data,
-      id: result.id,
-      rawResumeBase64: parsed.data.resumeBase64,
-    });
+    // Dispatch email to Cognirex Solutions team via SMTP (non-fatal if unconfigured)
+    try {
+      await sendCareerApplicationEmail({
+        ...parsed.data,
+        id: result.id,
+        rawResumeBase64: parsed.data.resumeBase64,
+      });
+    } catch (emailErr) {
+      console.warn("Career application email dispatch warning:", emailErr);
+    }
 
     return NextResponse.json(
       {
