@@ -123,6 +123,44 @@ export const jsonLdOrganization = {
         },
       ],
     },
+    {
+      "@type": "FAQPage",
+      "@id": "https://cognirexsolutions.com/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What services does Cognirex Solutions offer?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Cognirex Solutions specializes in custom web application development, cloud software engineering, enterprise AI integration, intelligent workflow automation, and digital presence transformation.",
+          },
+        },
+        {
+          "@type": "Question",
+          "name": "Can Cognirex Solutions integrate AI into existing business software?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, we engineer custom AI solutions, automated customer workflows, intelligent search pipelines, and agentic LLM assistants that integrate into existing software architectures.",
+          },
+        },
+        {
+          "@type": "Question",
+          "name": "Where is Cognirex Solutions based and do you serve international clients?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Cognirex Solutions is based in India and serves businesses globally across North America, Europe, the Middle East, and Asia.",
+          },
+        },
+        {
+          "@type": "Question",
+          "name": "How does Cognirex Solutions approach software engineering projects?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "We follow a 5-stage engineering lifecycle: Discovery & Requirements, Architectural Design, Agile Development & Testing, Production Deployment, and Continuous Maintenance & Evolution.",
+          },
+        },
+      ],
+    },
   ],
 };
 

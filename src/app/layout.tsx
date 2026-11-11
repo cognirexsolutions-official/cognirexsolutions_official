@@ -98,7 +98,11 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
+  verification: {
+    google: "55aG1ui2FhHrXCuPinwuWp2BT-xoHUTi_VoQAw4LSRI",
+  },
   other: {
+    "google-site-verification": "55aG1ui2FhHrXCuPinwuWp2BT-xoHUTi_VoQAw4LSRI",
     "geo.region": "IN",
     "geo.placename": "India",
     "geo.position": "28.6139;77.2090",
