@@ -11,6 +11,8 @@
 /.next/
 /out/
 /build
+/.open-next/
+/.wrangler/
 
 # Local Database & Storage
 /.data/

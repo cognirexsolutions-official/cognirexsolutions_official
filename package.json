@@ -5,6 +5,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:worker": "opennextjs-cloudflare build",
+    "deploy": "opennextjs-cloudflare build && wrangler deploy",
+    "preview": "opennextjs-cloudflare build && wrangler dev",
     "start": "next start",
     "lint": "next lint",
     "cms:build": "cd cms && npm run build && node -e \"const fs=require('fs');fs.rmSync('../public/cms',{recursive:true,force:true});fs.cpSync('dist','../public/cms',{recursive:true});\""
@@ -28,6 +31,7 @@
     "zod": "^3.24.2"
   },
   "devDependencies": {
+    "@opennextjs/cloudflare": "^1.20.16",
     "@types/bcryptjs": "^2.4.6",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^20.17.19",
@@ -37,6 +41,7 @@
     "autoprefixer": "^10.4.20",
     "postcss": "^8.5.2",
     "tailwindcss": "^3.4.17",
-    "typescript": "^5.7.3"
+    "typescript": "^5.7.3",
+    "wrangler": "^4.160.1"
   }
 }
