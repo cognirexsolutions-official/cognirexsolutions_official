@@ -46,10 +46,12 @@ export async function POST(req: NextRequest) {
     }
 
     // Send email notification to company inbox
-    await sendMeetingRequestEmail({
-      ...parsed.data,
-      id: result.id,
-    });
+    if (result.id) {
+      await sendMeetingRequestEmail({
+        ...parsed.data,
+        id: result.id,
+      });
+    }
 
     return NextResponse.json(result, { status: 201 });
   } catch (err: unknown) {

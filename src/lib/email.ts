@@ -158,7 +158,12 @@ export async function sendCareerApplicationEmail(
  * Send Meeting Request details via SMTP to Cognirex Solutions email
  */
 export async function sendMeetingRequestEmail(
-  meeting: MeetingRequestSubmission & { id: string }
+  meeting: Omit<MeetingRequestSubmission, "status"> & {
+    id: string;
+    status?: string;
+    companyName?: string;
+    agendaTopics?: string;
+  }
 ): Promise<{ sent: boolean; message: string }> {
   const transporter = getTransporter();
   const recipient = process.env.SMTP_TO_EMAIL || "contact@cognirexsolutions.com";
