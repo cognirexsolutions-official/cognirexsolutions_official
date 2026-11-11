@@ -43,7 +43,7 @@ export default function Header() {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 30);
 
-      const sections = ["hero", "about", "solutions", "innovation", "contact"];
+      const sections = ["hero", "about", "solutions", "approach", "projects", "industries", "contact"];
       const scrollPos = window.scrollY + 120;
 
       for (let i = sections.length - 1; i >= 0; i--) {

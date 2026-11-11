@@ -30,7 +30,7 @@ export const DEFAULT_COGNIR_CONTENT: CognirexContentBundle = {
       { title: "Home", href: "/#hero" },
       { title: "About", href: "/#about" },
       { title: "Solutions", href: "/#solutions" },
-      { title: "Innovation", href: "/#innovation" },
+      { title: "Projects", href: "/#projects" },
       { title: "Careers", href: "/careers" },
       { title: "Get in Touch", href: "/contact", isCta: true },
     ],

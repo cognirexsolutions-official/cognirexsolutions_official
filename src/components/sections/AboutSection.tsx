@@ -8,9 +8,7 @@ import { useCmsContent } from "@/context/CmsContentContext";
 import { getLucideIcon } from "@/lib/iconMap";
 import {
   CheckCircle2,
-  Code2,
   Sparkles,
-  Lightbulb,
 } from "lucide-react";
 
 export default function AboutSection() {
@@ -160,7 +158,7 @@ export default function AboutSection() {
         </div>
 
         {/* Client-Centric Innovation Callout with Dual Animated Web of Connections */}
-        <div className="rounded-3xl bg-[#1F1B2E] text-white p-8 sm:p-14 text-center mb-20 shadow-subtle border border-[#37314A] relative overflow-hidden">
+        <div className="rounded-3xl bg-[#1F1B2E] text-white p-8 sm:p-14 text-center shadow-subtle border border-[#37314A] relative overflow-hidden">
           <WebOfConnections side="left" className="w-1/2 md:w-5/12 z-0" />
           <WebOfConnections side="right" className="w-1/2 md:w-5/12 z-0" />
 
@@ -174,115 +172,6 @@ export default function AboutSection() {
             <p className="text-xs sm:text-sm md:text-base text-[#E2DCF0] leading-relaxed font-normal max-w-2xl mx-auto">
               {about.calloutDescription}
             </p>
-          </div>
-        </div>
-
-        {/* Core Principles Grid */}
-        <div className="mb-24">
-          <div className="text-center max-w-2xl mx-auto mb-12">
-            <span className="text-xs font-bold uppercase tracking-wider text-[#7C3AED] bg-[#EEE8FA] px-3 py-1 rounded-full mb-3 inline-block">
-              {about.valuesBadge}
-            </span>
-            <h3 className="text-2xl sm:text-3xl font-bold text-[#1F1B2E] font-heading">
-              {about.valuesTitle}
-            </h3>
-            <p className="text-sm text-[#6F6A7C] mt-2">
-              {about.valuesDescription}
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {about.values.map((val, idx) => {
-              const Icon = getLucideIcon(val.icon, Lightbulb);
-              return (
-                <div
-                  key={`${val.name}-${idx}`}
-                  className="p-7 rounded-2xl bg-[#F8F7FC] border border-[#E5E1ED] hover:border-[#7C3AED]/40 hover:-translate-y-1 transition-all group"
-                >
-                  <div className="w-11 h-11 rounded-xl bg-white border border-[#E5E1ED] flex items-center justify-center text-[#7C3AED] mb-4 group-hover:bg-[#7C3AED] group-hover:text-white transition-colors shadow-xs">
-                    <Icon className="w-5 h-5" />
-                  </div>
-                  <h4 className="font-heading font-bold text-lg text-[#1F1B2E] mb-2 group-hover:text-[#7C3AED] transition-colors">
-                    {val.name}
-                  </h4>
-                  <p className="text-sm text-[#6F6A7C] leading-relaxed">
-                    {val.desc}
-                  </p>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Capabilities Grid */}
-        <div className="mb-20">
-          <div className="text-center max-w-2xl mx-auto mb-10">
-            <span className="text-xs font-bold uppercase tracking-wider text-[#7C3AED] bg-[#EEE8FA] px-3 py-1 rounded-full mb-3 inline-block">
-              {about.capabilitiesBadge}
-            </span>
-            <h3 className="text-2xl sm:text-3xl font-bold text-[#1F1B2E] font-heading">
-              {about.capabilitiesTitle}
-            </h3>
-            <p className="text-sm text-[#6F6A7C] mt-2">
-              {about.capabilitiesDescription}
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {about.capabilities.map((cap, idx) => {
-              const Icon = getLucideIcon(cap.icon, Code2);
-              return (
-                <div
-                  key={cap.id || `${cap.title}-${idx}`}
-                  className="bg-white border border-[#E5E1ED] rounded-2xl overflow-hidden shadow-subtle flex flex-col group hover:-translate-y-1.5 transition-all duration-300 hover:shadow-card-hover"
-                >
-                  {/* Photo Poster Related to the Core Domain with padding & rounded border */}
-                  <div className="p-2 bg-white">
-                    <div className="relative h-44 w-full overflow-hidden rounded-xl border border-[#E5E1ED] bg-[#EEE8FA]">
-                      {cap.image ? (
-                        <img
-                          src={cap.image}
-                          alt={cap.title}
-                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                        />
-                      ) : (
-                        <div className="w-full h-full bg-[#EEE8FA]" />
-                      )}
-                      {/* Dark gradient overlay for contrast and depth */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#1F1B2E]/75 via-[#1F1B2E]/25 to-transparent" />
-
-                      <div className="absolute top-3 right-3">
-                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full bg-[#7C3AED]/90 backdrop-blur-xs text-white font-semibold tracking-wide uppercase text-[10px] shadow-xs">
-                          Core Domain
-                        </span>
-                      </div>
-
-                      <div className="absolute bottom-3 left-3">
-                        <div className="w-10 h-10 rounded-xl bg-white/95 backdrop-blur-md flex items-center justify-center text-[#7C3AED] shadow-sm transition-transform group-hover:scale-110">
-                          <Icon className="w-5 h-5 stroke-[2]" />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="p-5 flex-1 flex flex-col justify-between">
-                    <div>
-                      <h4 className="font-heading font-bold text-base text-[#1F1B2E] mb-1.5 group-hover:text-[#7C3AED] transition-colors">
-                        {cap.title}
-                      </h4>
-                      <p className="text-xs text-[#6F6A7C] leading-relaxed">
-                        {cap.description}
-                      </p>
-                    </div>
-
-                    <div className="pt-4 mt-4 border-t border-[#F0EDF7] flex items-center gap-1.5 text-xs text-[#7C3AED] font-semibold">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#7C3AED]" />
-                      <span>Dedicated Practice</span>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
           </div>
         </div>
       </div>

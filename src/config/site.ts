@@ -32,7 +32,7 @@ export const siteConfig = {
     { title: "Home", href: "/#hero" },
     { title: "About", href: "/#about" },
     { title: "Solutions", href: "/#solutions" },
-    { title: "Innovation", href: "/#innovation" },
+    { title: "Projects", href: "/#projects" },
     { title: "Careers", href: "/careers" },
     { title: "Get in Touch", href: "/contact", isCta: true },
   ],
@@ -40,10 +40,10 @@ export const siteConfig = {
   // Footer links
   footerLinks: {
     company: [
-      { title: "About Us", href: "#about" },
-      { title: "Why Cognirex", href: "#why-us" },
-      { title: "Our Process", href: "#approach" },
-      { title: "Innovation", href: "#innovation" },
+      { title: "About Us", href: "/#about" },
+      { title: "Our Process", href: "/#approach" },
+      { title: "Featured Projects", href: "/#projects" },
+      { title: "Industries", href: "/#industries" },
       { title: "Careers", href: "/careers", isExternal: true },
     ],
     solutions: [

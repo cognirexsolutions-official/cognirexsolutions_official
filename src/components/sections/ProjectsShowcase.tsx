@@ -7,7 +7,7 @@ import { Check } from "lucide-react";
 
 export default function ProjectsShowcase() {
   return (
-    <section className="py-20 md:py-24 bg-white border-b border-[#E5E1ED] relative scroll-mt-20">
+    <section id="projects" className="py-20 md:py-24 bg-white border-b border-[#E5E1ED] relative scroll-mt-20">
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
         <SectionHeading
           badge="MADE TO BE EXPERIENCED"
