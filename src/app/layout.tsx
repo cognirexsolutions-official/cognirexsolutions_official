@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { siteConfig } from "@/config/site";
+import { jsonLdOrganization } from "@/config/structuredData";
 import { CmsContentProvider } from "@/context/CmsContentContext";
 
 const inter = Inter({
@@ -27,19 +28,42 @@ export const metadata: Metadata = {
   description: siteConfig.description,
   keywords: [
     "Cognirex Solutions",
-    "Digital Presence",
-    "Websites",
-    "E-Commerce",
-    "Custom Software",
-    "Digital Solutions",
-    "AI & Automation",
-    "Artificial Intelligence",
-    "Machine Learning",
-    "Generative AI",
-    "Intelligent Systems",
+    "Cognirex",
+    "AI Consulting India",
+    "Enterprise AI Solutions",
+    "Digital Experience Agency",
+    "Web Application Development",
+    "Custom Software Engineering",
+    "Intelligent Automation",
+    "Generative AI Solutions",
+    "Machine Learning Engineers",
+    "Cloud Software Architecture",
+    "E-Commerce Solutions",
+    "Full-Stack Development",
+    "Autonomous Agents",
+    "Next.js Development Agency",
   ],
-  authors: [{ name: siteConfig.name }],
+  authors: [{ name: siteConfig.name, url: siteConfig.url }],
   creator: siteConfig.name,
+  publisher: siteConfig.name,
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  alternates: {
+    canonical: "/",
+  },
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "32x32" },
+      { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
+    ],
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
+  },
+  manifest: "/manifest.webmanifest",
   openGraph: {
     type: "website",
     locale: "en_US",
@@ -49,10 +73,10 @@ export const metadata: Metadata = {
     siteName: siteConfig.name,
     images: [
       {
-        url: siteConfig.ogImage,
-        width: 1200,
-        height: 630,
-        alt: `${siteConfig.name} Overview`,
+        url: "/images/logo_main.png",
+        width: 735,
+        height: 660,
+        alt: `${siteConfig.name} — Intelligence Engineered`,
       },
     ],
   },
@@ -60,11 +84,26 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: `${siteConfig.name} — ${siteConfig.tagline}`,
     description: siteConfig.description,
-    images: [siteConfig.ogImage],
+    creator: "@cognirex",
+    images: ["/images/logo_main.png"],
   },
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  other: {
+    "geo.region": "IN",
+    "geo.placename": "India",
+    "geo.position": "28.6139;77.2090",
+    "ICBM": "28.6139, 77.2090",
+    "theme-color": "#7C3AED",
   },
 };
 
@@ -79,6 +118,12 @@ export default function RootLayout({
       className={`${inter.variable} ${sora.variable}`}
       suppressHydrationWarning
     >
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdOrganization) }}
+        />
+      </head>
       <body
         className="min-h-screen flex flex-col bg-[#F8F7FC] text-[#1F1B2E] antialiased"
         suppressHydrationWarning

@@ -8,6 +8,15 @@ export const metadata: Metadata = {
   title: "Let's Talk — Cognirex Solutions",
   description:
     "Start a conversation with Cognirex Solutions. Submit a project enquiry or schedule a consultation with our engineering team.",
+  alternates: {
+    canonical: "/contact",
+  },
+  openGraph: {
+    title: "Let's Talk — Schedule a Consultation with Cognirex Solutions",
+    description:
+      "Start a conversation with Cognirex Solutions. Submit a project enquiry or schedule a consultation with our engineering team.",
+    url: "https://cognirexsolutions.com/contact",
+  },
 };
 
 export default function ContactPage() {

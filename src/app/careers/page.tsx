@@ -8,6 +8,15 @@ export const metadata: Metadata = {
   title: "Careers & Culture — Cognirex Solutions",
   description:
     "Explore career opportunities, engineering culture, and expressions of interest at Cognirex Solutions. Join our multidisciplinary team building modern websites, applications, and intelligent systems.",
+  alternates: {
+    canonical: "/careers",
+  },
+  openGraph: {
+    title: "Careers at Cognirex Solutions — Build What’s Next in AI & Software",
+    description:
+      "Join our multidisciplinary team building modern websites, applications, and intelligent systems. Explore open opportunities.",
+    url: "https://cognirexsolutions.com/careers",
+  },
 };
 
 export default function CareersPage() {
