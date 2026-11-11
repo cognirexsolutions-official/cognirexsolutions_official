@@ -3,20 +3,20 @@ export const jsonLdOrganization = {
   "@graph": [
     {
       "@type": "Organization",
-      "@id": "https://cognirexsolutions.com/#organization",
+      "@id": "https://cognirex-solutions-eta.vercel.app/#organization",
       "name": "Cognirex Solutions",
       "alternateName": ["Cognirex", "Cognirex Solutions Pvt Ltd"],
-      "url": "https://cognirexsolutions.com",
+      "url": "https://cognirex-solutions-eta.vercel.app",
       "logo": {
         "@type": "ImageObject",
-        "@id": "https://cognirexsolutions.com/#logo",
-        "url": "https://cognirexsolutions.com/images/logo_main.png",
-        "contentUrl": "https://cognirexsolutions.com/images/logo_main.png",
+        "@id": "https://cognirex-solutions-eta.vercel.app/#logo",
+        "url": "https://cognirex-solutions-eta.vercel.app/images/logo_main.png",
+        "contentUrl": "https://cognirex-solutions-eta.vercel.app/images/logo_main.png",
         "caption": "Cognirex Solutions Logo",
         "width": 735,
         "height": 660,
       },
-      "image": "https://cognirexsolutions.com/images/logo_main.png",
+      "image": "https://cognirex-solutions-eta.vercel.app/images/logo_main.png",
       "description": "Cognirex Solutions is a premium technology consultancy engineering modern web applications, scalable cloud software, AI workflows, and intelligent business automation.",
       "email": "contact@cognirexsolutions.com",
       "address": {
@@ -86,22 +86,22 @@ export const jsonLdOrganization = {
     },
     {
       "@type": "WebSite",
-      "@id": "https://cognirexsolutions.com/#website",
-      "url": "https://cognirexsolutions.com",
+      "@id": "https://cognirex-solutions-eta.vercel.app/#website",
+      "url": "https://cognirex-solutions-eta.vercel.app",
       "name": "Cognirex Solutions",
       "description": "Intelligence Engineered. Innovation Delivered.",
       "publisher": {
-        "@id": "https://cognirexsolutions.com/#organization",
+        "@id": "https://cognirex-solutions-eta.vercel.app/#organization",
       },
       "inLanguage": "en-US",
     },
     {
       "@type": "ProfessionalService",
-      "@id": "https://cognirexsolutions.com/#localbusiness",
+      "@id": "https://cognirex-solutions-eta.vercel.app/#localbusiness",
       "name": "Cognirex Solutions",
-      "url": "https://cognirexsolutions.com",
-      "logo": "https://cognirexsolutions.com/images/logo_main.png",
-      "image": "https://cognirexsolutions.com/images/logo_main.png",
+      "url": "https://cognirex-solutions-eta.vercel.app",
+      "logo": "https://cognirex-solutions-eta.vercel.app/images/logo_main.png",
+      "image": "https://cognirex-solutions-eta.vercel.app/images/logo_main.png",
       "priceRange": "$$",
       "currenciesAccepted": "INR, USD, EUR",
       "paymentAccepted": "Cash, Credit Card, Bank Transfer",
@@ -125,7 +125,7 @@ export const jsonLdOrganization = {
     },
     {
       "@type": "FAQPage",
-      "@id": "https://cognirexsolutions.com/#faq",
+      "@id": "https://cognirex-solutions-eta.vercel.app/#faq",
       "mainEntity": [
         {
           "@type": "Question",
