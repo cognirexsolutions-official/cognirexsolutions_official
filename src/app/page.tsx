@@ -4,7 +4,6 @@ import AboutSection from "@/components/sections/AboutSection";
 import ServicesOverview from "@/components/sections/ServicesOverview";
 import ApproachProcess from "@/components/sections/ApproachProcess";
 import ProjectsShowcase from "@/components/sections/ProjectsShowcase";
-import IndustriesSection from "@/components/sections/IndustriesSection";
 import ContactSection from "@/components/sections/ContactSection";
 import GlassySection from "@/components/ui/GlassySection";
 
@@ -36,12 +35,7 @@ export default function SinglePageWebsite() {
         <ProjectsShowcase />
       </GlassySection>
 
-      {/* 6. Industries & Sectors */}
-      <GlassySection id="industries-wrap">
-        <IndustriesSection />
-      </GlassySection>
-
-      {/* 7. Contact & Consultation Scheduling */}
+      {/* 6. Contact & Consultation Scheduling */}
       <GlassySection id="contact-wrap">
         <ContactSection />
       </GlassySection>

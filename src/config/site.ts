@@ -43,8 +43,7 @@ export const siteConfig = {
       { title: "About Us", href: "/#about" },
       { title: "Our Process", href: "/#approach" },
       { title: "Featured Projects", href: "/#projects" },
-      { title: "Industries", href: "/#industries" },
-      { title: "Careers", href: "/careers", isExternal: true },
+      { title: "Careers", href: "/careers" },
     ],
     solutions: [
       { title: "Digital Presence", href: "#solutions" },

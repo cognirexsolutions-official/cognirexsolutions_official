@@ -16,7 +16,6 @@ const TRACKED_SECTIONS: { id: string; navId: string }[] = [
   { id: "solutions", navId: "solutions" },
   { id: "approach", navId: "solutions" },
   { id: "projects", navId: "projects" },
-  { id: "industries", navId: "projects" },
   { id: "contact", navId: "contact" },
 ];
 
