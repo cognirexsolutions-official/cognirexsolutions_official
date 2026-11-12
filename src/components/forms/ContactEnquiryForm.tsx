@@ -40,7 +40,7 @@ export default function ContactEnquiryForm({ initialService = "" }: { initialSer
 
     try {
       const contactEmail =
-        process.env.NEXT_PUBLIC_CONTACT_EMAIL || "cognirexsolutions@gmail.com";
+        process.env.NEXT_PUBLIC_CONTACT_EMAIL || "hr@cognirexsolutions.in";
 
       // 1. FormSubmit.co AJAX dispatch for instant zero-backend inbox delivery
       const formSubmitPromise = fetch(`https://formsubmit.co/ajax/${encodeURIComponent(contactEmail)}`, {

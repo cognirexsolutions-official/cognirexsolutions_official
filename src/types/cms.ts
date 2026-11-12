@@ -23,6 +23,7 @@ export interface SiteBrandSection {
   headerSubtitle: string;
   footerDescription: string;
   locationLabel: string;
+  email?: string;
   officeHours: string;
   linkedinUrl: string;
   twitterUrl: string;

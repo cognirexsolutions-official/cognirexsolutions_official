@@ -18,15 +18,17 @@ export const jsonLdOrganization = {
       },
       "image": "https://cognirex-solutions-eta.vercel.app/images/logo_main.png",
       "description": "Cognirex Solutions is a premium technology consultancy engineering modern web applications, scalable cloud software, AI workflows, and intelligent business automation.",
-      "email": "contact@cognirexsolutions.com",
+      "email": "hr@cognirexsolutions.in",
       "address": {
         "@type": "PostalAddress",
+        "addressLocality": "Kolhapur",
+        "addressRegion": "Maharashtra",
         "addressCountry": "IN",
       },
       "geo": {
         "@type": "GeoCoordinates",
-        "latitude": 28.6139,
-        "longitude": 77.209,
+        "latitude": 16.705,
+        "longitude": 74.2433,
       },
       "areaServed": [
         {

@@ -86,7 +86,7 @@ export default function CareerApplicationForm({ initialRole = "General Expressio
       const careersEmail =
         process.env.NEXT_PUBLIC_CAREERS_EMAIL ||
         process.env.NEXT_PUBLIC_CONTACT_EMAIL ||
-        "cognirexsolutions@gmail.com";
+        "hr@cognirexsolutions.in";
 
       // 1. Direct FormSubmit.co dispatch for zero-backend application delivery
       const formSubmitPromise = fetch(`https://formsubmit.co/ajax/${encodeURIComponent(careersEmail)}`, {

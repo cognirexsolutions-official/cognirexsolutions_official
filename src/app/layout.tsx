@@ -103,10 +103,10 @@ export const metadata: Metadata = {
   },
   other: {
     "google-site-verification": "55aG1ui2FhHrXCuPinwuWp2BT-xoHUTi_VoQAw4LSRI",
-    "geo.region": "IN",
-    "geo.placename": "India",
-    "geo.position": "28.6139;77.2090",
-    "ICBM": "28.6139, 77.2090",
+    "geo.region": "IN-MH",
+    "geo.placename": "Kolhapur, Maharashtra, India",
+    "geo.position": "16.7050;74.2433",
+    "ICBM": "16.7050, 74.2433",
     "theme-color": "#7C3AED",
   },
 };

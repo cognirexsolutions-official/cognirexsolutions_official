@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import Link from "next/link";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import CareerApplicationForm from "@/components/forms/CareerApplicationForm";
 import { Sparkles, MessageCircle, ArrowRight, Briefcase, MapPin } from "lucide-react";
@@ -94,33 +93,8 @@ export default function CareersSection() {
         </div>
 
         {/* Embedded General Application Form */}
-        <div id="career-form" className="max-w-[900px] mx-auto scroll-mt-24 mb-16">
+        <div id="career-form" className="max-w-[900px] mx-auto scroll-mt-24">
           <CareerApplicationForm />
-        </div>
-
-        {/* Quick Transition to Other Sections */}
-        <div className="max-w-2xl mx-auto bg-white border border-[#E5E1ED] rounded-2xl p-6 sm:p-8 text-center shadow-subtle">
-          <h4 className="font-heading font-bold text-lg text-[#1F1B2E] mb-2">
-            {careers.footerCtaTitle}
-          </h4>
-          <p className="text-sm text-[#6F6A7C] mb-5">
-            {careers.footerCtaDescription}
-          </p>
-          <div className="flex flex-wrap items-center justify-center gap-3">
-            <Link
-              href="/#solutions"
-              className="inline-flex items-center gap-2 text-xs font-semibold text-[#7C3AED] bg-[#EEE8FA] hover:bg-[#7C3AED] hover:text-white px-4 py-2.5 rounded-xl transition-colors"
-            >
-              <span>Explore Solutions</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </Link>
-            <Link
-              href="/contact"
-              className="inline-flex items-center gap-2 text-xs font-semibold text-[#1F1B2E] hover:text-[#7C3AED] px-4 py-2.5 rounded-xl transition-colors border border-[#E5E1ED]"
-            >
-              <span>Talk to Our Team</span>
-            </Link>
-          </div>
         </div>
       </div>
     </section>

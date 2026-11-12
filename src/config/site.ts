@@ -11,12 +11,12 @@ export const siteConfig = {
   // Demo flags removed for production readiness
   isDemoData: false,
 
-  // Contact Information — unverified placeholder details removed; communication handled via enquiry form
+  // Contact Information
   contact: {
-    email: "cognirexsolutions@gmail.com",
+    email: "hr@cognirexsolutions.in",
     phone: "",
-    location: "India",
-    addressLine: "",
+    location: "Kolhapur, Maharashtra, India",
+    addressLine: "Kolhapur, Maharashtra, India",
     officeHours: "Monday–Friday, 9:30 AM–6:30 PM IST",
   },
 

@@ -105,7 +105,16 @@ export default function Footer() {
             <ul className="space-y-2.5 text-sm text-gray-400 pt-1">
               <li className="flex items-start gap-2">
                 <span className="text-[#C4B5FD] font-semibold min-w-[145px]">Engineering Hub:</span>
-                <span className="text-gray-200">{brand.locationLabel || "India (Nationwide & Global clients)"}</span>
+                <span className="text-gray-200">{brand.locationLabel || "Kolhapur, Maharashtra, India"}</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-[#C4B5FD] font-semibold min-w-[145px]">Official Email:</span>
+                <a
+                  href={`mailto:${brand.email || siteConfig.contact.email || "hr@cognirexsolutions.in"}`}
+                  className="text-gray-200 hover:text-[#C4B5FD] underline text-left transition-colors"
+                >
+                  {brand.email || siteConfig.contact.email || "hr@cognirexsolutions.in"}
+                </a>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-[#C4B5FD] font-semibold min-w-[145px]">Enquiries &amp; Projects:</span>
