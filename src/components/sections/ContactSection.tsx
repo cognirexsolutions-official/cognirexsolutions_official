@@ -1,75 +1,131 @@
 "use client";
 
 import React from "react";
-import Link from "next/link";
-import { ArrowRight, ShieldCheck, Mail, MapPin, Clock } from "lucide-react";
+import {
+  MapPin,
+  Mail,
+  Clock,
+  ShieldCheck,
+  Zap,
+  Sparkles,
+  MessageSquare,
+} from "lucide-react";
+import { SectionHeading } from "@/components/ui/SectionHeading";
+import ContactEnquiryForm from "@/components/forms/ContactEnquiryForm";
 import { siteConfig } from "@/config/site";
+import { useCmsContent } from "@/context/CmsContentContext";
 
 export default function ContactSection() {
+  const { content } = useCmsContent();
+  const c = content.contact_section;
+  const brand = content.site_brand;
+
+  const contactEmail = brand.email || siteConfig.contact.email || "hr@cognirexsolutions.in";
+  const locationLabel = brand.locationLabel || siteConfig.contact.location || "Kolhapur, Maharashtra, India";
+
   return (
-    <section
-      id="contact"
-      aria-label="Call to Action — Cognirex Solutions"
-      className="py-20 md:py-28 bg-[#1F1B2E] text-white relative overflow-hidden scroll-mt-20 border-t border-[#312C45]"
-    >
-      {/* Subtle atmospheric glow */}
+    <section id="contact" className="py-20 md:py-28 bg-[#F8F7FC] border-t border-[#E5E1ED] relative overflow-hidden scroll-mt-20">
+      {/* Decorative ambient background glows */}
       <div
-        className="absolute top-0 right-1/4 w-96 h-96 bg-[#5B21B6]/30 rounded-full blur-[100px] pointer-events-none"
+        className="absolute -top-12 -right-12 w-96 h-96 rounded-full bg-[#EEE8FA]/70 -z-0 pointer-events-none blur-3xl"
         aria-hidden="true"
       />
       <div
-        className="absolute bottom-0 left-1/4 w-96 h-96 bg-[#6D28D9]/20 rounded-full blur-[100px] pointer-events-none"
+        className="absolute bottom-10 -left-10 w-80 h-80 rounded-full bg-[#C4B5FD]/20 -z-0 pointer-events-none blur-2xl"
         aria-hidden="true"
       />
 
-      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 relative z-10 text-center">
-        {/* Eyebrow badge */}
-        <div className="mb-5">
-          <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-[#2A253D] text-[#C4B5FD] border border-[#5B21B6]/50 shadow-xs">
-            <span>Next Steps</span>
-          </span>
-        </div>
+      <div className="max-w-[1240px] mx-auto px-4 sm:px-6 relative z-10">
+        <SectionHeading
+          badge="GET IN TOUCH"
+          title="Start a Conversation with Our Engineering Team"
+          description="Tell us about your business goals, project idea, or technical requirements. We will review your scope and provide a structured implementation roadmap."
+        />
 
-        {/* Headline */}
-        <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight leading-[1.15] mb-5 font-heading max-w-3xl mx-auto">
-          Have an Idea? Let&apos;s Engineer It.
-        </h2>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+          {/* Left Column: Office & Studio Details */}
+          <div className="lg:col-span-5 space-y-6">
+            {/* Headquarters Information Card */}
+            <div className="bg-white border border-[#E5E1ED] rounded-3xl p-7 sm:p-8 shadow-card">
+              <h3 className="font-heading font-extrabold text-xl text-[#1F1B2E] mb-2 flex items-center gap-2">
+                <span>Engineering Studio &amp; HQ</span>
+              </h3>
+              <p className="text-xs text-[#6F6A7C] leading-relaxed mb-6">
+                Operating from Maharashtra, partnering with organizations nationwide and globally across time zones.
+              </p>
 
-        {/* Supporting text */}
-        <p className="text-base sm:text-lg text-gray-300 leading-relaxed max-w-2xl mx-auto mb-10">
-          Tell us what you want to build. Let&apos;s explore the right technology and engineering approach for your business.
-        </p>
+              <div className="space-y-4 text-xs">
+                {/* Location */}
+                <div className="flex items-start gap-3.5 p-3 rounded-xl bg-[#F8F7FC] border border-[#E5E1ED]">
+                  <div className="w-8 h-8 rounded-lg bg-[#EEE8FA] text-[#7C3AED] flex items-center justify-center shrink-0">
+                    <MapPin className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <span className="text-[10px] uppercase tracking-wider text-[#6F6A7C] font-bold block">
+                      Primary Location
+                    </span>
+                    <span className="font-semibold text-[#1F1B2E] text-sm">
+                      {locationLabel}
+                    </span>
+                  </div>
+                </div>
 
-        {/* Primary Action Button */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-14">
-          <Link
-            href="/contact"
-            className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl text-base font-bold bg-[#F59E0B] hover:bg-[#D97706] text-[#1F1B2E] transition-all shadow-[0_4px_20px_rgba(245,158,11,0.25)] hover:shadow-[0_6px_24px_rgba(245,158,11,0.35)] cursor-pointer"
-          >
-            <span>Start a Project</span>
-            <ArrowRight className="w-4 h-4" />
-          </Link>
-          <Link
-            href="/contact?tab=meeting"
-            className="inline-flex items-center justify-center gap-2 px-7 py-4 rounded-xl text-base font-semibold bg-[#2A253D] hover:bg-[#383152] text-white border border-[#4C4368] transition-all cursor-pointer"
-          >
-            <span>Schedule a Consultation</span>
-          </Link>
-        </div>
+                {/* Email */}
+                <div className="flex items-start gap-3.5 p-3 rounded-xl bg-[#F8F7FC] border border-[#E5E1ED]">
+                  <div className="w-8 h-8 rounded-lg bg-[#EEE8FA] text-[#7C3AED] flex items-center justify-center shrink-0">
+                    <Mail className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <span className="text-[10px] uppercase tracking-wider text-[#6F6A7C] font-bold block">
+                      Direct Email
+                    </span>
+                    <a
+                      href={`mailto:${contactEmail}`}
+                      className="font-semibold text-[#7C3AED] hover:underline text-sm break-all"
+                    >
+                      {contactEmail}
+                    </a>
+                  </div>
+                </div>
 
-        {/* Trust & Reassurance Indicators */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-3xl mx-auto pt-8 border-t border-[#312C45] text-xs text-gray-300">
-          <div className="flex items-center justify-center gap-2">
-            <Clock className="w-4 h-4 text-[#A78BFA] shrink-0" />
-            <span>Guaranteed 24-hour response</span>
+                {/* Consultation Hours */}
+                <div className="flex items-start gap-3.5 p-3 rounded-xl bg-[#F8F7FC] border border-[#E5E1ED]">
+                  <div className="w-8 h-8 rounded-lg bg-[#EEE8FA] text-[#7C3AED] flex items-center justify-center shrink-0">
+                    <Clock className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <span className="text-[10px] uppercase tracking-wider text-[#6F6A7C] font-bold block">
+                      Consultation Hours
+                    </span>
+                    <span className="font-semibold text-[#1F1B2E]">
+                      {brand.officeHours || "Monday–Friday, 9:30 AM–6:30 PM IST"}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Response SLA & Trust Card */}
+            <div className="bg-[#1F1B2E] text-white rounded-3xl p-7 shadow-card border border-[#38314F]">
+              <div className="flex items-center gap-2 mb-3">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                <span className="text-xs font-mono uppercase tracking-wider text-emerald-400 font-bold">
+                  Guaranteed 24-Hour Review
+                </span>
+              </div>
+              <p className="text-xs text-[#E2DCF0] leading-relaxed mb-4">
+                Every enquiry is reviewed directly by our technical architects and engineering team. You will receive an actionable response within 24 business hours.
+              </p>
+              <div className="flex items-center gap-2 text-[11px] text-[#C4B5FD] pt-3 border-t border-[#312C45]">
+                <ShieldCheck className="w-4 h-4 text-[#FACC15]" />
+                <span>NDA &amp; Strict Confidentiality Enforced</span>
+              </div>
+            </div>
           </div>
-          <div className="flex items-center justify-center gap-2">
-            <ShieldCheck className="w-4 h-4 text-[#A78BFA] shrink-0" />
-            <span>Strict NDA &amp; confidentiality</span>
-          </div>
-          <div className="flex items-center justify-center gap-2">
-            <MapPin className="w-4 h-4 text-[#A78BFA] shrink-0" />
-            <span>Engineering Hub in Kolhapur, India</span>
+
+          {/* Right Column: Embedded Interactive Project Enquiry Form */}
+          <div className="lg:col-span-7">
+            <ContactEnquiryForm />
           </div>
         </div>
       </div>

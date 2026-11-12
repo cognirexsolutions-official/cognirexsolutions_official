@@ -1,198 +1,247 @@
 "use client";
 
-import React, { useState } from "react";
-import Link from "next/link";
+import React, { useRef, useState } from "react";
 import {
-  Compass,
-  Layout,
-  Code2,
-  CheckCircle2,
-  Rocket,
-  ArrowRight,
-  ShieldCheck,
-} from "lucide-react";
+  motion,
+  useInView,
+  useMotionValueEvent,
+  useReducedMotion,
+  useScroll,
+} from "framer-motion";
+import AtmosphericBackground from "./process/AtmosphericBackground";
+import PlatformBase from "./process/PlatformBase";
+import { DesktopRoadmapSvg, MobileVerticalConnector } from "./process/RoadmapSvg";
+import {
+  DevelopTestIllustration,
+  LaunchRocketIllustration,
+  PlanDesignIllustration,
+  PrototypeIllustration,
+  ResearchIllustration,
+} from "./process/StageIllustrations";
+import { PROCESS_STAGES } from "./process/processData";
+import { useCmsContent } from "@/context/CmsContentContext";
 
-interface ProcessStep {
-  number: string;
-  title: string;
-  shortDesc: string;
-  icon: React.ComponentType<{ className?: string }>;
-  deliverables: string[];
-}
-
-const PROCESS_STEPS: ProcessStep[] = [
-  {
-    number: "01",
-    title: "Discovery & Architecture",
-    shortDesc:
-      "Deep dive into business objectives, existing system constraints, data workflows, and system architecture planning.",
-    icon: Compass,
-    deliverables: ["Architecture Blueprint", "Technical Specification", "Milestone Roadmap"],
-  },
-  {
-    number: "02",
-    title: "UI/UX Prototyping",
-    shortDesc:
-      "Designing accessible, user-centric interfaces with comprehensive design systems, component libraries, and interactive flows.",
-    icon: Layout,
-    deliverables: ["Component Design System", "Interactive Prototype", "Accessibility Review"],
-  },
-  {
-    number: "03",
-    title: "Full-Stack Development",
-    shortDesc:
-      "Writing clean, modular, type-safe code using modern frameworks, scalable microservices, and robust API endpoints.",
-    icon: Code2,
-    deliverables: ["Production Codebase", "API Documentation", "Version Control History"],
-  },
-  {
-    number: "04",
-    title: "Quality Assurance & Performance",
-    shortDesc:
-      "Rigorous unit, integration, and security testing alongside Core Web Vitals optimization and multi-device verification.",
-    icon: CheckCircle2,
-    deliverables: ["Automated Test Suite", "Lighthouse 95+ Audit", "Security & Load Report"],
-  },
-  {
-    number: "05",
-    title: "Deployment & Evolution",
-    shortDesc:
-      "Zero-downtime production deployment on global edge infrastructure, backed by continuous monitoring and iterative growth.",
-    icon: Rocket,
-    deliverables: ["Edge CDN Deployment", "CI/CD Automation", "Maintenance Runbook"],
-  },
-];
+const STAGE_ILLUSTRATIONS = [
+  ResearchIllustration,
+  PlanDesignIllustration,
+  PrototypeIllustration,
+  DevelopTestIllustration,
+  LaunchRocketIllustration,
+] as const;
 
 export default function ApproachProcess() {
-  const [activeStep, setActiveStep] = useState<number>(0);
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const platformPulseRefs = useRef<(SVGGElement | null)[]>([]);
+  const prefersReduced = useReducedMotion();
+  const reducedMotion = Boolean(prefersReduced);
+
+  const { content } = useCmsContent();
+  const processData = content.process;
+  const stages = (processData.stages?.length ? processData.stages : PROCESS_STAGES).map((st, idx) => ({
+    ...st,
+    panelOffsetClass: st.panelOffsetClass ?? PROCESS_STAGES[idx]?.panelOffsetClass ?? "",
+  }));
+
+  const isInView = useInView(sectionRef, { once: true, amount: 0.08 });
+  const [activeStage, setActiveStage] = useState<number>(0);
+  const [hoveredStage, setHoveredStage] = useState<number | null>(null);
+
+  // Natural scroll-triggered stage tracking without hijacking browser scroll
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start 0.72", "end 0.32"],
+  });
+
+  useMotionValueEvent(scrollYProgress, "change", (progress) => {
+    if (!isInView) return;
+    const clamped = Math.max(0, Math.min(0.999, progress));
+    const nextStage = Math.min(4, Math.floor(clamped * 5));
+    setActiveStage((prev) => (prev === nextStage ? prev : nextStage));
+  });
 
   return (
     <section
+      ref={sectionRef}
       id="approach"
       aria-label="Our Process — Cognirex Solutions"
-      className="py-20 md:py-28 bg-[#FAFAFC] border-b border-[#E5E1ED] scroll-mt-20 relative overflow-hidden"
+      className="relative py-16 sm:py-20 md:py-24 bg-[#F8F7FC] border-b border-[#E5E1ED] overflow-x-clip scroll-mt-20"
     >
-      {/* Background accents */}
-      <div
-        className="absolute top-0 right-0 w-96 h-96 bg-[#EDE9FE]/50 rounded-full blur-3xl pointer-events-none"
-        aria-hidden="true"
-      />
-      <div
-        className="absolute bottom-0 left-0 w-96 h-96 bg-[#F5F3FF]/70 rounded-full blur-3xl pointer-events-none"
-        aria-hidden="true"
-      />
+      {/* Atmospheric lavender/white sky, drifting clouds & micro-particles */}
+      <AtmosphericBackground isInView={isInView} reducedMotion={reducedMotion} />
 
-      <div className="max-w-[1240px] mx-auto px-4 sm:px-6 relative z-10">
-        {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16 md:mb-20">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-[#EDE9FE] text-[#5B21B6] border border-[#DDD6FE] mb-4 shadow-xs">
-            <span>Our Methodology</span>
-          </div>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#1F1B2E] tracking-tight leading-[1.15] mb-5 font-heading">
-            A Structured, Disciplined Engineering Process
-          </h2>
-          <p className="text-base sm:text-lg text-[#6F6A7C] leading-relaxed max-w-2xl mx-auto">
-            From initial discovery through deployment and long-term evolution, we adhere to a transparent, milestone-driven software development lifecycle.
-          </p>
+      <div className="relative z-10 max-w-[1280px] mx-auto px-4 sm:px-6">
+        {/* Centered Header Block */}
+        <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-14 md:mb-16">
+          <motion.div
+            initial={reducedMotion ? false : { opacity: 0, y: 12 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
+            transition={{ duration: 0.5, delay: reducedMotion ? 0 : 0.15 }}
+            className="mb-4"
+          >
+            <span className="inline-flex items-center justify-center px-5 py-1.5 rounded-full text-xs font-bold uppercase tracking-[0.1em] text-[#793BEE] bg-white/85 backdrop-blur-xs border border-[#793BEE]/60 shadow-[0_2px_10px_rgba(121,59,238,0.08)]">
+              {processData.badge}
+            </span>
+          </motion.div>
+
+          <motion.h2
+            initial={reducedMotion ? false : { opacity: 0, y: 18 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 18 }}
+            transition={{
+              duration: 0.6,
+              delay: reducedMotion ? 0 : 0.22,
+              ease: [0.22, 1, 0.36, 1],
+            }}
+            className="font-heading font-bold text-3xl sm:text-4xl md:text-[44px] text-[#17142C] tracking-tight leading-[1.15] mb-3.5"
+          >
+            {processData.title}
+          </motion.h2>
+
+          <motion.p
+            initial={reducedMotion ? false : { opacity: 0, y: 14 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 14 }}
+            transition={{
+              duration: 0.55,
+              delay: reducedMotion ? 0 : 0.32,
+              ease: [0.22, 1, 0.36, 1],
+            }}
+            className="text-sm sm:text-base md:text-[17px] text-[#6F6A7C] leading-relaxed max-w-2xl mx-auto"
+          >
+            {processData.description}
+          </motion.p>
         </div>
 
         {/* ====================================================================
-            DESKTOP HORIZONTAL TIMELINE (>= lg)
+            DESKTOP & TABLET HORIZONTAL 5-PLATFORM 3D JOURNEY (>= md)
            ================================================================== */}
-        <div className="hidden lg:block">
-          {/* Step Progress Track */}
-          <div className="relative mb-12">
-            <div
-              className="absolute top-6 left-12 right-12 h-0.5 bg-[#E5E1ED] -z-0"
-              aria-hidden="true"
+        <div className="hidden md:block relative pt-4 pb-6">
+          {/* Continuous Flowing Violet Roadmap SVG behind the 5 platforms */}
+          <div className="absolute inset-x-0 bottom-0 z-10 pointer-events-none">
+            <DesktopRoadmapSvg
+              isInView={isInView}
+              activeStage={activeStage}
+              hoveredStage={hoveredStage}
+              reducedMotion={reducedMotion}
+              platformPulseRefs={platformPulseRefs}
             />
-            <div className="grid grid-cols-5 gap-4 relative z-10">
-              {PROCESS_STEPS.map((step, idx) => {
-                const Icon = step.icon;
-                const isSelected = activeStep === idx;
-
-                return (
-                  <button
-                    key={step.number}
-                    onClick={() => setActiveStep(idx)}
-                    className="flex flex-col items-center text-center group cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#5B21B6] rounded-xl p-2 transition-all"
-                  >
-                    {/* Circle Node */}
-                    <div
-                      className={`w-12 h-12 rounded-full flex items-center justify-center font-bold text-sm transition-all duration-300 mb-3 shadow-xs ${
-                        isSelected
-                          ? "bg-[#5B21B6] text-white ring-4 ring-[#EDE9FE] shadow-[0_4px_16px_rgba(91,33,182,0.3)] scale-110"
-                          : "bg-white text-[#5B21B6] border-2 border-[#E5E1ED] group-hover:border-[#5B21B6] group-hover:text-[#5B21B6]"
-                      }`}
-                    >
-                      {step.number}
-                    </div>
-
-                    <span
-                      className={`text-sm font-semibold tracking-tight transition-colors ${
-                        isSelected ? "text-[#5B21B6]" : "text-[#1F1B2E] group-hover:text-[#5B21B6]"
-                      }`}
-                    >
-                      {step.title}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
           </div>
 
-          {/* Cards Grid Showing All 5 Stages */}
-          <div className="grid grid-cols-5 gap-4 mb-10">
-            {PROCESS_STEPS.map((step, idx) => {
-              const Icon = step.icon;
-              const isSelected = activeStep === idx;
+          {/* Five Columns: Floating Stage Panel + 3D Illustration + Elevated Platform */}
+          <div className="grid grid-cols-5 gap-2.5 lg:gap-4 items-end relative z-20">
+            {stages.map((stage, idx) => {
+              const Illustration = STAGE_ILLUSTRATIONS[idx % STAGE_ILLUSTRATIONS.length];
+              const isHovered = hoveredStage === idx;
+              const isActive = activeStage === idx;
+              const isHighlighted = isHovered || isActive;
 
               return (
                 <div
-                  key={step.number}
-                  onClick={() => setActiveStep(idx)}
-                  className={`cursor-pointer rounded-2xl p-5 border transition-all duration-300 flex flex-col justify-between ${
-                    isSelected
-                      ? "bg-white border-[#5B21B6] shadow-[0_12px_30px_rgba(91,33,182,0.12)] -translate-y-1.5 ring-1 ring-[#5B21B6]"
-                      : "bg-white/80 border-[#E5E1ED] hover:border-[#C4B5FD] hover:bg-white hover:shadow-md"
-                  }`}
+                  key={stage.id}
+                  tabIndex={0}
+                  role="group"
+                  aria-label={`${stage.number} ${stage.title}: ${stage.description}`}
+                  aria-current={isActive ? "step" : undefined}
+                  onMouseEnter={() => setHoveredStage(idx)}
+                  onMouseLeave={() => setHoveredStage(null)}
+                  onFocus={() => setHoveredStage(idx)}
+                  onBlur={() => setHoveredStage(null)}
+                  onClick={() => setActiveStage(idx)}
+                  className="flex flex-col items-center cursor-pointer focus-visible:outline-none group"
                 >
-                  <div>
-                    <div className="flex items-center justify-between mb-4">
-                      <span className="text-xs font-bold font-mono px-2 py-0.5 rounded-md bg-[#F5F3FF] text-[#5B21B6] border border-[#DDD6FE]">
-                        STEP {step.number}
-                      </span>
-                      <div
-                        className={`w-8 h-8 rounded-lg flex items-center justify-center ${
-                          isSelected ? "bg-[#EDE9FE] text-[#5B21B6]" : "bg-gray-50 text-gray-400"
+                  {/* Floating Stage Info Panel */}
+                  <motion.div
+                    initial={reducedMotion ? false : { opacity: 0, y: 20 }}
+                    animate={
+                      isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }
+                    }
+                    transition={{
+                      duration: 0.55,
+                      delay: reducedMotion ? 0 : 0.6 + idx * 0.13,
+                      ease: [0.22, 1, 0.36, 1],
+                    }}
+                    className={`w-full mb-3 lg:mb-4 transition-transform duration-300 ${stage.panelOffsetClass}`}
+                  >
+                    <div
+                      className={`relative pt-5 pb-3.5 px-2.5 lg:px-4 rounded-2xl backdrop-blur-md border transition-all duration-300 text-center min-h-[84px] lg:min-h-[92px] flex flex-col justify-center ${
+                        isHighlighted
+                          ? "bg-white/95 border-[#793BEE]/45 shadow-[0_14px_32px_rgba(121,59,238,0.16)] -translate-y-1"
+                          : "bg-white/80 border-white/90 shadow-[0_8px_24px_rgba(23,20,44,0.06)]"
+                      }`}
+                    >
+                      {/* Centered Circular Stage Badge */}
+                      <motion.div
+                        animate={
+                          reducedMotion
+                            ? undefined
+                            : { scale: isHighlighted ? 1.1 : 1 }
+                        }
+                        transition={{ duration: 0.25 }}
+                        className={`absolute -top-3.5 left-1/2 -translate-x-1/2 w-7 h-7 lg:w-8 lg:h-8 rounded-full flex items-center justify-center text-[11px] lg:text-xs font-bold text-white font-heading shadow-md transition-all duration-300 ${
+                          isHighlighted
+                            ? "bg-[#793BEE] ring-4 ring-[#793BEE]/25 shadow-[0_4px_14px_rgba(121,59,238,0.5)]"
+                            : "bg-[#793BEE]"
                         }`}
                       >
-                        <Icon className="w-4 h-4" />
-                      </div>
-                    </div>
+                        {stage.number}
+                      </motion.div>
 
-                    <h3 className="font-heading font-bold text-base text-[#1F1B2E] mb-2 leading-snug">
-                      {step.title}
-                    </h3>
-                    <p className="text-xs text-[#6F6A7C] leading-relaxed mb-4">
-                      {step.shortDesc}
-                    </p>
-                  </div>
-
-                  <div>
-                    <div className="text-[10px] uppercase font-bold tracking-wider text-[#5B21B6] mb-2 flex items-center gap-1">
-                      <ShieldCheck className="w-3 h-3" />
-                      Key Deliverables
+                      <h3 className="font-heading font-bold text-[12px] lg:text-[15px] text-[#17142C] leading-snug mb-1">
+                        {stage.title}
+                      </h3>
+                      <p className="text-[10.5px] lg:text-xs text-[#6F6A7C] leading-snug">
+                        {stage.description}
+                      </p>
                     </div>
-                    <ul className="space-y-1 text-xs text-[#4B4657]">
-                      {step.deliverables.map((deliv, i) => (
-                        <li key={i} className="flex items-start gap-1.5 text-[11px] leading-tight">
-                          <span className="text-[#5B21B6] font-bold mt-0.5">&bull;</span>
-                          <span>{deliv}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+                  </motion.div>
+
+                  {/* 3D Stage Illustration + Elevated Platform Pedestal */}
+                  <motion.div
+                    initial={reducedMotion ? false : { opacity: 0, y: 28 }}
+                    animate={
+                      isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 28 }
+                    }
+                    transition={{
+                      duration: 0.65,
+                      delay: reducedMotion ? 0 : 0.45 + idx * 0.12,
+                      ease: [0.22, 1, 0.36, 1],
+                    }}
+                    className="w-full flex flex-col items-center relative"
+                  >
+                    {/* Illustration resting on top of the 3D platform deck */}
+                    <motion.div
+                      initial={reducedMotion ? false : { opacity: 0, scale: 0.92 }}
+                      animate={
+                        isInView
+                          ? { opacity: 1, scale: 1 }
+                          : { opacity: 0, scale: 0.92 }
+                      }
+                      transition={{
+                        duration: 0.55,
+                        delay: reducedMotion ? 0 : 0.75 + idx * 0.14,
+                        ease: [0.22, 1, 0.36, 1],
+                      }}
+                      className="w-[88%] lg:w-[90%] relative z-20 -mb-12 lg:-mb-16"
+                    >
+                      <Illustration
+                        isInView={isInView}
+                        isActive={isActive}
+                        isHovered={isHovered}
+                        reducedMotion={reducedMotion}
+                      />
+                    </motion.div>
+
+                    {/* 3D Elevated Platform */}
+                    <div className="w-full relative z-10">
+                      <PlatformBase
+                        stageIndex={idx}
+                        isActive={isActive}
+                        isHovered={isHovered}
+                        reducedMotion={reducedMotion}
+                        pulseLayerRef={(el) => {
+                          platformPulseRefs.current[idx] = el;
+                        }}
+                      />
+                    </div>
+                  </motion.div>
                 </div>
               );
             })}
@@ -200,76 +249,83 @@ export default function ApproachProcess() {
         </div>
 
         {/* ====================================================================
-            MOBILE & TABLET CONNECTED VERTICAL TIMELINE (< lg)
+            MOBILE CONNECTED VERTICAL 5-STAGE JOURNEY (< md)
            ================================================================== */}
-        <div className="lg:hidden relative pl-6 sm:pl-8">
-          {/* Vertical Connecting Track */}
+        <div className="md:hidden relative pl-4">
+          {/* Subtle vertical continuous feedback rail connecting Stage 05 -> Stage 02 */}
           <div
-            className="absolute left-3.5 sm:left-4 top-4 bottom-4 w-0.5 bg-[#E5E1ED] -z-0"
+            className="absolute left-1 top-[24%] bottom-[16%] w-px border-l border-dashed border-[#793BEE]/30 pointer-events-none"
             aria-hidden="true"
-          />
+          >
+            <span className="absolute -top-1 -left-[3.5px] w-2 h-2 border-t border-l border-[#793BEE]/45 rotate-45" />
+          </div>
 
-          <div className="space-y-6">
-            {PROCESS_STEPS.map((step, idx) => {
-              const Icon = step.icon;
+          <div className="flex flex-col items-center">
+            {stages.map((stage, idx) => {
+              const Illustration = STAGE_ILLUSTRATIONS[idx % STAGE_ILLUSTRATIONS.length];
+              const isActive = activeStage === idx;
 
               return (
-                <div key={step.number} className="relative group">
-                  {/* Step Node Marker */}
-                  <div className="absolute -left-[30px] sm:-left-[34px] top-1 w-9 h-9 rounded-full bg-white border-2 border-[#5B21B6] text-[#5B21B6] flex items-center justify-center text-xs font-bold shadow-xs z-10">
-                    {step.number}
-                  </div>
-
-                  <div className="bg-white rounded-2xl p-5 border border-[#E5E1ED] shadow-sm hover:border-[#5B21B6] transition-colors">
-                    <div className="flex items-center justify-between mb-3">
-                      <span className="text-xs font-bold font-mono px-2 py-0.5 rounded-md bg-[#F5F3FF] text-[#5B21B6]">
-                        STAGE {step.number}
-                      </span>
-                      <Icon className="w-4 h-4 text-[#5B21B6]" />
+                <React.Fragment key={stage.id}>
+                  <motion.div
+                    initial={reducedMotion ? false : { opacity: 0, y: 20 }}
+                    whileInView={reducedMotion ? undefined : { opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.25 }}
+                    transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                    onClick={() => setActiveStage(idx)}
+                    className="w-full max-w-[330px] flex flex-col items-center relative z-20"
+                  >
+                    {/* Floating Info Panel */}
+                    <div
+                      className={`relative w-full pt-5 pb-3.5 px-5 rounded-2xl bg-white/90 backdrop-blur-sm border text-center transition-all duration-300 mb-2 ${
+                        isActive
+                          ? "border-[#793BEE]/45 shadow-[0_12px_28px_rgba(121,59,238,0.14)]"
+                          : "border-[#EEE8FA] shadow-[0_6px_20px_rgba(23,20,44,0.05)]"
+                      }`}
+                    >
+                      <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 w-8 h-8 rounded-full bg-[#793BEE] text-white text-xs font-bold font-heading flex items-center justify-center shadow-md">
+                        {stage.number}
+                      </div>
+                      <h3 className="font-heading font-bold text-base text-[#17142C] mb-1">
+                        {stage.title}
+                      </h3>
+                      <p className="text-xs text-[#6F6A7C] leading-relaxed">
+                        {stage.description}
+                      </p>
                     </div>
 
-                    <h3 className="font-heading font-bold text-lg text-[#1F1B2E] mb-2">
-                      {step.title}
-                    </h3>
-                    <p className="text-sm text-[#6F6A7C] leading-relaxed mb-4">
-                      {step.shortDesc}
-                    </p>
-
-                    <div className="pt-3 border-t border-[#F0EDF6]">
-                      <div className="text-xs font-semibold text-[#5B21B6] mb-2 flex items-center gap-1.5">
-                        <ShieldCheck className="w-3.5 h-3.5" />
-                        Deliverables &amp; Outcomes
-                      </div>
-                      <div className="flex flex-wrap gap-1.5">
-                        {step.deliverables.map((deliv, i) => (
-                          <span
-                            key={i}
-                            className="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-[#F5F3FF] text-[#4B4657] border border-[#DDD6FE]"
-                          >
-                            {deliv}
-                          </span>
-                        ))}
-                      </div>
+                    {/* 3D Illustration + Platform */}
+                    <div className="w-[220px] relative z-20 -mb-16">
+                      <Illustration
+                        isInView={isInView}
+                        isActive={isActive}
+                        isHovered={false}
+                        reducedMotion={reducedMotion}
+                      />
                     </div>
-                  </div>
-                </div>
+                    <div className="w-[240px] relative z-10">
+                      <PlatformBase
+                        stageIndex={idx + 10}
+                        isActive={isActive}
+                        isHovered={false}
+                        reducedMotion={reducedMotion}
+                      />
+                    </div>
+                  </motion.div>
+
+                  {/* Connected vertical roadmap segment between stages */}
+                  {idx < PROCESS_STAGES.length - 1 && (
+                    <MobileVerticalConnector
+                      index={idx}
+                      isInView={isInView}
+                      isActive={activeStage >= idx}
+                      reducedMotion={reducedMotion}
+                    />
+                  )}
+                </React.Fragment>
               );
             })}
           </div>
-        </div>
-
-        {/* Process CTA Footer Note */}
-        <div className="mt-12 text-center pt-8 border-t border-[#E5E1ED]">
-          <p className="text-sm text-[#6F6A7C] mb-4">
-            Looking for an engineering team that aligns with your timeline and standards?
-          </p>
-          <Link
-            href="/contact"
-            className="inline-flex items-center gap-2 text-sm font-semibold text-[#5B21B6] hover:text-[#6D28D9] group"
-          >
-            <span>Learn how we tailor our workflow to your requirements</span>
-            <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-          </Link>
         </div>
       </div>
     </section>
