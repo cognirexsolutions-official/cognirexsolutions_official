@@ -74,7 +74,7 @@ export default function Header() {
         window.innerHeight + window.scrollY >=
         document.documentElement.scrollHeight - 80;
       if (isAtBottom) {
-        setActiveSection("contact");
+        setActiveSection("projects");
         return;
       }
 
@@ -132,9 +132,9 @@ export default function Header() {
 
   const allNavItems = brand.navItems?.length ? brand.navItems : siteConfig.navItems;
   const navLinks = allNavItems.filter((item) => !item.isCta);
-  const ctaItem = allNavItems.find((item) => item.isCta) || { title: "Get in Touch", href: "/#contact", isCta: true };
+  const ctaItem = allNavItems.find((item) => item.isCta) || { title: "Get in Touch", href: "/contact", isCta: true };
 
-  const handleNavClick = (e: React.MouseEvent<HTMLElement>, href: string) => {
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     setMobileMenuOpen(false);
 
     // If clicking on Careers link
@@ -320,10 +320,9 @@ export default function Header() {
         {/* Desktop CTA Button */}
         <div className="hidden md:flex items-center gap-3">
           <Button
-            href={ctaItem.href || "/#contact"}
+            href={ctaItem.href || "/contact"}
             variant="yellow"
             size="md"
-            onClick={(e) => handleNavClick(e, ctaItem.href || "/#contact")}
           >
             {ctaItem.title || "Get in Touch"}
           </Button>
@@ -370,11 +369,11 @@ export default function Header() {
             })}
             <div className="pt-3 mt-2 border-t border-[#E5E1ED]">
               <Button
-                href={ctaItem.href || "/#contact"}
+                href={ctaItem.href || "/contact"}
                 variant="yellow"
                 size="md"
                 className="w-full text-center"
-                onClick={(e) => handleNavClick(e, ctaItem.href || "/#contact")}
+                onClick={() => setMobileMenuOpen(false)}
               >
                 {ctaItem.title || "Get in Touch"}
               </Button>

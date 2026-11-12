@@ -34,7 +34,7 @@ export const siteConfig = {
     { title: "Solutions", href: "/#solutions" },
     { title: "Projects", href: "/#projects" },
     { title: "Careers", href: "/careers" },
-    { title: "Get in Touch", href: "/#contact", isCta: true },
+    { title: "Get in Touch", href: "/contact", isCta: true },
   ],
 
   // Footer links
