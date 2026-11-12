@@ -3,21 +3,22 @@ export const jsonLdOrganization = {
   "@graph": [
     {
       "@type": "Organization",
-      "@id": "https://cognirex-solutions-eta.vercel.app/#organization",
+      "@id": "https://cognirexsolutions.in/#organization",
       "name": "Cognirex Solutions",
-      "alternateName": ["Cognirex", "Cognirex Solutions Pvt Ltd"],
-      "url": "https://cognirex-solutions-eta.vercel.app",
+      "alternateName": ["Cognirex", "Cognirex Solutions India"],
+      "url": "https://cognirexsolutions.in",
       "logo": {
         "@type": "ImageObject",
-        "@id": "https://cognirex-solutions-eta.vercel.app/#logo",
-        "url": "https://cognirex-solutions-eta.vercel.app/images/logo_main.png",
-        "contentUrl": "https://cognirex-solutions-eta.vercel.app/images/logo_main.png",
+        "@id": "https://cognirexsolutions.in/#logo",
+        "url": "https://cognirexsolutions.in/images/logo_main.png",
+        "contentUrl": "https://cognirexsolutions.in/images/logo_main.png",
         "caption": "Cognirex Solutions Logo",
         "width": 735,
         "height": 660,
       },
-      "image": "https://cognirex-solutions-eta.vercel.app/images/logo_main.png",
-      "description": "Cognirex Solutions is a premium technology consultancy engineering modern web applications, scalable cloud software, AI workflows, and intelligent business automation.",
+      "image": "https://cognirexsolutions.in/images/logo_main.png",
+      "description":
+        "Cognirex Solutions is a modern technology and software engineering consultancy building digital products, custom software, AI-powered solutions, and automation systems that help businesses operate smarter.",
       "email": "hr@cognirexsolutions.in",
       "address": {
         "@type": "PostalAddress",
@@ -43,44 +44,60 @@ export const jsonLdOrganization = {
       "sameAs": [
         "https://www.linkedin.com/company/cognirex-solutions",
         "https://x.com/cognirex",
-        "https://github.com/cognirex-solutions",
+        "https://github.com/cognirexsolutions-official",
       ],
       "knowsAbout": [
-        "Web Application Development",
-        "Artificial Intelligence Solutions",
-        "Agentic AI & LLMs",
-        "Machine Learning",
-        "Intelligent Process Automation",
-        "Cloud Architecture",
+        "Website Development",
         "E-Commerce Engineering",
-        "Enterprise Software Solutions",
+        "Custom Software Development",
+        "Artificial Intelligence Solutions",
+        "Workflow Automation",
+        "Cloud Architecture",
+        "Next.js Development",
+        "Enterprise Systems Integration",
       ],
       "hasOfferCatalog": {
         "@type": "OfferCatalog",
-        "name": "Technology Consulting Services",
+        "name": "Software Engineering & AI Services",
         "itemListElement": [
           {
             "@type": "Offer",
             "itemOffered": {
               "@type": "Service",
-              "name": "Digital Presence & Web Platforms",
-              "description": "High-performance websites, portals, and e-commerce platforms engineered with modern frameworks.",
+              "name": "Website Development",
+              "url": "https://cognirexsolutions.in/services/website-development",
+              "description":
+                "High-performance marketing websites, brand experiences, and digital portals engineered for reliability and SEO.",
             },
           },
           {
             "@type": "Offer",
             "itemOffered": {
               "@type": "Service",
-              "name": "Custom Software & Enterprise Architecture",
-              "description": "Robust backend systems, microservices, cloud applications, and API platforms built to scale.",
+              "name": "E-Commerce Development",
+              "url": "https://cognirexsolutions.in/services/ecommerce-development",
+              "description":
+                "Custom digital storefronts, structured product catalogs, shopping carts, and secure payment integrations.",
             },
           },
           {
             "@type": "Offer",
             "itemOffered": {
               "@type": "Service",
-              "name": "AI & Autonomous Automation",
-              "description": "Production-grade AI assistants, workflow automation, and custom machine learning pipelines.",
+              "name": "Custom Software Development",
+              "url": "https://cognirexsolutions.in/services/custom-software",
+              "description":
+                "Tailored business applications, operational dashboards, customer portals, and unified API platforms.",
+            },
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "AI & Workflow Automation",
+              "url": "https://cognirexsolutions.in/services/ai-automation",
+              "description":
+                "Production-grade AI assistants, RAG knowledge systems, and event-driven workflow automation pipelines.",
             },
           },
         ],
@@ -88,33 +105,35 @@ export const jsonLdOrganization = {
     },
     {
       "@type": "WebSite",
-      "@id": "https://cognirex-solutions-eta.vercel.app/#website",
-      "url": "https://cognirex-solutions-eta.vercel.app",
+      "@id": "https://cognirexsolutions.in/#website",
+      "url": "https://cognirexsolutions.in",
       "name": "Cognirex Solutions",
-      "description": "Intelligence Engineered. Innovation Delivered.",
+      "description": "Engineering Digital Experiences That Move Businesses Forward.",
       "publisher": {
-        "@id": "https://cognirex-solutions-eta.vercel.app/#organization",
+        "@id": "https://cognirexsolutions.in/#organization",
       },
       "inLanguage": "en-US",
     },
     {
       "@type": "ProfessionalService",
-      "@id": "https://cognirex-solutions-eta.vercel.app/#localbusiness",
+      "@id": "https://cognirexsolutions.in/#localbusiness",
       "name": "Cognirex Solutions",
-      "url": "https://cognirex-solutions-eta.vercel.app",
-      "logo": "https://cognirex-solutions-eta.vercel.app/images/logo_main.png",
-      "image": "https://cognirex-solutions-eta.vercel.app/images/logo_main.png",
+      "url": "https://cognirexsolutions.in",
+      "logo": "https://cognirexsolutions.in/images/logo_main.png",
+      "image": "https://cognirexsolutions.in/images/logo_main.png",
       "priceRange": "$$",
       "currenciesAccepted": "INR, USD, EUR",
-      "paymentAccepted": "Cash, Credit Card, Bank Transfer",
+      "paymentAccepted": "Bank Transfer, Credit Card, Wire",
       "address": {
         "@type": "PostalAddress",
+        "addressLocality": "Kolhapur",
+        "addressRegion": "Maharashtra",
         "addressCountry": "IN",
       },
       "geo": {
         "@type": "GeoCoordinates",
-        "latitude": 28.6139,
-        "longitude": 77.209,
+        "latitude": 16.705,
+        "longitude": 74.2433,
       },
       "openingHoursSpecification": [
         {
@@ -127,14 +146,24 @@ export const jsonLdOrganization = {
     },
     {
       "@type": "FAQPage",
-      "@id": "https://cognirex-solutions-eta.vercel.app/#faq",
+      "@id": "https://cognirexsolutions.in/#faq",
       "mainEntity": [
         {
           "@type": "Question",
           "name": "What services does Cognirex Solutions offer?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Cognirex Solutions specializes in custom web application development, cloud software engineering, enterprise AI integration, intelligent workflow automation, and digital presence transformation.",
+            "text":
+              "Cognirex Solutions specializes in four core areas: Website Development, E-Commerce Development, Custom Software Development, and AI & Workflow Automation.",
+          },
+        },
+        {
+          "@type": "Question",
+          "name": "Where is Cognirex Solutions based?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text":
+              "Cognirex Solutions is headquartered in Kolhapur, Maharashtra, India, partnering with clients across India and globally across multiple time zones.",
           },
         },
         {
@@ -142,27 +171,20 @@ export const jsonLdOrganization = {
           "name": "Can Cognirex Solutions integrate AI into existing business software?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes, we engineer custom AI solutions, automated customer workflows, intelligent search pipelines, and agentic LLM assistants that integrate into existing software architectures.",
+            "text":
+              "Yes. We design and deploy intelligent conversational assistants, automated lead and document pipelines, and custom machine learning workflows directly into existing web applications and databases.",
           },
         },
         {
           "@type": "Question",
-          "name": "Where is Cognirex Solutions based and do you serve international clients?",
+          "name": "How do I start a project or schedule a consultation?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Cognirex Solutions is based in India and serves businesses globally across North America, Europe, the Middle East, and Asia.",
-          },
-        },
-        {
-          "@type": "Question",
-          "name": "How does Cognirex Solutions approach software engineering projects?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "We follow a 5-stage engineering lifecycle: Discovery & Requirements, Architectural Design, Agile Development & Testing, Production Deployment, and Continuous Maintenance & Evolution.",
+            "text":
+              "You can submit a project enquiry or schedule a 1-on-1 video consultation directly through our contact portal at https://cognirexsolutions.in/contact.",
           },
         },
       ],
     },
   ],
 };
-

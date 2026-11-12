@@ -10,7 +10,7 @@ function cn(...inputs: any[]) {
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   href?: string;
-  variant?: "yellow" | "purple" | "purple-outline" | "secondary-link" | "white";
+  variant?: "yellow" | "purple" | "purple-outline" | "outline" | "secondary-link" | "white";
   size?: "sm" | "md" | "lg";
   icon?: boolean;
   isLoading?: boolean;
@@ -47,6 +47,8 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         "bg-[#7C3AED] hover:bg-[#6D28D9] text-white font-medium shadow-sm hover:-translate-y-0.5 active:translate-y-0",
       "purple-outline":
         "border border-[#7C3AED] text-[#7C3AED] hover:bg-[#EEE8FA] font-medium hover:-translate-y-0.5 active:translate-y-0",
+      outline:
+        "border border-[#5B21B6] text-[#5B21B6] hover:bg-[#F5F3FF] font-medium hover:-translate-y-0.5 active:translate-y-0",
       white:
         "bg-white hover:bg-[#F8F7FC] text-[#1F1B2E] border border-[#E5E1ED] font-medium shadow-sm hover:-translate-y-0.5 active:translate-y-0",
       "secondary-link":

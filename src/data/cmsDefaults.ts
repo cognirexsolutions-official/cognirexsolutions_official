@@ -580,14 +580,14 @@ export const DEFAULT_COGNIR_CONTENT: CognirexContentBundle = {
 
   careers: {
     badge: "CAREERS AT COGNIREX SOLUTIONS",
-    title: "Join Our Engineering Talent Network.",
+    title: "Bring Your Curiosity. Build What’s Next.",
     description:
-      "We value engineers, designers, and problem solvers who enjoy learning, solving practical problems, and creating robust digital experiences.",
-    emptyBadge: "Talent Network & Opportunities",
-    emptyTitle: "Join Our Engineering Talent Network",
+      "We value people who enjoy learning, solving problems and creating useful technology. Explore opportunities to grow your skills and contribute to thoughtful digital experiences.",
+    emptyBadge: "Open Positions & Talent Network",
+    emptyTitle: "No open roles listed right now.",
     emptyDescription:
-      "We are always interested in connecting with passionate full-stack engineers, UI/UX architects, and AI researchers. Introduce yourself below to be considered for current and upcoming opportunities.",
-    formPrompt: "Submit your introduction and portfolio below",
+      "You can still introduce yourself and share your interests for future opportunities. We welcome passionate engineers, designers, and problem solvers.",
+    formPrompt: "Submit your introduction using the form below",
     openings: [],
     footerCtaTitle: "Looking for Digital Solutions for Your Business Instead?",
     footerCtaDescription:

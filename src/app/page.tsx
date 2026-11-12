@@ -1,34 +1,34 @@
 import React from "react";
 import Hero from "@/components/sections/Hero";
-import TrustPositioning from "@/components/sections/TrustPositioning";
-import ServicesOverview from "@/components/sections/ServicesOverview";
+import CompanyPositioning from "@/components/sections/CompanyPositioning";
+import ConsolidatedServices from "@/components/sections/ConsolidatedServices";
 import IndustriesSection from "@/components/sections/IndustriesSection";
 import ProjectsShowcase from "@/components/sections/ProjectsShowcase";
 import ApproachProcess from "@/components/sections/ApproachProcess";
 import ContactSection from "@/components/sections/ContactSection";
 
-export default function SinglePageWebsite() {
+export default function HomePage() {
   return (
     <>
-      {/* 1. Hero: Product-Led Visual with Interactive Dashboard/AI/Automation Tabs */}
+      {/* Section A: Premium Hero */}
       <Hero />
 
-      {/* 2. Trust & Positioning: Who We Serve, Architecture Principles, Value Drivers */}
-      <TrustPositioning />
+      {/* Section B: Company Positioning */}
+      <CompanyPositioning />
 
-      {/* 3. Four Core Service Pillars */}
-      <ServicesOverview />
+      {/* Section C: Consolidated Core Services */}
+      <ConsolidatedServices />
 
-      {/* 4. Industries & Verticals */}
+      {/* Section D: Industry Solutions */}
       <IndustriesSection />
 
-      {/* 5. Featured Projects & Interactive Concept Demonstrations */}
+      {/* Section E: Concept Demonstrations & Projects */}
       <ProjectsShowcase />
 
-      {/* 6. Five-Stage Engineering Methodology */}
+      {/* Section F: 5-Step Development Process */}
       <ApproachProcess />
 
-      {/* 7. Strong Conversion CTA */}
+      {/* Section G: Final Call to Action */}
       <ContactSection />
     </>
   );

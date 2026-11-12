@@ -12,455 +12,342 @@ import {
   ShoppingCart,
   Code2,
   Sparkles,
-  ShoppingBag,
-  Factory,
-  GraduationCap,
-  Heart,
-  UtensilsCrossed,
-  Briefcase,
   ArrowRight,
+  Briefcase,
+  Layers,
+  PhoneCall,
 } from "lucide-react";
 import { siteConfig } from "@/config/site";
 import { Button } from "@/components/ui/Button";
-import { useCmsContent } from "@/context/CmsContentContext";
 
-interface NavDropdownItem {
+interface ServiceNavEntry {
   title: string;
   href: string;
   description: string;
   icon: React.ComponentType<{ className?: string }>;
 }
 
-const SERVICES_MENU: NavDropdownItem[] = [
+const SERVICE_NAV_ITEMS: ServiceNavEntry[] = [
   {
     title: "Website Development",
     href: "/services/website-development",
-    description: "Modern, high-performance brand websites & web applications.",
+    description: "High-performance brand platforms, marketing websites, and digital portals.",
     icon: Globe,
   },
   {
     title: "E-Commerce Development",
     href: "/services/ecommerce-development",
-    description: "Digital storefronts, product catalogs & checkout pipelines.",
+    description: "Custom digital storefronts, shopping carts, and secure payment integrations.",
     icon: ShoppingCart,
   },
   {
-    title: "Custom Software",
+    title: "Custom Software Development",
     href: "/services/custom-software",
-    description: "Operational dashboards, customer portals & internal tools.",
+    description: "Tailored business software, operational dashboards, and centralized management tools.",
     icon: Code2,
   },
   {
-    title: "AI & Automation",
+    title: "AI & Workflow Automation",
     href: "/services/ai-automation",
-    description: "Intelligent assistants, RAG knowledge bases & automated workflows.",
+    description: "Production-grade conversational AI assistants, RAG hubs, and automated webhook pipelines.",
     icon: Sparkles,
-  },
-];
-
-const INDUSTRIES_MENU: NavDropdownItem[] = [
-  {
-    title: "Retail & E-Commerce",
-    href: "/industries#retail",
-    description: "Digital storefronts, catalog ordering & seamless checkouts.",
-    icon: ShoppingBag,
-  },
-  {
-    title: "Manufacturing & Distribution",
-    href: "/industries#manufacturing",
-    description: "Product portals, distributor tools & operational visibility.",
-    icon: Factory,
-  },
-  {
-    title: "Education & Training",
-    href: "/industries#education",
-    description: "Learning portals, student resource hubs & course catalogs.",
-    icon: GraduationCap,
-  },
-  {
-    title: "Healthcare & Wellness",
-    href: "/industries#healthcare",
-    description: "Service intake workflows, appointment booking & patient portals.",
-    icon: Heart,
-  },
-  {
-    title: "Hospitality & Food Services",
-    href: "/industries#hospitality",
-    description: "Interactive digital menus, table bookings & pickup orders.",
-    icon: UtensilsCrossed,
-  },
-  {
-    title: "Professional & Local Services",
-    href: "/industries#professional-services",
-    description: "Service showcases, quotation inquiries & documentation gateways.",
-    icon: Briefcase,
   },
 ];
 
 export default function Header() {
   const pathname = usePathname();
-  const { content } = useCmsContent();
-  const brand = content.site_brand;
-
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [servicesOpen, setServicesOpen] = useState(false);
-  const [industriesOpen, setIndustriesOpen] = useState(false);
-  const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
-  const [mobileIndustriesOpen, setMobileIndustriesOpen] = useState(false);
-  const [isAssembled, setIsAssembled] = useState(false);
-  const [reducedMotion, setReducedMotion] = useState(false);
+  const [servicesDropdownOpen, setServicesDropdownOpen] = useState(false);
+  const [mobileServicesExpanded, setMobileServicesExpanded] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  const servicesTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const industriesTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-      setReducedMotion(mediaQuery.matches);
-    }
-    const timer = setTimeout(() => {
-      setIsAssembled(true);
-    }, 150);
-    return () => clearTimeout(timer);
-  }, []);
-
+  // Scroll detection for sticky header backdrop styling
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
     };
+
     window.addEventListener("scroll", handleScroll, { passive: true });
     handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Close menus upon route change
+  // Close mobile drawer on route change
   useEffect(() => {
     setMobileMenuOpen(false);
-    setServicesOpen(false);
-    setIndustriesOpen(false);
+    setServicesDropdownOpen(false);
   }, [pathname]);
 
-  const wordmarkText = (brand.name || siteConfig.name).toUpperCase();
-  const wordmarkLetters = wordmarkText.split("");
-  const firstSpaceIdx = wordmarkText.indexOf(" ");
+  // Click outside listener for desktop dropdown
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setServicesDropdownOpen(false);
+      }
+    };
 
-  const handleServicesEnter = () => {
-    if (servicesTimeoutRef.current) clearTimeout(servicesTimeoutRef.current);
-    setServicesOpen(true);
-    setIndustriesOpen(false);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  // Keyboard accessibility: Close menus on Escape
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setServicesDropdownOpen(false);
+        setMobileMenuOpen(false);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
+  const handleDropdownMouseEnter = () => {
+    if (dropdownTimeoutRef.current) {
+      clearTimeout(dropdownTimeoutRef.current);
+    }
+    setServicesDropdownOpen(true);
   };
 
-  const handleServicesLeave = () => {
-    servicesTimeoutRef.current = setTimeout(() => {
-      setServicesOpen(false);
-    }, 180);
+  const handleDropdownMouseLeave = () => {
+    dropdownTimeoutRef.current = setTimeout(() => {
+      setServicesDropdownOpen(false);
+    }, 200);
   };
 
-  const handleIndustriesEnter = () => {
-    if (industriesTimeoutRef.current) clearTimeout(industriesTimeoutRef.current);
-    setIndustriesOpen(true);
-    setServicesOpen(false);
-  };
-
-  const handleIndustriesLeave = () => {
-    industriesTimeoutRef.current = setTimeout(() => {
-      setIndustriesOpen(false);
-    }, 180);
-  };
-
+  const isHomeActive = pathname === "/";
+  const isAboutActive = pathname === "/about";
   const isServicesActive = pathname.startsWith("/services");
   const isIndustriesActive = pathname.startsWith("/industries");
   const isProjectsActive = pathname.startsWith("/projects");
-  const isAboutActive = pathname === "/about";
-  const isCareersActive = pathname === "/careers";
+  const isCareersActive = pathname.startsWith("/careers");
   const isContactActive = pathname === "/contact";
 
   return (
     <header
-      className={`sticky top-0 z-50 transition-all duration-300 border-b ${
+      className={`sticky top-0 z-50 transition-all duration-200 border-b ${
         isScrolled
-          ? "bg-white/95 backdrop-blur-md border-[#E5E1ED] shadow-subtle py-3"
-          : "bg-[#F8F7FC] border-[#E5E1ED] py-3.5 sm:py-4"
+          ? "bg-white/95 backdrop-blur-md border-[#E2E8F0] shadow-subtle py-3"
+          : "bg-white border-[#E2E8F0] py-3.5"
       }`}
     >
-      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 flex items-center justify-between">
-        {/* Brand Logo */}
+      <div className="max-w-[1240px] mx-auto px-4 sm:px-6 flex items-center justify-between">
+        {/* Brand Logo & Wordmark */}
         <Link
           href="/"
-          className="flex items-center gap-2.5 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7C3AED] rounded-lg"
+          className="flex items-center gap-3 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#5B21B6] rounded-xl"
+          aria-label="Cognirex Solutions Homepage"
         >
-          <div
-            className={`w-11 h-11 sm:w-12 sm:h-12 rounded-xl overflow-hidden transition-transform duration-200 group-hover:scale-105 relative shrink-0 flex items-center justify-center ${
-              isAssembled || reducedMotion
-                ? "opacity-100 scale-100"
-                : "opacity-0 scale-75"
-            }`}
-          >
+          <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl overflow-hidden relative shrink-0 transition-transform duration-200 group-hover:scale-105 flex items-center justify-center border border-[#E2E8F0] bg-white shadow-xs">
             <Image
               src="/images/logo_main.png"
               alt="Cognirex Solutions Logo"
-              width={48}
-              height={48}
+              width={44}
+              height={44}
               className="w-full h-full object-contain"
               priority
             />
           </div>
-          <div className="flex flex-col">
-            <div
-              className="flex items-center tracking-tight leading-none group-hover:opacity-90"
-              role="heading"
-              aria-level={2}
-              aria-label="Cognirex Solutions"
-            >
-              {wordmarkLetters.map((char, i) => {
-                const isSpace = char === " ";
-                if (isSpace) {
-                  return <span key={`header-space-${i}`} className="w-1 sm:w-1.5" aria-hidden="true" />;
-                }
-                const centerIndex = (wordmarkLetters.length - 1) / 2;
-                const distanceFromCenter = Math.abs(i - centerIndex);
-                const delayMs = reducedMotion ? 0 : Math.round(distanceFromCenter * 35);
-                const isSolutionsWord = firstSpaceIdx !== -1 && i > firstSpaceIdx;
 
-                return (
-                  <span
-                    key={`header-char-${i}`}
-                    style={{ transitionDelay: `${delayMs}ms` }}
-                    className={`inline-block font-heading font-extrabold text-base sm:text-lg transition-all duration-500 ease-out ${
-                      isSolutionsWord ? "text-[#7C3AED]" : "text-[#1F1B2E]"
-                    } ${
-                      isAssembled || reducedMotion
-                        ? "opacity-100 translate-y-0 scale-100"
-                        : "opacity-0 translate-y-2 scale-80"
-                    }`}
-                  >
-                    {char}
-                  </span>
-                );
-              })}
+          <div className="flex flex-col">
+            <div className="flex items-center font-heading font-extrabold text-base sm:text-lg tracking-tight leading-none">
+              <span className="text-[#1F1B2E]">COGNIREX</span>
+              <span className="text-[#5B21B6] ml-1">SOLUTIONS</span>
             </div>
-            <span
-              style={{ transitionDelay: reducedMotion ? "0ms" : "400ms" }}
-              className={`text-[10px] uppercase tracking-wider text-[#6F6A7C] font-medium hidden sm:block mt-0.5 transition-all duration-500 ease-out ${
-                isAssembled || reducedMotion ? "opacity-100 translate-y-0" : "opacity-0 translate-y-1"
-              }`}
-            >
-              {brand.headerSubtitle || "Intelligence Engineered"}
+            <span className="text-[10px] uppercase tracking-wider text-[#64748B] font-semibold mt-1 hidden sm:block">
+              Intelligence Engineered
             </span>
           </div>
         </Link>
 
-        {/* Desktop Global Navigation Links */}
-        <nav className="hidden lg:flex items-center gap-1 xl:gap-1.5" aria-label="Main Navigation">
-          {/* Home */}
+        {/* Desktop Global Navigation */}
+        <nav
+          className="hidden md:flex items-center gap-1 lg:gap-1.5"
+          aria-label="Primary Navigation"
+        >
+          {/* 1. Home */}
           <Link
             href="/"
             className={`px-3 py-2 text-sm font-medium rounded-lg transition-colors duration-150 ${
-              pathname === "/"
-                ? "text-[#7C3AED] font-semibold bg-[#EEE8FA]/60"
-                : "text-[#1F1B2E] hover:text-[#7C3AED] hover:bg-[#EEE8FA]/40"
+              isHomeActive
+                ? "text-[#5B21B6] font-semibold bg-[#EDE9FE]/50"
+                : "text-[#1F1B2E] hover:text-[#5B21B6] hover:bg-[#F5F3FF]"
             }`}
           >
             Home
           </Link>
 
-          {/* About */}
+          {/* 2. About */}
           <Link
             href="/about"
             className={`px-3 py-2 text-sm font-medium rounded-lg transition-colors duration-150 ${
               isAboutActive
-                ? "text-[#7C3AED] font-semibold bg-[#EEE8FA]/60"
-                : "text-[#1F1B2E] hover:text-[#7C3AED] hover:bg-[#EEE8FA]/40"
+                ? "text-[#5B21B6] font-semibold bg-[#EDE9FE]/50"
+                : "text-[#1F1B2E] hover:text-[#5B21B6] hover:bg-[#F5F3FF]"
             }`}
           >
             About
           </Link>
 
-          {/* Services Dropdown */}
+          {/* 3. Services with Accessible Dropdown */}
           <div
+            ref={dropdownRef}
             className="relative"
-            onMouseEnter={handleServicesEnter}
-            onMouseLeave={handleServicesLeave}
+            onMouseEnter={handleDropdownMouseEnter}
+            onMouseLeave={handleDropdownMouseLeave}
           >
             <button
               type="button"
-              onClick={() => setServicesOpen(!servicesOpen)}
-              aria-expanded={servicesOpen}
-              className={`px-3 py-2 text-sm font-medium rounded-lg inline-flex items-center gap-1 transition-colors duration-150 ${
-                isServicesActive || servicesOpen
-                  ? "text-[#7C3AED] font-semibold bg-[#EEE8FA]/60"
-                  : "text-[#1F1B2E] hover:text-[#7C3AED] hover:bg-[#EEE8FA]/40"
+              onClick={() => setServicesDropdownOpen(!servicesDropdownOpen)}
+              onKeyDown={(e) => {
+                if (e.key === "ArrowDown" || e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  setServicesDropdownOpen(true);
+                }
+              }}
+              aria-expanded={servicesDropdownOpen}
+              aria-haspopup="true"
+              className={`flex items-center gap-1 px-3 py-2 text-sm font-medium rounded-lg transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#5B21B6] ${
+                isServicesActive || servicesDropdownOpen
+                  ? "text-[#5B21B6] font-semibold bg-[#EDE9FE]/50"
+                  : "text-[#1F1B2E] hover:text-[#5B21B6] hover:bg-[#F5F3FF]"
               }`}
             >
               <span>Services</span>
               <ChevronDown
-                className={`w-4 h-4 transition-transform duration-200 ${
-                  servicesOpen ? "rotate-180 text-[#7C3AED]" : "text-[#6F6A7C]"
+                className={`w-4 h-4 transition-transform duration-200 text-[#64748B] ${
+                  servicesDropdownOpen ? "rotate-180 text-[#5B21B6]" : ""
                 }`}
               />
             </button>
 
-            {/* Dropdown Panel */}
-            {servicesOpen && (
-              <div className="absolute top-full left-0 mt-1.5 w-[360px] bg-white border border-[#E5E1ED] rounded-2xl shadow-dropdown p-3 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
-                <div className="flex items-center justify-between px-3 py-2 border-b border-[#E5E1ED] mb-2">
-                  <span className="text-xs font-bold uppercase tracking-wider text-[#7C3AED]">
-                    Engineering Services
-                  </span>
-                  <Link
-                    href="/services"
-                    className="text-xs font-semibold text-[#1F1B2E] hover:text-[#7C3AED] inline-flex items-center gap-1"
-                  >
-                    <span>Overview</span>
-                    <ArrowRight className="w-3 h-3" />
-                  </Link>
-                </div>
-                <div className="space-y-1">
-                  {SERVICES_MENU.map((item) => {
-                    const Icon = item.icon;
-                    const isActive = pathname === item.href;
-                    return (
-                      <Link
-                        key={item.href}
-                        href={item.href}
-                        className={`flex items-start gap-3 p-2.5 rounded-xl transition-all ${
-                          isActive
-                            ? "bg-[#EEE8FA] text-[#7C3AED]"
-                            : "hover:bg-[#F8F7FC] text-[#1F1B2E] hover:text-[#7C3AED]"
-                        }`}
-                      >
-                        <div className="w-9 h-9 rounded-lg bg-[#EEE8FA]/80 border border-[#7C3AED]/20 text-[#7C3AED] flex items-center justify-center shrink-0 mt-0.5">
-                          <Icon className="w-4 h-4 stroke-[2]" />
-                        </div>
-                        <div>
-                          <div className="text-sm font-semibold leading-snug">{item.title}</div>
-                          <div className="text-xs text-[#6F6A7C] leading-tight mt-0.5">
-                            {item.description}
+            {/* Services Dropdown Flyout */}
+            {servicesDropdownOpen && (
+              <div
+                className="absolute top-full left-0 w-[420px] pt-2 z-50 animate-in fade-in-0 zoom-in-95 duration-150"
+                role="menu"
+                aria-label="Services Submenu"
+              >
+                <div className="bg-white border border-[#E2E8F0] rounded-2xl p-3 shadow-dropdown">
+                  <div className="px-3 pt-2 pb-2 mb-2 border-b border-[#F1F5F9] flex items-center justify-between">
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-[#64748B]">
+                      Core Capabilities
+                    </span>
+                    <Link
+                      href="/services"
+                      onClick={() => setServicesDropdownOpen(false)}
+                      className="text-xs font-semibold text-[#5B21B6] hover:text-[#4C1D95] inline-flex items-center gap-1"
+                    >
+                      <span>Overview</span>
+                      <ArrowRight className="w-3 h-3" />
+                    </Link>
+                  </div>
+
+                  <div className="space-y-1">
+                    {SERVICE_NAV_ITEMS.map((service) => {
+                      const IconComponent = service.icon;
+                      const isCurrentService = pathname === service.href;
+
+                      return (
+                        <Link
+                          key={service.href}
+                          href={service.href}
+                          onClick={() => setServicesDropdownOpen(false)}
+                          className={`flex items-start gap-3 p-2.5 rounded-xl transition-all duration-150 group ${
+                            isCurrentService
+                              ? "bg-[#F5F3FF] border border-[#5B21B6]/20"
+                              : "hover:bg-[#F8FAFC]"
+                          }`}
+                          role="menuitem"
+                        >
+                          <div className="w-9 h-9 rounded-lg bg-[#EDE9FE] text-[#5B21B6] flex items-center justify-center shrink-0 group-hover:bg-[#5B21B6] group-hover:text-white transition-colors mt-0.5">
+                            <IconComponent className="w-4 h-4" />
                           </div>
-                        </div>
-                      </Link>
-                    );
-                  })}
+                          <div>
+                            <div className="text-sm font-semibold text-[#1F1B2E] group-hover:text-[#5B21B6] transition-colors leading-tight">
+                              {service.title}
+                            </div>
+                            <p className="text-xs text-[#64748B] mt-1 line-clamp-1 leading-snug">
+                              {service.description}
+                            </p>
+                          </div>
+                        </Link>
+                      );
+                    })}
+                  </div>
+
+                  <div className="pt-2 mt-2 border-t border-[#F1F5F9] px-2.5 pb-1">
+                    <Link
+                      href="/services"
+                      onClick={() => setServicesDropdownOpen(false)}
+                      className="w-full flex items-center justify-between py-2 text-xs font-semibold text-[#5B21B6] hover:underline"
+                    >
+                      <span>Explore all capabilities &amp; engineering roadmap</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </Link>
+                  </div>
                 </div>
               </div>
             )}
           </div>
 
-          {/* Industries Dropdown */}
-          <div
-            className="relative"
-            onMouseEnter={handleIndustriesEnter}
-            onMouseLeave={handleIndustriesLeave}
+          {/* 4. Industries */}
+          <Link
+            href="/industries"
+            className={`px-3 py-2 text-sm font-medium rounded-lg transition-colors duration-150 ${
+              isIndustriesActive
+                ? "text-[#5B21B6] font-semibold bg-[#EDE9FE]/50"
+                : "text-[#1F1B2E] hover:text-[#5B21B6] hover:bg-[#F5F3FF]"
+            }`}
           >
-            <button
-              type="button"
-              onClick={() => setIndustriesOpen(!industriesOpen)}
-              aria-expanded={industriesOpen}
-              className={`px-3 py-2 text-sm font-medium rounded-lg inline-flex items-center gap-1 transition-colors duration-150 ${
-                isIndustriesActive || industriesOpen
-                  ? "text-[#7C3AED] font-semibold bg-[#EEE8FA]/60"
-                  : "text-[#1F1B2E] hover:text-[#7C3AED] hover:bg-[#EEE8FA]/40"
-              }`}
-            >
-              <span>Industries</span>
-              <ChevronDown
-                className={`w-4 h-4 transition-transform duration-200 ${
-                  industriesOpen ? "rotate-180 text-[#7C3AED]" : "text-[#6F6A7C]"
-                }`}
-              />
-            </button>
+            Industries
+          </Link>
 
-            {/* Dropdown Panel */}
-            {industriesOpen && (
-              <div className="absolute top-full left-0 mt-1.5 w-[380px] bg-white border border-[#E5E1ED] rounded-2xl shadow-dropdown p-3 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
-                <div className="flex items-center justify-between px-3 py-2 border-b border-[#E5E1ED] mb-2">
-                  <span className="text-xs font-bold uppercase tracking-wider text-[#7C3AED]">
-                    Sectors We Serve
-                  </span>
-                  <Link
-                    href="/industries"
-                    className="text-xs font-semibold text-[#1F1B2E] hover:text-[#7C3AED] inline-flex items-center gap-1"
-                  >
-                    <span>All Verticals</span>
-                    <ArrowRight className="w-3 h-3" />
-                  </Link>
-                </div>
-                <div className="grid grid-cols-1 gap-1">
-                  {INDUSTRIES_MENU.map((item) => {
-                    const Icon = item.icon;
-                    return (
-                      <Link
-                        key={item.href}
-                        href={item.href}
-                        className="flex items-start gap-3 p-2 rounded-xl hover:bg-[#F8F7FC] text-[#1F1B2E] hover:text-[#7C3AED] transition-all"
-                      >
-                        <div className="w-8 h-8 rounded-lg bg-[#EEE8FA]/80 border border-[#7C3AED]/20 text-[#7C3AED] flex items-center justify-center shrink-0 mt-0.5">
-                          <Icon className="w-4 h-4" />
-                        </div>
-                        <div>
-                          <div className="text-sm font-semibold leading-tight">{item.title}</div>
-                          <div className="text-[11px] text-[#6F6A7C] leading-snug line-clamp-1 mt-0.5">
-                            {item.description}
-                          </div>
-                        </div>
-                      </Link>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Projects */}
+          {/* 5. Projects */}
           <Link
             href="/projects"
             className={`px-3 py-2 text-sm font-medium rounded-lg transition-colors duration-150 ${
               isProjectsActive
-                ? "text-[#7C3AED] font-semibold bg-[#EEE8FA]/60"
-                : "text-[#1F1B2E] hover:text-[#7C3AED] hover:bg-[#EEE8FA]/40"
+                ? "text-[#5B21B6] font-semibold bg-[#EDE9FE]/50"
+                : "text-[#1F1B2E] hover:text-[#5B21B6] hover:bg-[#F5F3FF]"
             }`}
           >
             Projects
           </Link>
 
-          {/* Careers */}
+          {/* 6. Careers */}
           <Link
             href="/careers"
             className={`px-3 py-2 text-sm font-medium rounded-lg transition-colors duration-150 ${
               isCareersActive
-                ? "text-[#7C3AED] font-semibold bg-[#EEE8FA]/60"
-                : "text-[#1F1B2E] hover:text-[#7C3AED] hover:bg-[#EEE8FA]/40"
+                ? "text-[#5B21B6] font-semibold bg-[#EDE9FE]/50"
+                : "text-[#1F1B2E] hover:text-[#5B21B6] hover:bg-[#F5F3FF]"
             }`}
           >
             Careers
           </Link>
-
-          {/* Contact */}
-          <Link
-            href="/contact"
-            className={`px-3 py-2 text-sm font-medium rounded-lg transition-colors duration-150 ${
-              isContactActive
-                ? "text-[#7C3AED] font-semibold bg-[#EEE8FA]/60"
-                : "text-[#1F1B2E] hover:text-[#7C3AED] hover:bg-[#EEE8FA]/40"
-            }`}
-          >
-            Contact
-          </Link>
         </nav>
 
-        {/* Desktop CTA Button */}
-        <div className="hidden lg:flex items-center gap-3">
-          <Button href="/contact" variant="yellow" size="md">
+        {/* Desktop CTA Action */}
+        <div className="hidden md:flex items-center gap-3">
+          <Button
+            href="/contact"
+            variant="yellow"
+            size="md"
+            className="shadow-sm font-semibold tracking-tight"
+          >
             Get in Touch
           </Button>
         </div>
 
-        {/* Mobile Hamburger Button */}
+        {/* Mobile Hamburger Toggle */}
         <button
           type="button"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="lg:hidden p-2 text-[#1F1B2E] hover:text-[#7C3AED] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7C3AED] rounded-lg"
+          className="md:hidden p-2 text-[#1F1B2E] hover:text-[#5B21B6] hover:bg-[#F5F3FF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#5B21B6] rounded-xl transition-colors"
           aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
           aria-expanded={mobileMenuOpen}
         >
@@ -468,146 +355,140 @@ export default function Header() {
         </button>
       </div>
 
-      {/* Mobile Navigation Drawer */}
+      {/* Accessible Mobile Drawer Navigation */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-white border-b border-[#E5E1ED] px-4 pt-3 pb-6 animate-in slide-in-from-top-2 duration-150 shadow-dropdown max-h-[85vh] overflow-y-auto">
-          <nav className="flex flex-col gap-1.5" aria-label="Mobile Navigation">
-            <Link
-              href="/"
-              onClick={() => setMobileMenuOpen(false)}
-              className={`px-3.5 py-2.5 rounded-xl text-base font-medium flex items-center justify-between ${
-                pathname === "/" ? "bg-[#EEE8FA] text-[#7C3AED] font-semibold" : "text-[#1F1B2E] hover:bg-[#F8F7FC]"
-              }`}
-            >
-              <span>Home</span>
-            </Link>
-
-            <Link
-              href="/about"
-              onClick={() => setMobileMenuOpen(false)}
-              className={`px-3.5 py-2.5 rounded-xl text-base font-medium flex items-center justify-between ${
-                isAboutActive ? "bg-[#EEE8FA] text-[#7C3AED] font-semibold" : "text-[#1F1B2E] hover:bg-[#F8F7FC]"
-              }`}
-            >
-              <span>About</span>
-            </Link>
-
-            {/* Mobile Services Accordion */}
-            <div className="border border-[#E5E1ED] rounded-xl overflow-hidden">
-              <button
-                type="button"
-                onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
-                className="w-full px-3.5 py-2.5 text-base font-medium text-[#1F1B2E] flex items-center justify-between bg-[#F8F7FC]/70 hover:bg-[#F8F7FC]"
-              >
-                <span className="font-semibold">Services</span>
-                <ChevronDown
-                  className={`w-4 h-4 transition-transform duration-200 ${
-                    mobileServicesOpen ? "rotate-180 text-[#7C3AED]" : "text-[#6F6A7C]"
-                  }`}
-                />
-              </button>
-              {mobileServicesOpen && (
-                <div className="p-2 space-y-1 bg-white border-t border-[#E5E1ED]">
-                  <Link
-                    href="/services"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="block px-3 py-2 text-xs font-bold uppercase tracking-wider text-[#7C3AED] hover:underline"
-                  >
-                    View All Services &rarr;
-                  </Link>
-                  {SERVICES_MENU.map((item) => (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="block px-3 py-2 text-sm text-[#1F1B2E] hover:text-[#7C3AED] hover:bg-[#F8F7FC] rounded-lg"
-                    >
-                      {item.title}
-                    </Link>
-                  ))}
-                </div>
-              )}
-            </div>
-
-            {/* Mobile Industries Accordion */}
-            <div className="border border-[#E5E1ED] rounded-xl overflow-hidden">
-              <button
-                type="button"
-                onClick={() => setMobileIndustriesOpen(!mobileIndustriesOpen)}
-                className="w-full px-3.5 py-2.5 text-base font-medium text-[#1F1B2E] flex items-center justify-between bg-[#F8F7FC]/70 hover:bg-[#F8F7FC]"
-              >
-                <span className="font-semibold">Industries</span>
-                <ChevronDown
-                  className={`w-4 h-4 transition-transform duration-200 ${
-                    mobileIndustriesOpen ? "rotate-180 text-[#7C3AED]" : "text-[#6F6A7C]"
-                  }`}
-                />
-              </button>
-              {mobileIndustriesOpen && (
-                <div className="p-2 space-y-1 bg-white border-t border-[#E5E1ED]">
-                  <Link
-                    href="/industries"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="block px-3 py-2 text-xs font-bold uppercase tracking-wider text-[#7C3AED] hover:underline"
-                  >
-                    View All Verticals &rarr;
-                  </Link>
-                  {INDUSTRIES_MENU.map((item) => (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="block px-3 py-2 text-sm text-[#1F1B2E] hover:text-[#7C3AED] hover:bg-[#F8F7FC] rounded-lg"
-                    >
-                      {item.title}
-                    </Link>
-                  ))}
-                </div>
-              )}
-            </div>
-
-            <Link
-              href="/projects"
-              onClick={() => setMobileMenuOpen(false)}
-              className={`px-3.5 py-2.5 rounded-xl text-base font-medium flex items-center justify-between ${
-                isProjectsActive ? "bg-[#EEE8FA] text-[#7C3AED] font-semibold" : "text-[#1F1B2E] hover:bg-[#F8F7FC]"
-              }`}
-            >
-              <span>Projects</span>
-            </Link>
-
-            <Link
-              href="/careers"
-              onClick={() => setMobileMenuOpen(false)}
-              className={`px-3.5 py-2.5 rounded-xl text-base font-medium flex items-center justify-between ${
-                isCareersActive ? "bg-[#EEE8FA] text-[#7C3AED] font-semibold" : "text-[#1F1B2E] hover:bg-[#F8F7FC]"
-              }`}
-            >
-              <span>Careers</span>
-            </Link>
-
-            <Link
-              href="/contact"
-              onClick={() => setMobileMenuOpen(false)}
-              className={`px-3.5 py-2.5 rounded-xl text-base font-medium flex items-center justify-between ${
-                isContactActive ? "bg-[#EEE8FA] text-[#7C3AED] font-semibold" : "text-[#1F1B2E] hover:bg-[#F8F7FC]"
-              }`}
-            >
-              <span>Contact</span>
-            </Link>
-
-            <div className="pt-3 mt-2 border-t border-[#E5E1ED]">
-              <Button
-                href="/contact"
-                variant="yellow"
-                size="md"
-                className="w-full text-center"
+        <div className="md:hidden fixed inset-x-0 top-[60px] bottom-0 bg-[#0F172A]/40 backdrop-blur-xs z-50">
+          <div className="bg-white border-b border-[#E2E8F0] shadow-xl max-h-[calc(100vh-60px)] overflow-y-auto px-4 py-5 animate-in slide-in-from-top-4 duration-200">
+            <nav className="flex flex-col gap-1.5" aria-label="Mobile Navigation">
+              {/* Home */}
+              <Link
+                href="/"
                 onClick={() => setMobileMenuOpen(false)}
+                className={`px-3.5 py-3 rounded-xl text-base font-semibold flex items-center justify-between ${
+                  isHomeActive
+                    ? "bg-[#EDE9FE] text-[#5B21B6]"
+                    : "text-[#1F1B2E] hover:bg-[#F8FAFC]"
+                }`}
               >
-                Get in Touch
-              </Button>
-            </div>
-          </nav>
+                <span>Home</span>
+                {isHomeActive && <span className="w-2 h-2 rounded-full bg-[#5B21B6]" />}
+              </Link>
+
+              {/* About */}
+              <Link
+                href="/about"
+                onClick={() => setMobileMenuOpen(false)}
+                className={`px-3.5 py-3 rounded-xl text-base font-semibold flex items-center justify-between ${
+                  isAboutActive
+                    ? "bg-[#EDE9FE] text-[#5B21B6]"
+                    : "text-[#1F1B2E] hover:bg-[#F8FAFC]"
+                }`}
+              >
+                <span>About</span>
+                {isAboutActive && <span className="w-2 h-2 rounded-full bg-[#5B21B6]" />}
+              </Link>
+
+              {/* Services Accordion for Mobile */}
+              <div className="rounded-xl border border-[#E2E8F0] overflow-hidden my-1">
+                <button
+                  type="button"
+                  onClick={() => setMobileServicesExpanded(!mobileServicesExpanded)}
+                  className="w-full px-3.5 py-3 text-base font-semibold flex items-center justify-between text-[#1F1B2E] bg-[#F8FAFC]"
+                >
+                  <span className="flex items-center gap-2">
+                    <Layers className="w-4 h-4 text-[#5B21B6]" />
+                    <span>Services</span>
+                  </span>
+                  <ChevronDown
+                    className={`w-4 h-4 text-[#64748B] transition-transform duration-200 ${
+                      mobileServicesExpanded ? "rotate-180 text-[#5B21B6]" : ""
+                    }`}
+                  />
+                </button>
+
+                {mobileServicesExpanded && (
+                  <div className="p-2 space-y-1 bg-white border-t border-[#E2E8F0]">
+                    {SERVICE_NAV_ITEMS.map((service) => (
+                      <Link
+                        key={service.href}
+                        href={service.href}
+                        onClick={() => setMobileMenuOpen(false)}
+                        className={`block px-3 py-2 rounded-lg text-sm font-medium ${
+                          pathname === service.href
+                            ? "bg-[#EDE9FE] text-[#5B21B6] font-semibold"
+                            : "text-[#1F1B2E] hover:bg-[#F8FAFC]"
+                        }`}
+                      >
+                        {service.title}
+                      </Link>
+                    ))}
+                    <Link
+                      href="/services"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="block px-3 py-2 text-xs font-bold uppercase tracking-wider text-[#5B21B6] hover:underline pt-2 border-t border-[#F1F5F9]"
+                    >
+                      View All Services Overview &rarr;
+                    </Link>
+                  </div>
+                )}
+              </div>
+
+              {/* Industries */}
+              <Link
+                href="/industries"
+                onClick={() => setMobileMenuOpen(false)}
+                className={`px-3.5 py-3 rounded-xl text-base font-semibold flex items-center justify-between ${
+                  isIndustriesActive
+                    ? "bg-[#EDE9FE] text-[#5B21B6]"
+                    : "text-[#1F1B2E] hover:bg-[#F8FAFC]"
+                }`}
+              >
+                <span>Industries</span>
+                {isIndustriesActive && <span className="w-2 h-2 rounded-full bg-[#5B21B6]" />}
+              </Link>
+
+              {/* Projects */}
+              <Link
+                href="/projects"
+                onClick={() => setMobileMenuOpen(false)}
+                className={`px-3.5 py-3 rounded-xl text-base font-semibold flex items-center justify-between ${
+                  isProjectsActive
+                    ? "bg-[#EDE9FE] text-[#5B21B6]"
+                    : "text-[#1F1B2E] hover:bg-[#F8FAFC]"
+                }`}
+              >
+                <span>Projects</span>
+                {isProjectsActive && <span className="w-2 h-2 rounded-full bg-[#5B21B6]" />}
+              </Link>
+
+              {/* Careers */}
+              <Link
+                href="/careers"
+                onClick={() => setMobileMenuOpen(false)}
+                className={`px-3.5 py-3 rounded-xl text-base font-semibold flex items-center justify-between ${
+                  isCareersActive
+                    ? "bg-[#EDE9FE] text-[#5B21B6]"
+                    : "text-[#1F1B2E] hover:bg-[#F8FAFC]"
+                }`}
+              >
+                <span>Careers</span>
+                {isCareersActive && <span className="w-2 h-2 rounded-full bg-[#5B21B6]" />}
+              </Link>
+
+              {/* Mobile CTA Button */}
+              <div className="pt-4 mt-2 border-t border-[#E2E8F0]">
+                <Button
+                  href="/contact"
+                  variant="yellow"
+                  size="lg"
+                  className="w-full text-center font-bold"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Get in Touch &amp; Schedule
+                </Button>
+              </div>
+            </nav>
+          </div>
         </div>
       )}
     </header>
