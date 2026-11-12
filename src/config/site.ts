@@ -5,7 +5,7 @@ export const siteConfig = {
   mainPositioning: "We turn your business into a digital experience.",
   description:
     "Build a stronger online presence, connect with more customers and work smarter with modern websites, software, AI and automation.",
-  url: "https://cognirexsolutions.in",
+  url: process.env.NEXT_PUBLIC_SITE_URL || "https://cognirexsolutions.in",
   ogImage: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1200&auto=format&fit=crop",
 
   // Demo flags removed for production readiness
