@@ -13,7 +13,7 @@ export const siteConfig = {
 
   // Contact Information — unverified placeholder details removed; communication handled via enquiry form
   contact: {
-    email: "",
+    email: "cognirexsolutions@gmail.com",
     phone: "",
     location: "India",
     addressLine: "",

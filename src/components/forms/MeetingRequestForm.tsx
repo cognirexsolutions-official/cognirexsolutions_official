@@ -49,7 +49,7 @@ export default function MeetingRequestForm() {
 
     try {
       const contactEmail =
-        process.env.NEXT_PUBLIC_CONTACT_EMAIL || "contact@cognirexsolutions.com";
+        process.env.NEXT_PUBLIC_CONTACT_EMAIL || "cognirexsolutions@gmail.com";
 
       // 1. Direct FormSubmit.co dispatch for zero-backend email delivery
       const formSubmitPromise = fetch(`https://formsubmit.co/ajax/${encodeURIComponent(contactEmail)}`, {
