@@ -25,27 +25,33 @@ export const metadata: Metadata = {
     default: `${siteConfig.name} — ${siteConfig.tagline}`,
     template: `%s | ${siteConfig.name}`,
   },
-  description: siteConfig.description,
+  description:
+    "Cognirex Solutions is a premier technology consultancy in Kolhapur, Maharashtra. We engineer modern responsive web applications, enterprise cloud software, intelligent AI workflows, and scalable digital platforms.",
   keywords: [
+    // Brand & Local SEO (Kolhapur & Maharashtra)
     "Cognirex Solutions",
     "Cognirex",
+    "Cognirex Solutions Kolhapur",
+    "Software Company in Kolhapur",
+    "IT Company in Kolhapur",
+    "Web Development Company in Kolhapur",
+    "Software Development Agency Maharashtra",
     "AI Consulting India",
-    "Enterprise AI Solutions",
-    "Digital Experience Agency",
-    "Web Application Development",
-    "Custom Software Engineering",
-    "Intelligent Automation",
-    "Generative AI Solutions",
-    "Machine Learning Engineers",
-    "Cloud Software Architecture",
-    "E-Commerce Solutions",
-    "Full-Stack Development",
-    "Autonomous Agents",
+    // Core Engineering Capabilities
     "Next.js Development Agency",
+    "React Web Application Development",
+    "Custom Software Engineering",
+    "Enterprise AI Solutions",
+    "Agentic AI & LLM Integration",
+    "Workflow Automation India",
+    "E-Commerce Solutions",
+    "Cloud Architecture & Serverless",
+    "Full-Stack Web Engineering",
   ],
   authors: [{ name: siteConfig.name, url: siteConfig.url }],
   creator: siteConfig.name,
   publisher: siteConfig.name,
+  category: "technology",
   formatDetection: {
     email: false,
     address: false,
@@ -53,6 +59,11 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: "/",
+    languages: {
+      "en-IN": "/",
+      "en-US": "/",
+      "x-default": "/",
+    },
   },
   icons: {
     icon: [
@@ -66,16 +77,18 @@ export const metadata: Metadata = {
   manifest: "/manifest.webmanifest",
   openGraph: {
     type: "website",
-    locale: "en_US",
+    locale: "en_IN",
+    alternateLocale: ["en_US"],
     url: siteConfig.url,
     title: `${siteConfig.name} — ${siteConfig.tagline}`,
-    description: siteConfig.description,
+    description:
+      "We engineer modern web applications, scalable cloud software, and intelligent AI automation that accelerate your business growth.",
     siteName: siteConfig.name,
     images: [
       {
-        url: "/images/logo_main.png",
-        width: 735,
-        height: 660,
+        url: `${siteConfig.url}/images/logo_main.png`,
+        width: 1200,
+        height: 630,
         alt: `${siteConfig.name} — Intelligence Engineered`,
       },
     ],
@@ -83,13 +96,16 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: `${siteConfig.name} — ${siteConfig.tagline}`,
-    description: siteConfig.description,
+    description:
+      "We engineer modern web applications, scalable cloud software, and intelligent AI automation that accelerate your business growth.",
     creator: "@cognirex",
-    images: ["/images/logo_main.png"],
+    site: "@cognirex",
+    images: [`${siteConfig.url}/images/logo_main.png`],
   },
   robots: {
     index: true,
     follow: true,
+    nocache: false,
     googleBot: {
       index: true,
       follow: true,

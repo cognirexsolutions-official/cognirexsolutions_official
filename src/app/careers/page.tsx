@@ -3,11 +3,13 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ChevronRight, Home } from "lucide-react";
 import CareersSection from "@/components/sections/CareersSection";
+import { siteConfig } from "@/config/site";
+import { generateBreadcrumbJsonLd } from "@/config/structuredData";
 
 export const metadata: Metadata = {
-  title: "Careers & Culture — Cognirex Solutions",
+  title: "Careers & Culture — Engineering Opportunities",
   description:
-    "Explore career opportunities, engineering culture, and expressions of interest at Cognirex Solutions. Join our multidisciplinary team building modern websites, applications, and intelligent systems.",
+    "Explore engineering opportunities and talent network at Cognirex Solutions in Kolhapur, Maharashtra. Build modern web applications and AI systems.",
   alternates: {
     canonical: "/careers",
   },
@@ -15,13 +17,24 @@ export const metadata: Metadata = {
     title: "Careers at Cognirex Solutions — Build What’s Next in AI & Software",
     description:
       "Join our multidisciplinary team building modern websites, applications, and intelligent systems. Explore open opportunities.",
-    url: "https://cognirexsolutions.com/careers",
+    url: `${siteConfig.url}/careers`,
+    type: "website",
   },
 };
 
 export default function CareersPage() {
+  const breadcrumbJsonLd = generateBreadcrumbJsonLd([
+    { name: "Home", path: "/" },
+    { name: "Careers Portal", path: "/careers" },
+  ]);
+
   return (
     <div className="min-h-screen bg-[#F8F7FC]">
+      {/* Page Breadcrumbs JSON-LD */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       {/* Subpage Breadcrumb Navigation */}
       <div className="bg-white border-b border-[#E5E1ED]">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 py-3.5">

@@ -1,28 +1,34 @@
+import { siteConfig } from "./site";
+
 export const jsonLdOrganization = {
   "@context": "https://schema.org",
   "@graph": [
+    // 1. Core Organization Schema
     {
       "@type": "Organization",
-      "@id": "https://cognirex-solutions-eta.vercel.app/#organization",
-      "name": "Cognirex Solutions",
-      "alternateName": ["Cognirex", "Cognirex Solutions Pvt Ltd"],
-      "url": "https://cognirex-solutions-eta.vercel.app",
+      "@id": `${siteConfig.url}/#organization`,
+      "name": siteConfig.name,
+      "alternateName": [siteConfig.shortName, "Cognirex Solutions Pvt Ltd", "Cognirex Tech"],
+      "url": siteConfig.url,
       "logo": {
         "@type": "ImageObject",
-        "@id": "https://cognirex-solutions-eta.vercel.app/#logo",
-        "url": "https://cognirex-solutions-eta.vercel.app/images/logo_main.png",
-        "contentUrl": "https://cognirex-solutions-eta.vercel.app/images/logo_main.png",
-        "caption": "Cognirex Solutions Logo",
+        "@id": `${siteConfig.url}/#logo`,
+        "url": `${siteConfig.url}/images/logo_main.png`,
+        "contentUrl": `${siteConfig.url}/images/logo_main.png`,
+        "caption": "Cognirex Solutions Official Logo",
         "width": 735,
         "height": 660,
       },
-      "image": "https://cognirex-solutions-eta.vercel.app/images/logo_main.png",
-      "description": "Cognirex Solutions is a premium technology consultancy engineering modern web applications, scalable cloud software, AI workflows, and intelligent business automation.",
-      "email": "hr@cognirexsolutions.in",
+      "image": `${siteConfig.url}/images/logo_main.png`,
+      "description": siteConfig.description,
+      "email": siteConfig.contact.email,
+      "telephone": siteConfig.contact.phone || undefined,
       "address": {
         "@type": "PostalAddress",
+        "streetAddress": siteConfig.contact.addressLine,
         "addressLocality": "Kolhapur",
         "addressRegion": "Maharashtra",
+        "postalCode": "416001",
         "addressCountry": "IN",
       },
       "geo": {
@@ -37,84 +43,115 @@ export const jsonLdOrganization = {
         },
         {
           "@type": "Country",
+          "name": "United States",
+        },
+        {
+          "@type": "Country",
+          "name": "United Kingdom",
+        },
+        {
+          "@type": "Country",
           "name": "Global",
         },
       ],
+      "contactPoint": [
+        {
+          "@type": "ContactPoint",
+          "email": siteConfig.contact.email,
+          "contactType": "Customer Support & Inquiries",
+          "areaServed": "Global",
+          "availableLanguage": ["English", "Hindi", "Marathi"],
+        },
+      ],
       "sameAs": [
-        "https://www.linkedin.com/company/cognirex-solutions",
-        "https://x.com/cognirex",
-        "https://github.com/cognirex-solutions",
+        siteConfig.social.linkedin,
+        siteConfig.social.twitter,
+        siteConfig.social.github,
       ],
       "knowsAbout": [
         "Web Application Development",
-        "Artificial Intelligence Solutions",
-        "Agentic AI & LLMs",
-        "Machine Learning",
-        "Intelligent Process Automation",
-        "Cloud Architecture",
-        "E-Commerce Engineering",
+        "Full-Stack Software Engineering",
+        "Artificial Intelligence & Machine Learning",
+        "Agentic AI & Retrieval-Augmented Generation (RAG)",
+        "Intelligent Process & Workflow Automation",
+        "Next.js & React Frameworks",
+        "Cloud Architecture & Serverless Computing",
+        "E-Commerce Solutions & Digital Storefronts",
         "Enterprise Software Solutions",
+        "Database Architecture & API Integration",
       ],
       "hasOfferCatalog": {
         "@type": "OfferCatalog",
-        "name": "Technology Consulting Services",
+        "name": "Cognirex Engineering & Consulting Services",
         "itemListElement": [
           {
             "@type": "Offer",
             "itemOffered": {
               "@type": "Service",
-              "name": "Digital Presence & Web Platforms",
-              "description": "High-performance websites, portals, and e-commerce platforms engineered with modern frameworks.",
+              "name": "Modern Web & Digital Presence Development",
+              "description":
+                "Engineering high-speed, SEO-optimized, responsive websites and client portals built with Next.js, React, and Tailwind CSS.",
+              "provider": { "@id": `${siteConfig.url}/#organization` },
             },
           },
           {
             "@type": "Offer",
             "itemOffered": {
               "@type": "Service",
-              "name": "Custom Software & Enterprise Architecture",
-              "description": "Robust backend systems, microservices, cloud applications, and API platforms built to scale.",
+              "name": "Artificial Intelligence & Intelligent Automation",
+              "description":
+                "Custom AI agents, LLM integrations, retrieval-augmented knowledge bases, and event-driven workflow automation.",
+              "provider": { "@id": `${siteConfig.url}/#organization` },
             },
           },
           {
             "@type": "Offer",
             "itemOffered": {
               "@type": "Service",
-              "name": "AI & Autonomous Automation",
-              "description": "Production-grade AI assistants, workflow automation, and custom machine learning pipelines.",
+              "name": "Custom Enterprise Software & Cloud Applications",
+              "description":
+                "Scalable internal business dashboards, operations tracking tools, API integrations, and secure role-based portals.",
+              "provider": { "@id": `${siteConfig.url}/#organization` },
+            },
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "E-Commerce Platforms & Digital Storefronts",
+              "description":
+                "End-to-end digital commerce experiences, product catalogs, payment workflows, and automated customer notifications.",
+              "provider": { "@id": `${siteConfig.url}/#organization` },
             },
           },
         ],
       },
     },
-    {
-      "@type": "WebSite",
-      "@id": "https://cognirex-solutions-eta.vercel.app/#website",
-      "url": "https://cognirex-solutions-eta.vercel.app",
-      "name": "Cognirex Solutions",
-      "description": "Intelligence Engineered. Innovation Delivered.",
-      "publisher": {
-        "@id": "https://cognirex-solutions-eta.vercel.app/#organization",
-      },
-      "inLanguage": "en-US",
-    },
+
+    // 2. LocalBusiness / ProfessionalService Schema (Local SEO: Kolhapur, Maharashtra, India)
     {
       "@type": "ProfessionalService",
-      "@id": "https://cognirex-solutions-eta.vercel.app/#localbusiness",
-      "name": "Cognirex Solutions",
-      "url": "https://cognirex-solutions-eta.vercel.app",
-      "logo": "https://cognirex-solutions-eta.vercel.app/images/logo_main.png",
-      "image": "https://cognirex-solutions-eta.vercel.app/images/logo_main.png",
+      "@id": `${siteConfig.url}/#localbusiness`,
+      "name": siteConfig.name,
+      "url": siteConfig.url,
+      "logo": `${siteConfig.url}/images/logo_main.png`,
+      "image": `${siteConfig.url}/images/logo_main.png`,
       "priceRange": "$$",
-      "currenciesAccepted": "INR, USD, EUR",
-      "paymentAccepted": "Cash, Credit Card, Bank Transfer",
+      "currenciesAccepted": "INR, USD, EUR, GBP",
+      "paymentAccepted": "Bank Transfer, Credit Card, UPI",
+      "email": siteConfig.contact.email,
       "address": {
         "@type": "PostalAddress",
+        "streetAddress": siteConfig.contact.addressLine,
+        "addressLocality": "Kolhapur",
+        "addressRegion": "Maharashtra",
+        "postalCode": "416001",
         "addressCountry": "IN",
       },
       "geo": {
         "@type": "GeoCoordinates",
-        "latitude": 28.6139,
-        "longitude": 77.209,
+        "latitude": 16.705,
+        "longitude": 74.2433,
       },
       "openingHoursSpecification": [
         {
@@ -125,40 +162,76 @@ export const jsonLdOrganization = {
         },
       ],
     },
+
+    // 3. WebSite Schema with Sitelinks SearchBox
+    {
+      "@type": "WebSite",
+      "@id": `${siteConfig.url}/#website`,
+      "url": siteConfig.url,
+      "name": siteConfig.name,
+      "description": siteConfig.tagline,
+      "publisher": {
+        "@id": `${siteConfig.url}/#organization`,
+      },
+      "inLanguage": "en-US",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": `${siteConfig.url}/#solutions`,
+        },
+        "query-input": "required name=search_term_string",
+      },
+    },
+
+    // 4. FAQPage Schema for Rich Search Snippets in SERP
     {
       "@type": "FAQPage",
-      "@id": "https://cognirex-solutions-eta.vercel.app/#faq",
+      "@id": `${siteConfig.url}/#faq`,
       "mainEntity": [
         {
           "@type": "Question",
-          "name": "What services does Cognirex Solutions offer?",
+          "name": "What technology services does Cognirex Solutions offer?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Cognirex Solutions specializes in custom web application development, cloud software engineering, enterprise AI integration, intelligent workflow automation, and digital presence transformation.",
+            "text":
+              "Cognirex Solutions delivers full-cycle digital solutions including modern responsive website development, custom web applications, enterprise software architectures, intelligent AI automation, and e-commerce platforms.",
           },
         },
         {
           "@type": "Question",
-          "name": "Can Cognirex Solutions integrate AI into existing business software?",
+          "name": "Where is Cognirex Solutions located?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes, we engineer custom AI solutions, automated customer workflows, intelligent search pipelines, and agentic LLM assistants that integrate into existing software architectures.",
+            "text":
+              "Cognirex Solutions is headquartered in Kolhapur, Maharashtra, India. We partner with clients locally, across Maharashtra, nationwide in India, and globally.",
           },
         },
         {
           "@type": "Question",
-          "name": "Where is Cognirex Solutions based and do you serve international clients?",
+          "name": "Can Cognirex Solutions integrate AI and automated workflows into our existing systems?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Cognirex Solutions is based in India and serves businesses globally across North America, Europe, the Middle East, and Asia.",
+            "text":
+              "Yes. We specialize in custom AI integrations including smart customer service assistants, RAG knowledge bases, automated document processing, CRM webhook pipelines, and internal AI agents.",
           },
         },
         {
           "@type": "Question",
-          "name": "How does Cognirex Solutions approach software engineering projects?",
+          "name": "How does Cognirex Solutions manage software projects?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "We follow a 5-stage engineering lifecycle: Discovery & Requirements, Architectural Design, Agile Development & Testing, Production Deployment, and Continuous Maintenance & Evolution.",
+            "text":
+              "We follow a disciplined 5-stage engineering lifecycle: Discovery & Requirements Assessment, Architecture & Solution Design, Development & Rapid Prototyping, Integration & Quality Testing, and Deployment & Continuous Support.",
+          },
+        },
+        {
+          "@type": "Question",
+          "name": "How can I request a project proposal or consultation?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text":
+              "You can submit a project enquiry directly through our website contact form or schedule an online video consultation. Our engineering team reviews all requests within 24 hours.",
           },
         },
       ],
@@ -166,3 +239,20 @@ export const jsonLdOrganization = {
   ],
 };
 
+// Helper for generating page-level breadcrumbs
+export function generateBreadcrumbJsonLd(
+  breadcrumbs: { name: string; path: string }[]
+) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": breadcrumbs.map((crumb, idx) => ({
+      "@type": "ListItem",
+      "position": idx + 1,
+      "name": crumb.name,
+      "item": crumb.path.startsWith("http")
+        ? crumb.path
+        : `${siteConfig.url}${crumb.path}`,
+    })),
+  };
+}

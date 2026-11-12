@@ -2,15 +2,35 @@ import React from "react";
 import { Metadata } from "next";
 import { Badge } from "@/components/ui/Badge";
 import Link from "next/link";
+import { siteConfig } from "@/config/site";
+import { generateBreadcrumbJsonLd } from "@/config/structuredData";
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
-  description: "Privacy policy and data handling guidelines for Cognirex Solutions.",
+  description: "Privacy policy, data protection, and governance guidelines for Cognirex Solutions in Kolhapur, Maharashtra, India.",
+  alternates: {
+    canonical: "/privacy-policy",
+  },
+  openGraph: {
+    title: "Privacy Policy — Cognirex Solutions",
+    description: "Privacy policy and data governance practices of Cognirex Solutions.",
+    url: `${siteConfig.url}/privacy-policy`,
+  },
 };
 
 export default function PrivacyPolicyPage() {
+  const breadcrumbJsonLd = generateBreadcrumbJsonLd([
+    { name: "Home", path: "/" },
+    { name: "Privacy Policy", path: "/privacy-policy" },
+  ]);
+
   return (
     <div className="bg-[#F8F7FC] py-16 md:py-24">
+      {/* Page Breadcrumbs JSON-LD */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       <div className="max-w-[840px] mx-auto px-4 sm:px-6">
         <Badge variant="lavender" className="mb-4">
           Corporate Governance

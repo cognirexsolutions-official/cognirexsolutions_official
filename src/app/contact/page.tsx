@@ -3,25 +3,38 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ChevronRight, Home } from "lucide-react";
 import ContactPortal from "@/components/sections/ContactPortal";
+import { siteConfig } from "@/config/site";
+import { generateBreadcrumbJsonLd } from "@/config/structuredData";
 
 export const metadata: Metadata = {
-  title: "Let's Talk — Cognirex Solutions",
+  title: "Let's Talk — Schedule a Consultation",
   description:
-    "Start a conversation with Cognirex Solutions. Submit a project enquiry or schedule a consultation with our engineering team.",
+    "Connect with Cognirex Solutions in Kolhapur, Maharashtra. Submit a project enquiry or schedule an online engineering consultation.",
   alternates: {
     canonical: "/contact",
   },
   openGraph: {
-    title: "Let's Talk — Schedule a Consultation with Cognirex Solutions",
+    title: "Let's Talk — Project Enquiry & Consultation | Cognirex Solutions",
     description:
-      "Start a conversation with Cognirex Solutions. Submit a project enquiry or schedule a consultation with our engineering team.",
-    url: "https://cognirexsolutions.com/contact",
+      "Start a conversation with Cognirex Solutions. Submit a project enquiry or schedule an online engineering consultation.",
+    url: `${siteConfig.url}/contact`,
+    type: "website",
   },
 };
 
 export default function ContactPage() {
+  const breadcrumbJsonLd = generateBreadcrumbJsonLd([
+    { name: "Home", path: "/" },
+    { name: "Contact & Consultation", path: "/contact" },
+  ]);
+
   return (
     <div className="min-h-screen bg-[#F8F7FC]">
+      {/* Page Breadcrumbs JSON-LD */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       {/* Breadcrumb Navigation */}
       <div className="bg-white border-b border-[#E5E1ED]">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 py-3.5">

@@ -2,24 +2,41 @@ import { MetadataRoute } from "next";
 import { siteConfig } from "@/config/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
+  const currentDate = new Date().toISOString();
+
+  // Canonical indexable routes for search engine crawlers
   const routes = [
-    "",
-    "/solutions",
-    "/projects",
-    "/about",
-    "/careers",
-    "/contact",
-    "/get-in-touch",
-    "/privacy-policy",
-    "/terms",
-    "/innovation",
+    {
+      route: "",
+      changeFrequency: "weekly" as const,
+      priority: 1.0,
+    },
+    {
+      route: "/contact",
+      changeFrequency: "monthly" as const,
+      priority: 0.9,
+    },
+    {
+      route: "/careers",
+      changeFrequency: "monthly" as const,
+      priority: 0.8,
+    },
+    {
+      route: "/privacy-policy",
+      changeFrequency: "yearly" as const,
+      priority: 0.4,
+    },
+    {
+      route: "/terms",
+      changeFrequency: "yearly" as const,
+      priority: 0.4,
+    },
   ];
 
-  return routes.map((route) => ({
-    url: `${siteConfig.url}${route}`,
-    lastModified: new Date(),
-    changeFrequency: route === "" ? "weekly" : "monthly",
-    priority: route === "" ? 1.0 : route === "/solutions" ? 0.9 : 0.8,
+  return routes.map((item) => ({
+    url: `${siteConfig.url}${item.route}`,
+    lastModified: currentDate,
+    changeFrequency: item.changeFrequency,
+    priority: item.priority,
   }));
 }
-

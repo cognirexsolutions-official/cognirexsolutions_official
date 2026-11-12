@@ -2,15 +2,34 @@ import React from "react";
 import { Metadata } from "next";
 import { Badge } from "@/components/ui/Badge";
 import { siteConfig } from "@/config/site";
+import { generateBreadcrumbJsonLd } from "@/config/structuredData";
 
 export const metadata: Metadata = {
   title: "Terms and Conditions",
-  description: "Terms and conditions of service for Cognirex Solutions.",
+  description: "Terms and conditions of service and technology consultation for Cognirex Solutions in Kolhapur, Maharashtra, India.",
+  alternates: {
+    canonical: "/terms",
+  },
+  openGraph: {
+    title: "Terms and Conditions — Cognirex Solutions",
+    description: "Terms of engagement and client governance for Cognirex Solutions.",
+    url: `${siteConfig.url}/terms`,
+  },
 };
 
 export default function TermsPage() {
+  const breadcrumbJsonLd = generateBreadcrumbJsonLd([
+    { name: "Home", path: "/" },
+    { name: "Terms and Conditions", path: "/terms" },
+  ]);
+
   return (
     <div className="bg-[#F8F7FC] py-16 md:py-24">
+      {/* Page Breadcrumbs JSON-LD */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       <div className="max-w-[840px] mx-auto px-4 sm:px-6">
         <Badge variant="lavender" className="mb-4">
           Corporate Governance
