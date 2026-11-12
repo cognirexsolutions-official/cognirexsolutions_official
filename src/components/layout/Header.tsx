@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -8,6 +8,17 @@ import { Menu, X } from "lucide-react";
 import { siteConfig } from "@/config/site";
 import { Button } from "@/components/ui/Button";
 import { useCmsContent } from "@/context/CmsContentContext";
+
+// Sections mapped to their corresponding nav item id
+const TRACKED_SECTIONS: { id: string; navId: string }[] = [
+  { id: "hero", navId: "hero" },
+  { id: "about", navId: "about" },
+  { id: "solutions", navId: "solutions" },
+  { id: "approach", navId: "solutions" },
+  { id: "projects", navId: "projects" },
+  { id: "industries", navId: "projects" },
+  { id: "contact", navId: "contact" },
+];
 
 export default function Header() {
   const pathname = usePathname();
@@ -18,6 +29,10 @@ export default function Header() {
   const [activeSection, setActiveSection] = useState("hero");
   const [isAssembled, setIsAssembled] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
+
+  // Lock flag to prevent scrollspy from overriding user click during smooth scrolling
+  const isManualScrollingRef = useRef(false);
+  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -34,30 +49,85 @@ export default function Header() {
   const wordmarkLetters = wordmarkText.split("");
   const firstSpaceIdx = wordmarkText.indexOf(" ");
 
+  // High-precision scrollspy with getBoundingClientRect
   useEffect(() => {
-    // Scrollspy only applies when on the single-page home route ("/")
     if (pathname !== "/") {
       return;
     }
 
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 30);
+      setIsScrolled(window.scrollY > 20);
 
-      const sections = ["hero", "about", "solutions", "approach", "projects", "industries", "contact"];
-      const scrollPos = window.scrollY + 120;
+      // Do not allow scroll events to override activeSection while smooth-scrolling from click
+      if (isManualScrollingRef.current) {
+        return;
+      }
 
-      for (let i = sections.length - 1; i >= 0; i--) {
-        const el = document.getElementById(sections[i]);
-        if (el && el.offsetTop <= scrollPos) {
-          setActiveSection(sections[i]);
-          break;
+      // If at the very top of the page, hero is always active
+      if (window.scrollY < 60) {
+        setActiveSection("hero");
+        return;
+      }
+
+      // Check if user has scrolled near bottom of page
+      const isAtBottom =
+        window.innerHeight + window.scrollY >=
+        document.documentElement.scrollHeight - 80;
+      if (isAtBottom) {
+        setActiveSection("projects");
+        return;
+      }
+
+      // Viewport trigger threshold just below the sticky header (~72px header + 50px buffer)
+      const triggerY = 120;
+      let matchedNavId = "hero";
+
+      for (const section of TRACKED_SECTIONS) {
+        const el = document.getElementById(section.id);
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          // Element is active if its top has reached or passed trigger line and bottom is still below trigger line
+          if (rect.top <= triggerY && rect.bottom > triggerY) {
+            matchedNavId = section.navId;
+            break;
+          }
         }
       }
+
+      setActiveSection(matchedNavId);
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
+    // Run once on mount to establish correct initial active item
     handleScroll();
-    return () => window.removeEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
+    };
+  }, [pathname]);
+
+  // Handle hash on initial mount or back/forward navigation
+  useEffect(() => {
+    if (pathname === "/" && typeof window !== "undefined" && window.location.hash) {
+      const hash = window.location.hash.replace("#", "");
+      const targetEl = document.getElementById(hash);
+      if (targetEl) {
+        setActiveSection(hash);
+        setTimeout(() => {
+          const header = document.querySelector("header");
+          const headerOffset = header ? header.offsetHeight : 72;
+          const elementPosition = targetEl.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+          window.scrollTo({
+            top: Math.max(0, offsetPosition),
+            behavior: "smooth",
+          });
+        }, 150);
+      }
+    }
   }, [pathname]);
 
   const allNavItems = brand.navItems?.length ? brand.navItems : siteConfig.navItems;
@@ -73,22 +143,58 @@ export default function Header() {
         e.preventDefault();
         window.scrollTo({ top: 0, behavior: "smooth" });
       }
-      // If on home, let standard Link routing navigate to /careers in the same window
       return;
     }
 
-    // If clicking on homepage section anchor (e.g. "/#about", "#about")
+    // If clicking on Contact link
+    if (href === "/contact") {
+      if (pathname === "/contact") {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+      return;
+    }
+
+    // If clicking on homepage section anchor (e.g. "/#about", "#about", "/#hero")
     const hash = href.includes("#") ? href.split("#")[1] : "";
     if (hash) {
       if (pathname === "/") {
         e.preventDefault();
+
+        // 1. Instantly highlight target nav item
+        const mappedNavId =
+          TRACKED_SECTIONS.find((s) => s.id === hash)?.navId || hash;
+        setActiveSection(mappedNavId);
+
+        // 2. Temporarily lock scrollspy to prevent intermediate scroll frames from overriding
+        isManualScrollingRef.current = true;
+        if (scrollTimeoutRef.current) {
+          clearTimeout(scrollTimeoutRef.current);
+        }
+        scrollTimeoutRef.current = setTimeout(() => {
+          isManualScrollingRef.current = false;
+        }, 850);
+
+        // 3. Scroll to top if hero
+        if (hash === "hero") {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+          return;
+        }
+
+        // 4. Smooth scroll to target element with exact sticky header offset
         const targetEl = document.getElementById(hash);
         if (targetEl) {
-          targetEl.scrollIntoView({ behavior: "smooth" });
-          setActiveSection(hash);
+          const header = document.querySelector("header");
+          const headerOffset = header ? header.offsetHeight : 72;
+          const elementPosition = targetEl.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+          window.scrollTo({
+            top: Math.max(0, offsetPosition),
+            behavior: "smooth",
+          });
         }
       }
-      // If currently on /careers, standard Link will navigate to /#hash in the same window
     }
   };
 
@@ -99,12 +205,12 @@ export default function Header() {
     <header
       className={`sticky top-0 z-50 transition-all duration-300 border-b ${
         isScrolled
-          ? "bg-white/85 backdrop-blur-md border-[#E5E1ED] shadow-subtle py-3.5"
+          ? "bg-white/90 backdrop-blur-md border-[#E5E1ED] shadow-subtle py-3.5"
           : "bg-[#F8F7FC] border-[#E5E1ED] py-4"
       }`}
     >
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6 flex items-center justify-between">
-        {/* Brand Logo - Returns to home in the same window */}
+        {/* Brand Logo - Returns to top in the same window */}
         <Link
           href="/#hero"
           onClick={(e) => handleNavClick(e, "/#hero")}
