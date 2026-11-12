@@ -83,31 +83,77 @@ export default function CareerApplicationForm({ initialRole = "General Expressio
     setServerStatus({ type: "loading", message: "Transmitting application securely..." });
 
     try {
-      const res = await fetch("/api/careers", {
+      const careersEmail =
+        process.env.NEXT_PUBLIC_CAREERS_EMAIL ||
+        process.env.NEXT_PUBLIC_CONTACT_EMAIL ||
+        "careers@cognirexsolutions.com";
+
+      // 1. Direct FormSubmit.co dispatch for zero-backend application delivery
+      const formSubmitPromise = fetch(`https://formsubmit.co/ajax/${encodeURIComponent(careersEmail)}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          "Candidate Name": data.fullName,
+          "Email Address": data.email,
+          "Phone Number": data.phone,
+          "Position Applied": data.positionOfInterest,
+          "Experience Level": data.experience,
+          "LinkedIn Profile": data.linkedIn || "Not provided",
+          "Resume Attached": data.resumeFileName,
+          "Brief Introduction": data.shortIntroduction,
+          _subject: `New Career Application: ${data.fullName} (${data.positionOfInterest})`,
+          _template: "table",
+          _captcha: "false",
+          _replyto: data.email,
+        }),
+      }).catch((err) => {
+        console.warn("FormSubmit careers notice:", err);
+        return null;
+      });
+
+      // 2. Local API dispatch
+      const apiPromise = fetch("/api/careers", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
+      }).catch((err) => {
+        console.warn("Internal careers API notice:", err);
+        return null;
       });
 
-      const resData = await res.json();
+      const [formSubmitRes, apiRes] = await Promise.all([
+        formSubmitPromise,
+        apiPromise,
+      ]);
 
-      if (!res.ok || !resData.success) {
-        setServerStatus({
-          type: "error",
-          message:
-            resData.error ||
-            "Unable to accept application at this time. Please check your form fields and retry.",
-        });
-        return;
+      let appId: string | undefined;
+      if (apiRes && apiRes.ok) {
+        try {
+          const resData = await apiRes.json();
+          if (resData?.id) appId = resData.id;
+        } catch {}
       }
 
-      setServerStatus({
-        type: "success",
-        message: resData.message || "Your introduction has been received successfully.",
-        applicationId: resData.id,
-      });
-      reset();
-      setSelectedFile(null);
+      const formSubmitOk = formSubmitRes ? formSubmitRes.ok : false;
+      const apiOk = apiRes ? apiRes.ok : false;
+
+      if (formSubmitOk || apiOk) {
+        setServerStatus({
+          type: "success",
+          message: "Your application has been received successfully. Our hiring team will review your profile.",
+          applicationId: appId || `APP-${Date.now().toString(36).toUpperCase()}`,
+        });
+        reset();
+        setSelectedFile(null);
+      } else {
+        setServerStatus({
+          type: "error",
+          message: "Unable to accept application at this time. Please check your form fields and retry.",
+        });
+      }
     } catch (err) {
       console.error(err);
       setServerStatus({

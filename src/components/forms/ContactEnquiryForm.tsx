@@ -39,30 +39,76 @@ export default function ContactEnquiryForm({ initialService = "" }: { initialSer
     setServerStatus({ type: "loading", message: "Sending your enquiry..." });
 
     try {
-      const res = await fetch("/api/contact", {
+      const contactEmail =
+        process.env.NEXT_PUBLIC_CONTACT_EMAIL || "contact@cognirexsolutions.com";
+
+      // 1. FormSubmit.co AJAX dispatch for instant zero-backend inbox delivery
+      const formSubmitPromise = fetch(`https://formsubmit.co/ajax/${encodeURIComponent(contactEmail)}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          "Client Name": data.fullName,
+          "Company": data.companyName,
+          "Work Email": data.workEmail,
+          "Phone Number": data.phone,
+          "Service Requested": data.serviceInterestedIn || "General Consultation",
+          "Project Budget": data.projectBudget || "Flexible / Not specified",
+          "Preferred Contact Method": data.preferredContactMethod || "Email",
+          "Project Description": data.projectDescription,
+          _subject: `New Project Enquiry: ${data.fullName} - ${data.companyName}`,
+          _template: "table",
+          _captcha: "false",
+          _replyto: data.workEmail,
+        }),
+      }).catch((err) => {
+        console.warn("FormSubmit delivery notice:", err);
+        return null;
+      });
+
+      // 2. Local API dispatch for database records and reference ID generation
+      const apiPromise = fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
+      }).catch((err) => {
+        console.warn("Internal API notice:", err);
+        return null;
       });
 
-      const resData = await res.json();
+      const [formSubmitRes, apiRes] = await Promise.all([
+        formSubmitPromise,
+        apiPromise,
+      ]);
 
-      if (!res.ok || !resData.success) {
+      let refId: string | undefined;
+      if (apiRes && apiRes.ok) {
+        try {
+          const resData = await apiRes.json();
+          if (resData?.id) refId = resData.id;
+        } catch {}
+      }
+
+      const formSubmitOk = formSubmitRes ? formSubmitRes.ok : false;
+      const apiOk = apiRes ? apiRes.ok : false;
+
+      if (formSubmitOk || apiOk) {
+        setServerStatus({
+          type: "success",
+          message:
+            "Your enquiry has been successfully delivered. Our engineering team will review your requirements and reach out within 24 hours.",
+          enquiryId: refId || `CRX-${Date.now().toString(36).toUpperCase()}`,
+        });
+        reset();
+      } else {
         setServerStatus({
           type: "error",
           message:
-            resData.error ||
             "Unable to submit enquiry at this time. Please verify the form or contact us directly.",
         });
-        return;
       }
-
-      setServerStatus({
-        type: "success",
-        message: resData.message || "Your enquiry has been received and logged.",
-        enquiryId: resData.id,
-      });
-      reset();
     } catch (err) {
       console.error(err);
       setServerStatus({
