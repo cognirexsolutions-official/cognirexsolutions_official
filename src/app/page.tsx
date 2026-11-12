@@ -1,50 +1,35 @@
 import React from "react";
 import Hero from "@/components/sections/Hero";
-import AboutSection from "@/components/sections/AboutSection";
+import TrustPositioning from "@/components/sections/TrustPositioning";
 import ServicesOverview from "@/components/sections/ServicesOverview";
-import ApproachProcess from "@/components/sections/ApproachProcess";
-import ProjectsShowcase from "@/components/sections/ProjectsShowcase";
 import IndustriesSection from "@/components/sections/IndustriesSection";
+import ProjectsShowcase from "@/components/sections/ProjectsShowcase";
+import ApproachProcess from "@/components/sections/ApproachProcess";
 import ContactSection from "@/components/sections/ContactSection";
-import GlassySection from "@/components/ui/GlassySection";
 
 export default function SinglePageWebsite() {
   return (
     <>
-      {/* 1. Hero Section (Home Landing with Centered Cognirex Solutions Name Animation) */}
-      <GlassySection id="hero-wrap">
-        <Hero />
-      </GlassySection>
+      {/* 1. Hero: Product-Led Visual with Interactive Dashboard/AI/Automation Tabs */}
+      <Hero />
 
-      {/* 2. About Cognirex Solutions (Narrative, Mission, North Star) */}
-      <GlassySection id="about-wrap">
-        <AboutSection />
-      </GlassySection>
+      {/* 2. Trust & Positioning: Who We Serve, Architecture Principles, Value Drivers */}
+      <TrustPositioning />
 
-      {/* 3. Solutions / Services Overview (Single Source of Truth for Services) */}
-      <GlassySection id="solutions-wrap">
-        <ServicesOverview />
-      </GlassySection>
+      {/* 3. Four Core Service Pillars */}
+      <ServicesOverview />
 
-      {/* 4. Our Approach Process (Interactive 5-Stage Engineering Roadmap) */}
-      <GlassySection id="approach-wrap">
-        <ApproachProcess />
-      </GlassySection>
+      {/* 4. Industries & Verticals */}
+      <IndustriesSection />
 
-      {/* 5. Featured Work & Concept Showcases (Tangible Demonstrations) */}
-      <GlassySection id="projects-wrap">
-        <ProjectsShowcase />
-      </GlassySection>
+      {/* 5. Featured Projects & Interactive Concept Demonstrations */}
+      <ProjectsShowcase />
 
-      {/* 6. Industries & Sectors */}
-      <GlassySection id="industries-wrap">
-        <IndustriesSection />
-      </GlassySection>
+      {/* 6. Five-Stage Engineering Methodology */}
+      <ApproachProcess />
 
-      {/* 7. Contact & Consultation Scheduling */}
-      <GlassySection id="contact-wrap">
-        <ContactSection />
-      </GlassySection>
+      {/* 7. Strong Conversion CTA */}
+      <ContactSection />
     </>
   );
 }

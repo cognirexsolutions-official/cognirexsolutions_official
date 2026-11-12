@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { meetingSchema } from "@/lib/validation";
@@ -19,6 +19,15 @@ const timeSlots = [
 ];
 
 export default function MeetingRequestForm() {
+  const [detectedTimezone, setDetectedTimezone] = useState<string>("Asia/Kolkata (IST)");
+
+  useEffect(() => {
+    try {
+      const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      if (tz) setDetectedTimezone(tz);
+    } catch {}
+  }, []);
+
   const [serverStatus, setServerStatus] = useState<{
     type: "idle" | "loading" | "success" | "conflict" | "error";
     message: string;
@@ -261,9 +270,14 @@ export default function MeetingRequestForm() {
 
           {/* Preferred Time Slot */}
           <div>
-            <label className="block text-xs font-semibold uppercase tracking-wider text-[#1F1B2E] mb-2">
-              Time Slot (IST) <span className="text-[#7C3AED]">*</span>
-            </label>
+            <div className="flex items-center justify-between mb-2">
+              <label className="block text-xs font-semibold uppercase tracking-wider text-[#1F1B2E]">
+                Time Slot (IST) <span className="text-[#7C3AED]">*</span>
+              </label>
+              <span className="text-[10px] text-[#7C3AED] font-mono">
+                Your TZ: {detectedTimezone}
+              </span>
+            </div>
             <select
               {...register("preferredTime")}
               className="w-full px-4 py-3 rounded-xl bg-[#F8F7FC] border border-[#E5E1ED] text-sm text-[#1F1B2E] focus:bg-white focus:border-[#7C3AED] focus:outline-none transition-colors"

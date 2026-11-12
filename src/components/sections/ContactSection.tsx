@@ -1,67 +1,79 @@
 "use client";
 
 import React from "react";
-import { Sparkles, ShieldCheck } from "lucide-react";
+import Link from "next/link";
+import { Sparkles, ShieldCheck, ArrowRight, Clock, MessageSquare } from "lucide-react";
 import { Button } from "@/components/ui/Button";
-import { useCmsContent } from "@/context/CmsContentContext";
 
 export default function ContactSection() {
-  const { content } = useCmsContent();
-  const c = content.contact_section;
-
   return (
-    <section id="contact" className="py-20 md:py-28 bg-[#F8F7FC] border-t border-[#E5E1ED] relative overflow-hidden scroll-mt-20">
-      {/* Decorative ambient background */}
+    <section
+      id="contact"
+      className="py-16 sm:py-24 bg-[#1F1B2E] text-white relative overflow-hidden"
+    >
+      {/* Subtle ambient lighting */}
       <div
-        className="absolute -top-12 -right-12 w-80 h-80 rounded-full bg-[#EEE8FA]/70 -z-0 pointer-events-none blur-2xl"
+        className="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-[#7C3AED]/20 pointer-events-none blur-3xl"
         aria-hidden="true"
       />
       <div
-        className="absolute -bottom-8 -left-8 w-72 h-72 rounded-full border border-[#7C3AED]/15 -z-0 pointer-events-none"
+        className="absolute -bottom-24 -left-24 w-96 h-96 rounded-full bg-[#A78BFA]/10 pointer-events-none blur-3xl"
         aria-hidden="true"
       />
 
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6 relative z-10 text-center">
         {/* Eyebrow badge */}
         <div className="mb-4">
-          <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-[#EEE8FA] text-[#7C3AED] border border-[#7C3AED]/20 shadow-xs">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>{c.homeBadge}</span>
+          <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-[#2E2744] text-[#C4B5FD] border border-[#7C3AED]/30 shadow-xs">
+            <Sparkles className="w-3.5 h-3.5 text-[#FACC15]" />
+            <span>START A CONVERSATION</span>
           </span>
         </div>
 
-        {/* Main Heading */}
-        <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#1F1B2E] tracking-tight leading-[1.15] mb-4 font-heading max-w-3xl mx-auto">
-          {c.homeTitle}
+        {/* Main Conversion Headline */}
+        <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight leading-[1.15] mb-5 font-heading max-w-3xl mx-auto">
+          Have an Idea? Let&apos;s Engineer It.
         </h2>
 
         {/* Subtitle */}
-        <p className="text-base sm:text-lg text-[#6F6A7C] leading-relaxed max-w-2xl mx-auto mb-10">
-          {c.homeDescription}
+        <p className="text-base sm:text-lg text-gray-300 leading-relaxed max-w-2xl mx-auto mb-10">
+          Whether you need an enterprise web application, custom internal dashboard, e-commerce storefront, or intelligent AI automation, our engineering team is ready to help you plan, architect, and ship.
         </p>
 
-        {/* Single Primary Action Button */}
-        <div className="flex justify-center mb-10">
+        {/* Actions */}
+        <div className="flex flex-wrap items-center justify-center gap-4 mb-12">
           <Button
             href="/contact"
             variant="yellow"
             size="lg"
             icon
-            className="shadow-md hover:shadow-lg transition-all cursor-pointer text-base px-8 py-3.5"
+            className="shadow-lg hover:shadow-xl transition-all cursor-pointer text-base px-8 py-3.5"
           >
-            {c.homeCtaLabel}
+            Start a Project
           </Button>
+
+          <Link
+            href="/contact?tab=meeting"
+            className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-[#2D2745] hover:bg-[#3D355C] text-sm font-semibold text-white border border-[#4A416D] transition-colors"
+          >
+            <Clock className="w-4 h-4 text-[#FACC15]" />
+            <span>Schedule 45-Min Consultation</span>
+          </Link>
         </div>
 
-        {/* Trust & Reassurance Indicators */}
-        <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-10 text-xs text-[#6F6A7C] pt-4 border-t border-[#E5E1ED] max-w-xl mx-auto">
+        {/* Trust Indicators */}
+        <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-12 text-xs text-gray-400 pt-6 border-t border-[#312B47] max-w-2xl mx-auto">
           <div className="flex items-center gap-2">
-            <ShieldCheck className="w-4 h-4 text-[#7C3AED]" />
-            <span>{c.trustBadge1}</span>
+            <ShieldCheck className="w-4 h-4 text-[#A78BFA]" />
+            <span>NDA &amp; IP Protection Guaranteed</span>
           </div>
           <div className="flex items-center gap-2">
-            <Sparkles className="w-4 h-4 text-[#7C3AED]" />
-            <span>{c.trustBadge2}</span>
+            <Clock className="w-4 h-4 text-[#A78BFA]" />
+            <span>Direct Technical Response in 24h</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <MessageSquare className="w-4 h-4 text-[#A78BFA]" />
+            <span>No High-Pressure Sales Calls</span>
           </div>
         </div>
       </div>

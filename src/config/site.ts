@@ -2,10 +2,10 @@ export const siteConfig = {
   name: "Cognirex Solutions",
   shortName: "Cognirex",
   tagline: "Intelligence Engineered. Innovation Delivered.",
-  mainPositioning: "We turn your business into a digital experience.",
+  mainPositioning: "Engineering Digital Experiences That Move Businesses Forward.",
   description:
-    "Build a stronger online presence, connect with more customers and work smarter with modern websites, software, AI and automation.",
-  url: "https://cognirex-solutions-eta.vercel.app",
+    "We build intelligent digital products, custom software, AI-powered solutions, and automation systems that help businesses operate smarter and scale faster.",
+  url: process.env.NEXT_PUBLIC_SITE_URL || "https://cognirex-solutions-eta.vercel.app",
   ogImage: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1200&auto=format&fit=crop",
 
   // Demo flags removed for production readiness
