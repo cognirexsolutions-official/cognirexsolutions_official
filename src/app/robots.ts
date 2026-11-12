@@ -26,6 +26,21 @@ export default function robots(): MetadataRoute.Robots {
         allow: "/",
         disallow: ["/api/"],
       },
+      // Generative AI & LLM Search Engine Crawlers (ChatGPT Search, Perplexity, Claude, Gemini)
+      {
+        userAgent: [
+          "OAI-SearchBot",
+          "GPTBot",
+          "PerplexityBot",
+          "ClaudeBot",
+          "anthropic-ai",
+          "Google-Extended",
+          "Applebot-Extended",
+          "CCBot",
+        ],
+        allow: ["/", "/llms.txt", "/llms-full.txt"],
+        disallow: ["/api/"],
+      },
     ],
     sitemap: `${siteConfig.url}/sitemap.xml`,
     host: siteConfig.url,

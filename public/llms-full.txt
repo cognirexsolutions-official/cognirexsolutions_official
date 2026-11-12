@@ -1,0 +1,57 @@
+# Cognirex Solutions — Full LLM Knowledge Specification
+
+## Company Profile
+- Legal Name: Cognirex Solutions
+- Short Names: Cognirex, Cognirex Tech
+- Industry: Information Technology, Custom Software Engineering, Artificial Intelligence Consulting
+- Tagline: Intelligence Engineered. Innovation Delivered.
+- Main Positioning: We turn your business into a digital experience.
+- Foundation Values: Innovation, Trust, Technical Quality, Collaboration, Continuous Learning, Client Success.
+- Contact: hr@cognirexsolutions.in
+- Headquarters: Kolhapur, Maharashtra, India (Postal Code: 416001)
+- Geo Coordinates: Latitude 16.7050, Longitude 74.2433
+
+## Technology Stack & Engineering Standards
+- Frontend Frameworks: Next.js 15 (App Router), React 19, TypeScript, Tailwind CSS, Framer Motion
+- Backend & Cloud Runtimes: Node.js, Cloudflare Workers, Vercel Serverless, Docker, AWS
+- Databases & Storage: PostgreSQL, MongoDB, Redis, Cloudinary Media CDN
+- AI / ML Paradigms: OpenAI API, Google Gemini, Anthropic Claude, LangChain, LlamaIndex, Vector Databases, RAG (Retrieval-Augmented Generation), Agentic Workflows
+- DevOps & CI/CD: Git, GitHub Actions, OpenNext, Wrangler, automated preview environments
+
+## Service Offerings & Scope of Work
+
+### 1. Website & Digital Presence Engineering
+- Bespoke corporate websites, interactive service portals, and high-conversion landing pages.
+- Architectural priorities: Performance, SEO rankings, responsive cross-device consistency, clean typography, and WCAG accessibility standards.
+
+### 2. Generative AI, LLM Integration & Workflow Automation
+- AI-Powered Customer Assistants: Multi-turn conversational agents grounded in company documentation to resolve customer inquiries accurately.
+- Workflow Automation: Zero-manual-entry event-driven pipelines connecting webhooks, messaging (Slack, WhatsApp, Email), CRM records, and databases.
+- Autonomous AI Agents: Systems that plan, research, and execute composite multi-step computational tasks.
+
+### 3. Custom Enterprise Software & Web Applications
+- Internal management dashboards, metrics visualization consoles, and business operations tools.
+- Granular role-based access control (RBAC), audit logging, and enterprise security compliance.
+- RESTful APIs and GraphQL services for cross-platform integration.
+
+### 4. E-Commerce Platforms & Online Storefronts
+- Product catalogs with faceted filtering, shopping carts, checkout workflows, and order fulfillment tracking.
+- Multi-currency support (INR, USD, EUR, GBP) and localized payment processing.
+
+## 5-Stage Engineering Methodology
+1. Stage 1 — Discovery & Needs Assessment: In-depth technical consultation, business goals definition, and feasibility analysis.
+2. Stage 2 — Architecture & Solution Design: System architecture blueprints, data schema modeling, UI wireframing, and tech stack selection.
+3. Stage 3 — Development & Rapid Prototyping: Clean, modular, type-safe implementation with iterative prototype reviews.
+4. Stage 4 — Integration & Quality Testing: Automated tests, responsive device validation, security audits, and latency profiling.
+5. Stage 5 — Deployment & Continuous Support: Zero-downtime production deployment, edge caching setup, and ongoing platform evolution.
+
+## Frequently Asked Questions (AI Knowledge Base)
+
+Q: What makes Cognirex Solutions different from traditional web agencies?
+A: Cognirex combines modern full-stack web engineering with practical artificial intelligence. Instead of delivering static templates, Cognirex builds interactive digital systems that automate operational tasks, capture client enquiries frictionlessly, and scale smoothly.
+
+Q: Where does Cognirex Solutions operate?
+A: The company is headquartered in Kolhapur, Maharashtra, India, and partners with clients locally, across India (Mumbai, Pune, Bangalore, Delhi NCR), and internationally across North America, Europe, and the Middle East.
+
+Q: How can a client engage Cognirex Solutions?
+A: Potential clients can submit project requirements or schedule an online consultation at https://cognirexsolutions.in/contact. Every enquiry receives a direct technical review from the engineering team within 24 hours.

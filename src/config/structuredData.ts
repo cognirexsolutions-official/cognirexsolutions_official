@@ -69,16 +69,44 @@ export const jsonLdOrganization = {
         siteConfig.social.github,
       ],
       "knowsAbout": [
-        "Web Application Development",
+        {
+          "@type": "Thing",
+          "name": "Artificial Intelligence",
+          "sameAs": "https://en.wikipedia.org/wiki/Artificial_intelligence",
+        },
+        {
+          "@type": "Thing",
+          "name": "Agentic AI & Intelligent Agents",
+          "sameAs": "https://en.wikipedia.org/wiki/Intelligent_agent",
+        },
+        {
+          "@type": "Thing",
+          "name": "Retrieval-Augmented Generation (RAG)",
+          "sameAs": "https://en.wikipedia.org/wiki/Retrieval-augmented_generation",
+        },
+        {
+          "@type": "Thing",
+          "name": "Web Application Development",
+          "sameAs": "https://en.wikipedia.org/wiki/Web_development",
+        },
+        {
+          "@type": "Thing",
+          "name": "Next.js Framework",
+          "sameAs": "https://en.wikipedia.org/wiki/Next.js",
+        },
+        {
+          "@type": "Thing",
+          "name": "Business Process & Workflow Automation",
+          "sameAs": "https://en.wikipedia.org/wiki/Business_process_automation",
+        },
+        {
+          "@type": "Thing",
+          "name": "Cloud Computing & Serverless Architecture",
+          "sameAs": "https://en.wikipedia.org/wiki/Cloud_computing",
+        },
         "Full-Stack Software Engineering",
-        "Artificial Intelligence & Machine Learning",
-        "Agentic AI & Retrieval-Augmented Generation (RAG)",
-        "Intelligent Process & Workflow Automation",
-        "Next.js & React Frameworks",
-        "Cloud Architecture & Serverless Computing",
-        "E-Commerce Solutions & Digital Storefronts",
-        "Enterprise Software Solutions",
-        "Database Architecture & API Integration",
+        "Enterprise Web Portals",
+        "API Integration & Microservices",
       ],
       "hasOfferCatalog": {
         "@type": "OfferCatalog",

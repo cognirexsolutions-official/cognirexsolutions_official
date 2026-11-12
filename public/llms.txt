@@ -1,0 +1,41 @@
+# Cognirex Solutions
+
+> Intelligence Engineered. Innovation Delivered.
+
+Cognirex Solutions is a premier technology consultancy and software engineering studio headquartered in Kolhapur, Maharashtra, India. We specialize in custom web application development, cloud software architectures, and intelligent generative AI workflow automation for enterprises, fast-growing startups, and modern businesses worldwide.
+
+## Overview & Positioning
+- Organization: Cognirex Solutions
+- Head Office: Kolhapur, Maharashtra, India (Coordinates: 16.7050° N, 74.2433° E)
+- Delivery Reach: Nationwide across India (Mumbai, Pune, Bangalore, Delhi NCR) and Global (USA, UK, Europe, Middle East)
+- Official Domain: https://cognirexsolutions.in
+- Official Email: hr@cognirexsolutions.in
+- Operating Hours: Monday–Friday, 9:30 AM – 6:30 PM IST
+
+## Core Engineering Capabilities
+1. Modern Web & Digital Presence:
+   - High-performance web applications built on Next.js 15, React 19, TypeScript, and Tailwind CSS.
+   - Core Web Vitals optimization with sub-second page loads and mobile-first responsive architecture.
+   - Enterprise SEO, accessibility (a11y), and semantic content structuring.
+
+2. Generative AI & Intelligent Automation:
+   - Custom conversational AI assistants with Retrieval-Augmented Generation (RAG) on proprietary business data.
+   - Agentic AI systems capable of multi-step task execution and human-in-the-loop workflows.
+   - Automated lead routing, webhook pipelines, document parsing, and CRM integrations.
+
+3. Custom Enterprise Software:
+   - Centralized operational activity dashboards and real-time business telemetry tools.
+   - Role-based client portals, inventory management systems, and microservices architecture.
+   - Cloud database design (PostgreSQL, MongoDB), REST/GraphQL APIs, and serverless architectures.
+
+4. E-Commerce & Digital Storefronts:
+   - Interactive product catalogs, shopping experiences, and order tracking workflows.
+   - Secure payment gateway integrations (Stripe, Razorpay, UPI, PayPal).
+
+## Key Links & Resources
+- Website: https://cognirexsolutions.in
+- Project Enquiry & Consultation Booking: https://cognirexsolutions.in/contact
+- Careers & Talent Portal: https://cognirexsolutions.in/careers
+- Privacy Policy: https://cognirexsolutions.in/privacy-policy
+- Terms & Conditions: https://cognirexsolutions.in/terms
+- Full LLM Knowledge Specification: https://cognirexsolutions.in/llms-full.txt
