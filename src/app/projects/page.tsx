@@ -1,6 +1,19 @@
-import { redirect } from "next/navigation";
+import React from "react";
+import SinglePageWebsite from "../page";
+import ScrollToSection from "@/components/common/ScrollToSection";
+import { Metadata } from "next";
 
-export default function ProjectsRedirect() {
-  redirect("/#projects");
+export const metadata: Metadata = {
+  title: "Featured Projects & Work | Cognirex Solutions",
+  description:
+    "Explore case studies and featured digital platforms built by Cognirex Solutions.",
+};
+
+export default function ProjectsPage() {
+  return (
+    <>
+      <ScrollToSection sectionId="projects" />
+      <SinglePageWebsite />
+    </>
+  );
 }
-

@@ -134,14 +134,14 @@ export default function ContactPortal() {
             </p>
             <div className="flex flex-wrap items-center justify-center gap-3">
               <Link
-                href="/#solutions"
+                href="/solutions"
                 className="inline-flex items-center gap-2 text-xs font-semibold text-[#7C3AED] bg-[#EEE8FA] hover:bg-[#7C3AED] hover:text-white px-4 py-2.5 rounded-xl transition-colors"
               >
                 <span>Explore Solutions</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </Link>
               <Link
-                href="/#approach"
+                href="/solutions"
                 className="inline-flex items-center gap-2 text-xs font-semibold text-[#1F1B2E] hover:text-[#7C3AED] px-4 py-2.5 rounded-xl transition-colors border border-[#E5E1ED]"
               >
                 <span>See Our Process</span>

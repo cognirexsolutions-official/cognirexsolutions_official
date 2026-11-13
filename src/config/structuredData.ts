@@ -206,7 +206,7 @@ export const jsonLdOrganization = {
         "@type": "SearchAction",
         "target": {
           "@type": "EntryPoint",
-          "urlTemplate": `${siteConfig.url}/#solutions`,
+          "urlTemplate": `${siteConfig.url}/solutions`,
         },
         "query-input": "required name=search_term_string",
       },

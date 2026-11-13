@@ -41,8 +41,30 @@ export default function Hero() {
 
             {/* CTAs */}
             <div className="flex flex-wrap items-center gap-4 sm:gap-6">
-              <Button href={hero.primaryCtaHref || "#solutions"} variant="yellow" size="lg" icon>
-                {hero.primaryCtaLabel}
+              <Button
+                href="/solutions"
+                onClick={(e) => {
+                  const targetEl = document.getElementById("solutions");
+                  if (targetEl) {
+                    e.preventDefault();
+                    const header = document.querySelector("header");
+                    const headerOffset = header ? header.offsetHeight : 72;
+                    const elementPosition = targetEl.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                    window.scrollTo({
+                      top: Math.max(0, offsetPosition),
+                      behavior: "smooth",
+                    });
+                    if (typeof window !== "undefined") {
+                      window.history.replaceState(null, "", "/solutions");
+                    }
+                  }
+                }}
+                variant="yellow"
+                size="lg"
+                icon
+              >
+                {hero.primaryCtaLabel || "Explore Our Services"}
               </Button>
               <Link
                 href={hero.secondaryCtaHref || "/contact"}

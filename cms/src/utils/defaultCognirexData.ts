@@ -1,4 +1,4 @@
-﻿import type { CognirexContentBundle, CmsSectionKey } from "../types";
+import type { CognirexContentBundle, CmsSectionKey } from "../types";
 
 export const CMS_SECTIONS: CmsSectionKey[] = [
   "site_brand",
@@ -28,9 +28,9 @@ export const DEFAULT_COGNIR_CONTENT: CognirexContentBundle = {
     githubUrl: "https://github.com/cognirex-solutions",
     navItems: [
       { title: "Home", href: "/" },
-      { title: "About", href: "/#about" },
-      { title: "Solutions", href: "/#solutions" },
-      { title: "Innovation", href: "/#innovation" },
+      { title: "About", href: "/about" },
+      { title: "Solutions", href: "/solutions" },
+      { title: "Projects", href: "/projects" },
       { title: "Careers", href: "/careers" },
       { title: "Get in Touch", href: "/contact", isCta: true },
     ],

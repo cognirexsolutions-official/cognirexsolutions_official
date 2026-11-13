@@ -30,9 +30,9 @@ export const siteConfig = {
   // Single-page navigation items & integrated portal pages
   navItems: [
     { title: "Home", href: "/" },
-    { title: "About", href: "/#about" },
-    { title: "Solutions", href: "/#solutions" },
-    { title: "Projects", href: "/#projects" },
+    { title: "About", href: "/about" },
+    { title: "Solutions", href: "/solutions" },
+    { title: "Projects", href: "/projects" },
     { title: "Careers", href: "/careers" },
     { title: "Get in Touch", href: "/contact", isCta: true },
   ],
@@ -40,19 +40,19 @@ export const siteConfig = {
   // Footer links
   footerLinks: {
     company: [
-      { title: "About Us", href: "/#about" },
-      { title: "Our Process", href: "/#approach" },
-      { title: "Featured Projects", href: "/#projects" },
+      { title: "About Us", href: "/about" },
+      { title: "Our Process", href: "/solutions" },
+      { title: "Featured Projects", href: "/projects" },
       { title: "Careers", href: "/careers" },
     ],
     solutions: [
-      { title: "Digital Presence", href: "#solutions" },
-      { title: "E-Commerce", href: "#solutions" },
-      { title: "Custom Software", href: "#solutions" },
-      { title: "AI & Machine Learning", href: "#solutions" },
-      { title: "Generative AI", href: "#solutions" },
-      { title: "Intelligent Automation", href: "#solutions" },
-      { title: "Data & Analytics", href: "#solutions" },
+      { title: "Digital Presence", href: "/solutions" },
+      { title: "E-Commerce", href: "/solutions" },
+      { title: "Custom Software", href: "/solutions" },
+      { title: "AI & Machine Learning", href: "/solutions" },
+      { title: "Generative AI", href: "/solutions" },
+      { title: "Intelligent Automation", href: "/solutions" },
+      { title: "Data & Analytics", href: "/solutions" },
     ],
     legal: [
       { title: "Privacy Policy", href: "/privacy-policy" },

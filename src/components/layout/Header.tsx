@@ -110,15 +110,12 @@ export default function Header() {
 
   // Handle hash on initial mount or back/forward navigation
   useEffect(() => {
-    if (pathname === "/" && typeof window !== "undefined") {
-      if (window.location.hash === "#hero") {
-        // Strip out ugly #hero hash and retain clean URL
-        window.history.replaceState(null, "", window.location.pathname);
-        window.scrollTo({ top: 0, behavior: "smooth" });
-        return;
-      }
+    if (typeof window !== "undefined") {
+      // If any legacy hash arrived (e.g. #hero, #about, #solutions), sanitize it immediately!
       if (window.location.hash) {
         const hash = window.location.hash.replace("#", "");
+        const cleanPath = hash === "hero" ? "/" : `/${hash}`;
+        window.history.replaceState(null, "", cleanPath);
         const targetEl = document.getElementById(hash);
         if (targetEl) {
           setActiveSection(hash);
@@ -144,28 +141,33 @@ export default function Header() {
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     setMobileMenuOpen(false);
 
-    // If clicking on Home link or Logo ("/" or "/#hero")
-    if (href === "/" || href === "/#hero" || href === "#hero") {
-      if (pathname === "/") {
+    // Normalize href to remove any hash and identify section
+    const rawTarget = href.includes("#")
+      ? href.split("#")[1]
+      : href.replace(/^\//, "");
+    const targetSection = rawTarget === "" || rawTarget === "home" ? "hero" : rawTarget;
+    const cleanHref = href.replace(/#.*$/, "").trim() || "/";
+
+    // 1. If clicking on Home link or Logo
+    if (cleanHref === "/" || targetSection === "hero") {
+      if (pathname === "/" || pathname === "/about" || pathname === "/solutions" || pathname === "/projects") {
         e.preventDefault();
         setActiveSection("hero");
         isManualScrollingRef.current = true;
-        if (scrollTimeoutRef.current) {
-          clearTimeout(scrollTimeoutRef.current);
-        }
+        if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
         scrollTimeoutRef.current = setTimeout(() => {
           isManualScrollingRef.current = false;
         }, 850);
         window.scrollTo({ top: 0, behavior: "smooth" });
-        if (window.location.hash) {
-          window.history.replaceState(null, "", window.location.pathname);
+        if (typeof window !== "undefined") {
+          window.history.replaceState(null, "", "/");
         }
       }
       return;
     }
 
-    // If clicking on Careers link
-    if (href === "/careers") {
+    // 2. If clicking on Careers link
+    if (cleanHref === "/careers") {
       if (pathname === "/careers") {
         e.preventDefault();
         window.scrollTo({ top: 0, behavior: "smooth" });
@@ -173,8 +175,8 @@ export default function Header() {
       return;
     }
 
-    // If clicking on Contact link
-    if (href === "/contact") {
+    // 3. If clicking on Contact link
+    if (cleanHref === "/contact") {
       if (pathname === "/contact") {
         e.preventDefault();
         window.scrollTo({ top: 0, behavior: "smooth" });
@@ -182,44 +184,38 @@ export default function Header() {
       return;
     }
 
-    // If clicking on homepage section anchor (e.g. "/#about", "#about", "/#solutions")
-    const hash = href.includes("#") ? href.split("#")[1] : "";
-    if (hash) {
-      if (pathname === "/") {
+    // 4. If clicking on section links (e.g. "/about", "/solutions", "/projects")
+    if (pathname === "/" || pathname === "/about" || pathname === "/solutions" || pathname === "/projects") {
+      const targetEl = document.getElementById(targetSection);
+      if (targetEl) {
         e.preventDefault();
 
-        // 1. Instantly highlight target nav item
+        // Instantly highlight target nav item
         const mappedNavId =
-          TRACKED_SECTIONS.find((s) => s.id === hash)?.navId || hash;
+          TRACKED_SECTIONS.find((s) => s.id === targetSection)?.navId || targetSection;
         setActiveSection(mappedNavId);
 
-        // 2. Temporarily lock scrollspy to prevent intermediate scroll frames from overriding
+        // Temporarily lock scrollspy to prevent scroll-jitter
         isManualScrollingRef.current = true;
-        if (scrollTimeoutRef.current) {
-          clearTimeout(scrollTimeoutRef.current);
-        }
+        if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
         scrollTimeoutRef.current = setTimeout(() => {
           isManualScrollingRef.current = false;
         }, 850);
 
-        // 3. Scroll to top if hero
-        if (hash === "hero") {
-          window.scrollTo({ top: 0, behavior: "smooth" });
-          return;
-        }
+        // Smooth scroll to target element with exact sticky header offset
+        const header = document.querySelector("header");
+        const headerOffset = header ? header.offsetHeight : 72;
+        const elementPosition = targetEl.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
-        // 4. Smooth scroll to target element with exact sticky header offset
-        const targetEl = document.getElementById(hash);
-        if (targetEl) {
-          const header = document.querySelector("header");
-          const headerOffset = header ? header.offsetHeight : 72;
-          const elementPosition = targetEl.getBoundingClientRect().top;
-          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+        window.scrollTo({
+          top: Math.max(0, offsetPosition),
+          behavior: "smooth",
+        });
 
-          window.scrollTo({
-            top: Math.max(0, offsetPosition),
-            behavior: "smooth",
-          });
+        // Cleanly update URL bar to /about, /solutions, /projects without ANY '#' hash
+        if (typeof window !== "undefined") {
+          window.history.replaceState(null, "", `/${targetSection}`);
         }
       }
     }
@@ -318,20 +314,23 @@ export default function Header() {
         {/* Desktop Navigation Links */}
         <nav className="hidden md:flex items-center gap-1.5 lg:gap-2">
           {navLinks.map((item) => {
-            const isHomeLink = item.href === "/" || item.href === "/#hero" || item.href === "#hero";
-            const isCareersLink = item.href === "/careers";
-            const sectionId = item.href.replace(/^\/?#/, "");
-            const isActive = isCareersLink
-              ? isCareersPage
-              : isHomeLink
-              ? isHomePage && (activeSection === "hero" || activeSection === "home")
-              : isHomePage && activeSection === sectionId;
+            const cleanHref = item.href.replace(/#.*$/, "") || "/";
+            const isHomeLink = cleanHref === "/";
+            const isCareersLink = cleanHref === "/careers";
+            const sectionId = cleanHref.replace(/^\//, "");
+            const isActive =
+              pathname === cleanHref ||
+              (isCareersLink
+                ? isCareersPage
+                : isHomeLink
+                ? isHomePage && (activeSection === "hero" || activeSection === "home")
+                : (isHomePage || pathname === `/${sectionId}`) && activeSection === sectionId);
 
             return (
               <Link
                 key={item.href}
-                href={item.href}
-                onClick={(e) => handleNavClick(e, item.href)}
+                href={cleanHref}
+                onClick={(e) => handleNavClick(e, cleanHref)}
                 className={`relative px-3.5 py-2 text-sm font-medium rounded-lg transition-colors duration-150 ${
                   isActive
                     ? "text-[#7C3AED] font-semibold"
@@ -375,20 +374,23 @@ export default function Header() {
         <div className="md:hidden bg-white border-b border-[#E5E1ED] px-4 pt-3 pb-6 animate-in slide-in-from-top-2 duration-150 shadow-dropdown">
           <nav className="flex flex-col gap-1">
             {navLinks.map((item) => {
-              const isHomeLink = item.href === "/" || item.href === "/#hero" || item.href === "#hero";
-              const isCareersLink = item.href === "/careers";
-              const sectionId = item.href.replace(/^\/?#/, "");
-              const isActive = isCareersLink
-                ? isCareersPage
-                : isHomeLink
-                ? isHomePage && (activeSection === "hero" || activeSection === "home")
-                : isHomePage && activeSection === sectionId;
+              const cleanHref = item.href.replace(/#.*$/, "") || "/";
+              const isHomeLink = cleanHref === "/";
+              const isCareersLink = cleanHref === "/careers";
+              const sectionId = cleanHref.replace(/^\//, "");
+              const isActive =
+                pathname === cleanHref ||
+                (isCareersLink
+                  ? isCareersPage
+                  : isHomeLink
+                  ? isHomePage && (activeSection === "hero" || activeSection === "home")
+                  : (isHomePage || pathname === `/${sectionId}`) && activeSection === sectionId);
 
               return (
                 <Link
                   key={item.href}
-                  href={item.href}
-                  onClick={(e) => handleNavClick(e, item.href)}
+                  href={cleanHref}
+                  onClick={(e) => handleNavClick(e, cleanHref)}
                   className={`px-3 py-2.5 rounded-lg text-base font-medium flex items-center justify-between ${
                     isActive
                       ? "bg-[#EEE8FA] text-[#7C3AED] font-semibold"

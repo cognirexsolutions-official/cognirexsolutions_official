@@ -145,7 +145,7 @@ export default function Footer() {
             <ul className="space-y-2 text-sm text-gray-400">
               {solutions.primaryServices.map((srv) => (
                 <li key={srv.id}>
-                  <Link href="/#solutions" className="hover:text-white transition-colors">
+                  <Link href="/solutions" className="hover:text-white transition-colors">
                     {srv.title}
                   </Link>
                 </li>

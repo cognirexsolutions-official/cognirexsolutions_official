@@ -76,7 +76,7 @@ export default function PrivacyPolicyPage() {
             </h2>
             <p className="text-[#6F6A7C]">
               If you have inquiries regarding how your data is handled or wish to request data updates or deletion, reach out through our{" "}
-              <Link href="/#contact" className="text-[#7C3AED] underline hover:text-[#5B21B6]">
+              <Link href="/contact" className="text-[#7C3AED] underline hover:text-[#5B21B6]">
                 project enquiry form
               </Link>
               .

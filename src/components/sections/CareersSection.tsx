@@ -60,13 +60,26 @@ export default function CareersSection() {
                     )}
                   </div>
 
-                  <a
-                    href="#career-form"
-                    className="inline-flex items-center justify-center gap-2 text-xs font-bold text-white bg-[#7C3AED] hover:bg-[#6D28D9] px-4 py-2.5 rounded-xl transition-colors"
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const el = document.getElementById("career-form");
+                      if (el) {
+                        const header = document.querySelector("header");
+                        const headerOffset = header ? header.offsetHeight : 72;
+                        const elementPosition = el.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                        window.scrollTo({
+                          top: Math.max(0, offsetPosition),
+                          behavior: "smooth",
+                        });
+                      }
+                    }}
+                    className="inline-flex items-center justify-center gap-2 text-xs font-bold text-white bg-[#7C3AED] hover:bg-[#6D28D9] px-4 py-2.5 rounded-xl transition-colors cursor-pointer"
                   >
                     <span>Apply for This Role</span>
                     <ArrowRight className="w-3.5 h-3.5" />
-                  </a>
+                  </button>
                 </div>
               ))}
             </div>
