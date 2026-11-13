@@ -29,7 +29,7 @@ export const siteConfig = {
 
   // Single-page navigation items & integrated portal pages
   navItems: [
-    { title: "Home", href: "/#hero" },
+    { title: "Home", href: "/" },
     { title: "About", href: "/#about" },
     { title: "Solutions", href: "/#solutions" },
     { title: "Projects", href: "/#projects" },

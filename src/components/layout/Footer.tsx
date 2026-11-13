@@ -28,7 +28,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8 pb-12 border-b border-[#312C45]">
           {/* Brand & Mission Column (Col 1-4) */}
           <div className="lg:col-span-4 space-y-4">
-            <Link href="/#hero" className="inline-flex items-center gap-3 group">
+            <Link href="/" className="inline-flex items-center gap-3 group">
               <div className="w-12 h-12 rounded-xl overflow-hidden relative shrink-0 transition-transform duration-200 group-hover:scale-105 flex items-center justify-center">
                 <Image
                   src="/images/logo_footer_transparent.png"
@@ -165,13 +165,19 @@ export default function Footer() {
               Terms &amp; Conditions
             </Link>
             <span className="text-gray-600">|</span>
-            <Link
-              href="/#hero"
-              className="inline-flex items-center gap-1 text-[#A78BFA] hover:text-white transition-colors"
+            <button
+              type="button"
+              onClick={() => {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+                if (typeof window !== "undefined" && window.location.hash) {
+                  window.history.replaceState(null, "", window.location.pathname);
+                }
+              }}
+              className="inline-flex items-center gap-1 text-[#A78BFA] hover:text-white transition-colors cursor-pointer"
             >
               <span>Back to Top</span>
               <ArrowUp className="w-3.5 h-3.5" />
-            </Link>
+            </button>
           </div>
         </div>
       </div>

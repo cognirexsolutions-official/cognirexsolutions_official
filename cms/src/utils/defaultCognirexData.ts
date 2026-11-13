@@ -27,7 +27,7 @@ export const DEFAULT_COGNIR_CONTENT: CognirexContentBundle = {
     twitterUrl: "https://x.com/cognirex",
     githubUrl: "https://github.com/cognirex-solutions",
     navItems: [
-      { title: "Home", href: "/#hero" },
+      { title: "Home", href: "/" },
       { title: "About", href: "/#about" },
       { title: "Solutions", href: "/#solutions" },
       { title: "Innovation", href: "/#innovation" },

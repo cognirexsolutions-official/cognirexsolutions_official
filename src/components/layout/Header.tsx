@@ -110,21 +110,29 @@ export default function Header() {
 
   // Handle hash on initial mount or back/forward navigation
   useEffect(() => {
-    if (pathname === "/" && typeof window !== "undefined" && window.location.hash) {
-      const hash = window.location.hash.replace("#", "");
-      const targetEl = document.getElementById(hash);
-      if (targetEl) {
-        setActiveSection(hash);
-        setTimeout(() => {
-          const header = document.querySelector("header");
-          const headerOffset = header ? header.offsetHeight : 72;
-          const elementPosition = targetEl.getBoundingClientRect().top;
-          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-          window.scrollTo({
-            top: Math.max(0, offsetPosition),
-            behavior: "smooth",
-          });
-        }, 150);
+    if (pathname === "/" && typeof window !== "undefined") {
+      if (window.location.hash === "#hero") {
+        // Strip out ugly #hero hash and retain clean URL
+        window.history.replaceState(null, "", window.location.pathname);
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        return;
+      }
+      if (window.location.hash) {
+        const hash = window.location.hash.replace("#", "");
+        const targetEl = document.getElementById(hash);
+        if (targetEl) {
+          setActiveSection(hash);
+          setTimeout(() => {
+            const header = document.querySelector("header");
+            const headerOffset = header ? header.offsetHeight : 72;
+            const elementPosition = targetEl.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+            window.scrollTo({
+              top: Math.max(0, offsetPosition),
+              behavior: "smooth",
+            });
+          }, 150);
+        }
       }
     }
   }, [pathname]);
@@ -135,6 +143,26 @@ export default function Header() {
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     setMobileMenuOpen(false);
+
+    // If clicking on Home link or Logo ("/" or "/#hero")
+    if (href === "/" || href === "/#hero" || href === "#hero") {
+      if (pathname === "/") {
+        e.preventDefault();
+        setActiveSection("hero");
+        isManualScrollingRef.current = true;
+        if (scrollTimeoutRef.current) {
+          clearTimeout(scrollTimeoutRef.current);
+        }
+        scrollTimeoutRef.current = setTimeout(() => {
+          isManualScrollingRef.current = false;
+        }, 850);
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        if (window.location.hash) {
+          window.history.replaceState(null, "", window.location.pathname);
+        }
+      }
+      return;
+    }
 
     // If clicking on Careers link
     if (href === "/careers") {
@@ -154,7 +182,7 @@ export default function Header() {
       return;
     }
 
-    // If clicking on homepage section anchor (e.g. "/#about", "#about", "/#hero")
+    // If clicking on homepage section anchor (e.g. "/#about", "#about", "/#solutions")
     const hash = href.includes("#") ? href.split("#")[1] : "";
     if (hash) {
       if (pathname === "/") {
@@ -209,10 +237,10 @@ export default function Header() {
       }`}
     >
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6 flex items-center justify-between">
-        {/* Brand Logo - Returns to top in the same window */}
+        {/* Brand Logo - Returns to top cleanly without #hero */}
         <Link
-          href="/#hero"
-          onClick={(e) => handleNavClick(e, "/#hero")}
+          href="/"
+          onClick={(e) => handleNavClick(e, "/")}
           className="flex items-center gap-2.5 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7C3AED] rounded-lg"
         >
           {/* Distinctive Logo Mark */}
@@ -290,10 +318,13 @@ export default function Header() {
         {/* Desktop Navigation Links */}
         <nav className="hidden md:flex items-center gap-1.5 lg:gap-2">
           {navLinks.map((item) => {
+            const isHomeLink = item.href === "/" || item.href === "/#hero" || item.href === "#hero";
             const isCareersLink = item.href === "/careers";
             const sectionId = item.href.replace(/^\/?#/, "");
             const isActive = isCareersLink
               ? isCareersPage
+              : isHomeLink
+              ? isHomePage && (activeSection === "hero" || activeSection === "home")
               : isHomePage && activeSection === sectionId;
 
             return (
@@ -344,10 +375,13 @@ export default function Header() {
         <div className="md:hidden bg-white border-b border-[#E5E1ED] px-4 pt-3 pb-6 animate-in slide-in-from-top-2 duration-150 shadow-dropdown">
           <nav className="flex flex-col gap-1">
             {navLinks.map((item) => {
+              const isHomeLink = item.href === "/" || item.href === "/#hero" || item.href === "#hero";
               const isCareersLink = item.href === "/careers";
               const sectionId = item.href.replace(/^\/?#/, "");
               const isActive = isCareersLink
                 ? isCareersPage
+                : isHomeLink
+                ? isHomePage && (activeSection === "hero" || activeSection === "home")
                 : isHomePage && activeSection === sectionId;
 
               return (
