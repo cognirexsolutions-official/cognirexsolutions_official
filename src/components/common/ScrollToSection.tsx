@@ -23,3 +23,4 @@ export default function ScrollToSection({ sectionId }: { sectionId: string }) {
 
   return null;
 }
+

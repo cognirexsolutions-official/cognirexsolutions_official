@@ -48,7 +48,7 @@ export default function Header() {
   const wordmarkLetters = wordmarkText.split("");
   const firstSpaceIdx = wordmarkText.indexOf(" ");
 
-  // High-precision scrollspy with getBoundingClientRect
+  // High-precision scrollspy tracking section offsets on page
   useEffect(() => {
     if (pathname !== "/") {
       return;
@@ -63,7 +63,7 @@ export default function Header() {
       }
 
       // If at the very top of the page, hero is always active
-      if (window.scrollY < 60) {
+      if (window.scrollY < 80) {
         setActiveSection("hero");
         return;
       }
@@ -71,29 +71,27 @@ export default function Header() {
       // Check if user has scrolled near bottom of page
       const isAtBottom =
         window.innerHeight + window.scrollY >=
-        document.documentElement.scrollHeight - 80;
+        document.documentElement.scrollHeight - 100;
       if (isAtBottom) {
         setActiveSection("projects");
         return;
       }
 
-      // Viewport trigger threshold just below the sticky header (~72px header + 50px buffer)
-      const triggerY = 120;
-      let matchedNavId = "hero";
+      // Scroll cursor line = scrollY + header height (~72px) + visual buffer (~100px)
+      const scrollPosition = window.scrollY + 170;
+      let currentSection = "hero";
 
       for (const section of TRACKED_SECTIONS) {
         const el = document.getElementById(section.id);
         if (el) {
-          const rect = el.getBoundingClientRect();
-          // Element is active if its top has reached or passed trigger line and bottom is still below trigger line
-          if (rect.top <= triggerY && rect.bottom > triggerY) {
-            matchedNavId = section.navId;
-            break;
+          const top = el.getBoundingClientRect().top + window.scrollY;
+          if (scrollPosition >= top) {
+            currentSection = section.navId;
           }
         }
       }
 
-      setActiveSection(matchedNavId);
+      setActiveSection(currentSection);
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -316,15 +314,20 @@ export default function Header() {
           {navLinks.map((item) => {
             const cleanHref = item.href.replace(/#.*$/, "") || "/";
             const isHomeLink = cleanHref === "/";
-            const isCareersLink = cleanHref === "/careers";
             const sectionId = cleanHref.replace(/^\//, "");
-            const isActive =
-              pathname === cleanHref ||
-              (isCareersLink
-                ? isCareersPage
-                : isHomeLink
-                ? isHomePage && (activeSection === "hero" || activeSection === "home")
-                : (isHomePage || pathname === `/${sectionId}`) && activeSection === sectionId);
+
+            let isActive = false;
+            if (pathname === "/") {
+              // On homepage, active indicator is EXCLUSIVELY driven by scrollspy position
+              if (isHomeLink) {
+                isActive = activeSection === "hero" || activeSection === "home";
+              } else {
+                isActive = activeSection === sectionId;
+              }
+            } else {
+              // On subpages (/careers, /contact, etc.), driven by route pathname
+              isActive = pathname === cleanHref;
+            }
 
             return (
               <Link
@@ -376,15 +379,20 @@ export default function Header() {
             {navLinks.map((item) => {
               const cleanHref = item.href.replace(/#.*$/, "") || "/";
               const isHomeLink = cleanHref === "/";
-              const isCareersLink = cleanHref === "/careers";
               const sectionId = cleanHref.replace(/^\//, "");
-              const isActive =
-                pathname === cleanHref ||
-                (isCareersLink
-                  ? isCareersPage
-                  : isHomeLink
-                  ? isHomePage && (activeSection === "hero" || activeSection === "home")
-                  : (isHomePage || pathname === `/${sectionId}`) && activeSection === sectionId);
+
+              let isActive = false;
+              if (pathname === "/") {
+                // On homepage, active indicator is EXCLUSIVELY driven by scrollspy position
+                if (isHomeLink) {
+                  isActive = activeSection === "hero" || activeSection === "home";
+                } else {
+                  isActive = activeSection === sectionId;
+                }
+              } else {
+                // On subpages (/careers, /contact, etc.), driven by route pathname
+                isActive = pathname === cleanHref;
+              }
 
               return (
                 <Link
