@@ -110,10 +110,10 @@ export default function Footer() {
               <li className="flex items-start gap-2">
                 <span className="text-[#C4B5FD] font-semibold min-w-[145px]">Official Email:</span>
                 <a
-                  href={`mailto:${brand.email || siteConfig.contact.email || "hr@cognirexsolutions.in"}`}
+                  href={`mailto:${brand.email || siteConfig.contact.email || "info@cognirexsolutions.in"}`}
                   className="text-gray-200 hover:text-[#C4B5FD] underline text-left transition-colors"
                 >
-                  {brand.email || siteConfig.contact.email || "hr@cognirexsolutions.in"}
+                  {brand.email || siteConfig.contact.email || "info@cognirexsolutions.in"}
                 </a>
               </li>
               <li className="flex items-start gap-2">

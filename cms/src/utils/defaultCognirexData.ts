@@ -22,6 +22,7 @@ export const DEFAULT_COGNIR_CONTENT: CognirexContentBundle = {
     footerDescription:
       "We build websites, software and intelligent digital solutions that help businesses connect, work smarter and grow.",
     locationLabel: "India (Nationwide & Global clients)",
+    email: "info@cognirexsolutions.in",
     officeHours: "Mondayâ€“Friday, 9:30 AMâ€“6:30 PM IST",
     linkedinUrl: "https://www.linkedin.com/company/cognirex-solutions",
     twitterUrl: "https://x.com/cognirex",

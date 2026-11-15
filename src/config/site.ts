@@ -13,7 +13,7 @@ export const siteConfig = {
 
   // Contact Information
   contact: {
-    email: "hr@cognirexsolutions.in",
+    email: "info@cognirexsolutions.in",
     phone: "",
     location: "Kolhapur, Maharashtra, India",
     addressLine: "Kolhapur, Maharashtra, India",

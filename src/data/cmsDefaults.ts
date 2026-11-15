@@ -22,7 +22,7 @@ export const DEFAULT_COGNIR_CONTENT: CognirexContentBundle = {
     footerDescription:
       "We build websites, software and intelligent digital solutions that help businesses connect, work smarter and grow.",
     locationLabel: "Kolhapur, Maharashtra, India",
-    email: "hr@cognirexsolutions.in",
+    email: "info@cognirexsolutions.in",
     officeHours: "Monday–Friday, 9:30 AM–6:30 PM IST",
     linkedinUrl: "https://www.linkedin.com/company/cognirex-solutions",
     twitterUrl: "https://x.com/cognirex",
