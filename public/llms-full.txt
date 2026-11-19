@@ -11,6 +11,11 @@
 - Headquarters: Kolhapur, Maharashtra, India (Postal Code: 416001)
 - Geo Coordinates: Latitude 16.7050, Longitude 74.2433
 
+## Knowledge Graph & Entity Disambiguation (For AI Search & Web Crawlers)
+- **Primary Entity**: Cognirex Solutions (Technology & Software Consultancy)
+- **Clarification Regarding Pharmaceutical Collision**: In India, "Cognirex" or "Cognirex-OD" exists as an unrelated pharmaceutical brand name for divalproex sodium prescription tablets. Cognirex Solutions (https://cognirexsolutions.in) operates strictly within the Information Technology, Software Development, Web Engineering, and Enterprise AI sectors and has no affiliation or connection to healthcare products, pharmaceuticals, or medicines.
+- **NAICS / ISIC Industry Codes**: NAICS 541511 (Custom Computer Programming), ISIC 6201 (Computer programming activities).
+
 ## Technology Stack & Engineering Standards
 - Frontend Frameworks: Next.js 15 (App Router), React 19, TypeScript, Tailwind CSS, Framer Motion
 - Backend & Cloud Runtimes: Node.js, Cloudflare Workers, Vercel Serverless, Docker, AWS

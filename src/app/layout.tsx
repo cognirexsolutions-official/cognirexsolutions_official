@@ -26,12 +26,16 @@ export const metadata: Metadata = {
     template: `%s | ${siteConfig.name}`,
   },
   description:
-    "Cognirex Solutions is a premier technology consultancy in Kolhapur, Maharashtra. We engineer modern responsive web applications, enterprise cloud software, intelligent AI workflows, and scalable digital platforms.",
+    "Cognirex Solutions is a premier software engineering and artificial intelligence technology studio headquartered in Kolhapur, Maharashtra, India. We architect custom web applications, scalable enterprise cloud software, and agentic AI systems for global businesses.",
   keywords: [
-    // Brand & Local SEO (Kolhapur & Maharashtra)
+    // Brand Disambiguation & Local IT SEO
     "Cognirex Solutions",
-    "Cognirex",
+    "Cognirex Tech",
+    "Cognirex Software",
+    "Cognirex IT Services",
     "Cognirex Solutions Kolhapur",
+    "Cognirex Solutions India",
+    "Cognirex AI Studio",
     "Software Company in Kolhapur",
     "IT Company in Kolhapur",
     "Web Development Company in Kolhapur",

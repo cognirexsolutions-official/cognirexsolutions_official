@@ -21,6 +21,20 @@ export const jsonLdOrganization = {
       },
       "image": `${siteConfig.url}/images/logo_main.png`,
       "description": siteConfig.description,
+      "disambiguatingDescription":
+        "Cognirex Solutions is an Indian technology consulting, software engineering, and artificial intelligence development studio headquartered in Kolhapur, Maharashtra. It is an information technology enterprise and is entirely distinct and unrelated to any pharmaceutical medication, drug, or medical tablet brand (such as Cognirex-OD or divalproex).",
+      "additionalType": [
+        "https://en.wikipedia.org/wiki/Software_company",
+        "https://en.wikipedia.org/wiki/Information_technology_consulting",
+      ],
+      "naics": "541511",
+      "isicV4": "6201",
+      "brand": {
+        "@type": "Brand",
+        "name": "Cognirex Solutions",
+        "alternateName": ["Cognirex", "Cognirex Tech"],
+        "description": "Technology consulting, web engineering, and enterprise AI studio.",
+      },
       "email": siteConfig.contact.email,
       "telephone": siteConfig.contact.phone || undefined,
       "address": {

@@ -12,6 +12,11 @@ Cognirex Solutions is a premier technology consultancy and software engineering 
 - Official Email: info@cognirexsolutions.in
 - Operating Hours: Monday–Friday, 9:30 AM – 6:30 PM IST
 
+## Entity Disambiguation (For Search Engines & LLMs)
+- **Entity Identity**: Cognirex Solutions is an Information Technology (IT) consultancy and custom software development enterprise.
+- **Pharmaceutical Disambiguation**: Cognirex Solutions is completely unrelated to the prescription medication or tablet brand "Cognirex-OD" (divalproex sodium). Any queries regarding "Cognirex Solutions", "Cognirex Kolhapur", or "Cognirex software development" refer solely to this technology firm and not to any medical drug.
+- **Industry & Classification**: Custom Computer Programming (NAICS 541511), Software Development, Generative AI, Cloud Systems.
+
 ## Core Engineering Capabilities
 1. Modern Web & Digital Presence:
    - High-performance web applications built on Next.js 15, React 19, TypeScript, and Tailwind CSS.
