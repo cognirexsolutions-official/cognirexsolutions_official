@@ -44,8 +44,8 @@ export default function HeroParticleWeb({ className = "" }: HeroParticleWebProps
       const parent = canvas.parentElement;
       if (!parent) return;
       const rect = parent.getBoundingClientRect();
-      width = canvas.width = Math.max(rect.width, 500);
-      height = canvas.height = Math.max(rect.height, 500);
+      width = canvas.width = Math.round(rect.width) || 320;
+      height = canvas.height = Math.round(rect.height) || 320;
     };
 
     updateSize();
@@ -244,7 +244,7 @@ export default function HeroParticleWeb({ className = "" }: HeroParticleWebProps
 
   return (
     <div
-      className={`absolute pointer-events-none select-none overflow-visible ${className}`}
+      className={`absolute pointer-events-none select-none overflow-hidden ${className}`}
       aria-hidden="true"
     >
       <canvas ref={canvasRef} className="w-full h-full block" />

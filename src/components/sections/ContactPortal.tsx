@@ -79,26 +79,26 @@ export default function ContactPortal() {
             <button
               type="button"
               onClick={() => setActiveTab("enquiry")}
-              className={`flex-1 py-3 px-4 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 transition-all cursor-pointer ${
+              className={`flex-1 py-2.5 sm:py-3 px-2 sm:px-4 rounded-xl text-[11px] sm:text-sm font-bold flex items-center justify-center gap-1.5 sm:gap-2 transition-all cursor-pointer ${
                 activeTab === "enquiry"
                   ? "bg-[#7C3AED] text-white shadow-sm"
                   : "text-[#6F6A7C] hover:text-[#1F1B2E]"
               }`}
             >
-              <MessageSquare className="w-4 h-4" />
-              <span>Send Project Enquiry</span>
+              <MessageSquare className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
+              <span className="truncate">Send Project Enquiry</span>
             </button>
             <button
               type="button"
               onClick={() => setActiveTab("meeting")}
-              className={`flex-1 py-3 px-4 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 transition-all cursor-pointer ${
+              className={`flex-1 py-2.5 sm:py-3 px-2 sm:px-4 rounded-xl text-[11px] sm:text-sm font-bold flex items-center justify-center gap-1.5 sm:gap-2 transition-all cursor-pointer ${
                 activeTab === "meeting"
                   ? "bg-[#7C3AED] text-white shadow-sm"
                   : "text-[#6F6A7C] hover:text-[#1F1B2E]"
               }`}
             >
-              <Calendar className="w-4 h-4" />
-              <span>Schedule Consultation</span>
+              <Calendar className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
+              <span className="truncate">Schedule Consultation</span>
             </button>
           </div>
 

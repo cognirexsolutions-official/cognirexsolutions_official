@@ -235,11 +235,11 @@ export default function Header() {
         <Link
           href="/"
           onClick={(e) => handleNavClick(e, "/")}
-          className="flex items-center gap-2.5 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7C3AED] rounded-lg"
+          className="flex items-center gap-2 sm:gap-2.5 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7C3AED] rounded-lg min-w-0 shrink"
         >
           {/* Distinctive Logo Mark */}
           <div
-            className={`w-12 h-12 rounded-xl overflow-hidden transition-transform duration-200 group-hover:scale-105 relative shrink-0 flex items-center justify-center ${
+            className={`w-9 h-9 sm:w-11 sm:h-11 md:w-12 md:h-12 rounded-xl overflow-hidden transition-transform duration-200 group-hover:scale-105 relative shrink-0 flex items-center justify-center ${
               isAssembled || reducedMotion
                 ? "opacity-100 scale-100"
                 : "opacity-0 scale-75"
@@ -254,7 +254,7 @@ export default function Header() {
               priority
             />
           </div>
-          <div className="flex flex-col">
+          <div className="flex flex-col min-w-0">
             <div
               className="flex items-center tracking-tight leading-none group-hover:opacity-90"
               role="heading"
@@ -281,7 +281,7 @@ export default function Header() {
                     style={{
                       transitionDelay: `${delayMs}ms`,
                     }}
-                    className={`inline-block font-heading font-extrabold text-base sm:text-lg transition-all duration-500 ease-out ${
+                    className={`inline-block font-heading font-extrabold text-[13px] sm:text-base md:text-lg transition-all duration-500 ease-out ${
                       isSolutionsWord ? "text-[#7C3AED]" : "text-[#1F1B2E]"
                     } ${
                       isAssembled || reducedMotion
@@ -374,7 +374,7 @@ export default function Header() {
 
       {/* Mobile Menu Dropdown */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-white border-b border-[#E5E1ED] px-4 pt-3 pb-6 animate-in slide-in-from-top-2 duration-150 shadow-dropdown">
+        <div className="md:hidden bg-white border-b border-[#E5E1ED] px-4 pt-3 pb-6 animate-in slide-in-from-top-2 duration-150 shadow-dropdown max-h-[calc(100vh-76px)] overflow-y-auto">
           <nav className="flex flex-col gap-1">
             {navLinks.map((item) => {
               const cleanHref = item.href.replace(/#.*$/, "") || "/";

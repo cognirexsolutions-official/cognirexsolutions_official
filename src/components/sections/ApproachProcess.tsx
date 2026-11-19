@@ -251,10 +251,10 @@ export default function ApproachProcess() {
         {/* ====================================================================
             MOBILE CONNECTED VERTICAL 5-STAGE JOURNEY (< md)
            ================================================================== */}
-        <div className="md:hidden relative pl-4">
+        <div className="md:hidden relative px-1 sm:px-2">
           {/* Subtle vertical continuous feedback rail connecting Stage 05 -> Stage 02 */}
           <div
-            className="absolute left-1 top-[24%] bottom-[16%] w-px border-l border-dashed border-[#793BEE]/30 pointer-events-none"
+            className="absolute left-0 sm:left-1 top-[24%] bottom-[16%] w-px border-l border-dashed border-[#793BEE]/30 pointer-events-none"
             aria-hidden="true"
           >
             <span className="absolute -top-1 -left-[3.5px] w-2 h-2 border-t border-l border-[#793BEE]/45 rotate-45" />
@@ -273,7 +273,7 @@ export default function ApproachProcess() {
                     viewport={{ once: true, amount: 0.25 }}
                     transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
                     onClick={() => setActiveStage(idx)}
-                    className="w-full max-w-[330px] flex flex-col items-center relative z-20"
+                    className="w-full max-w-[310px] sm:max-w-[330px] flex flex-col items-center relative z-20"
                   >
                     {/* Floating Info Panel */}
                     <div

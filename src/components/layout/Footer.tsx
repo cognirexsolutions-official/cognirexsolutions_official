@@ -103,21 +103,21 @@ export default function Footer() {
               Operating from India, partnering with organizations across time zones.
             </p>
             <ul className="space-y-2.5 text-sm text-gray-400 pt-1">
-              <li className="flex items-start gap-2">
-                <span className="text-[#C4B5FD] font-semibold min-w-[145px]">Engineering Hub:</span>
+              <li className="flex flex-col sm:flex-row sm:items-start gap-0.5 sm:gap-2">
+                <span className="text-[#C4B5FD] font-semibold sm:min-w-[145px]">Engineering Hub:</span>
                 <span className="text-gray-200">{brand.locationLabel || "Kolhapur, Maharashtra, India"}</span>
               </li>
-              <li className="flex items-start gap-2">
-                <span className="text-[#C4B5FD] font-semibold min-w-[145px]">Official Email:</span>
+              <li className="flex flex-col sm:flex-row sm:items-start gap-0.5 sm:gap-2">
+                <span className="text-[#C4B5FD] font-semibold sm:min-w-[145px]">Official Email:</span>
                 <a
                   href={`mailto:${brand.email || siteConfig.contact.email || "info@cognirexsolutions.in"}`}
-                  className="text-gray-200 hover:text-[#C4B5FD] underline text-left transition-colors"
+                  className="text-gray-200 hover:text-[#C4B5FD] underline text-left transition-colors break-all sm:break-normal"
                 >
                   {brand.email || siteConfig.contact.email || "info@cognirexsolutions.in"}
                 </a>
               </li>
-              <li className="flex items-start gap-2">
-                <span className="text-[#C4B5FD] font-semibold min-w-[145px]">Enquiries &amp; Projects:</span>
+              <li className="flex flex-col sm:flex-row sm:items-start gap-0.5 sm:gap-2">
+                <span className="text-[#C4B5FD] font-semibold sm:min-w-[145px]">Enquiries &amp; Projects:</span>
                 <Link
                   href="/contact"
                   className="text-gray-200 hover:text-[#C4B5FD] underline text-left transition-colors"
@@ -125,8 +125,8 @@ export default function Footer() {
                   Direct Project Form (Direct inbox monitoring)
                 </Link>
               </li>
-              <li className="flex items-start gap-2">
-                <span className="text-[#C4B5FD] font-semibold min-w-[145px]">Direct Consultation:</span>
+              <li className="flex flex-col sm:flex-row sm:items-start gap-0.5 sm:gap-2">
+                <span className="text-[#C4B5FD] font-semibold sm:min-w-[145px]">Direct Consultation:</span>
                 <Link
                   href="/contact?tab=meeting"
                   className="text-gray-200 hover:text-[#C4B5FD] underline text-left transition-colors"

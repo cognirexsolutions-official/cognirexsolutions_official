@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, Sora } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/Header";
@@ -18,6 +18,13 @@ const sora = Sora({
   variable: "--font-sora",
   display: "swap",
 });
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  themeColor: "#7C3AED",
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
@@ -139,7 +146,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${sora.variable}`}
+      className={`${inter.variable} ${sora.variable} w-full max-w-full overflow-x-hidden`}
       suppressHydrationWarning
     >
       <head>
@@ -149,12 +156,12 @@ export default function RootLayout({
         />
       </head>
       <body
-        className="min-h-screen flex flex-col bg-[#F8F7FC] text-[#1F1B2E] antialiased"
+        className="min-h-screen flex flex-col bg-[#F8F7FC] text-[#1F1B2E] antialiased w-full max-w-full overflow-x-hidden"
         suppressHydrationWarning
       >
         <CmsContentProvider>
           <Header />
-          <main className="flex-1">{children}</main>
+          <main className="flex-1 w-full max-w-full overflow-x-hidden">{children}</main>
           <Footer />
         </CmsContentProvider>
       </body>

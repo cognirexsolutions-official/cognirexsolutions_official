@@ -44,8 +44,8 @@ export default function WebOfConnections({ side, className = "" }: WebOfConnecti
       const parent = canvas.parentElement;
       if (!parent) return;
       const rect = parent.getBoundingClientRect();
-      width = canvas.width = Math.max(rect.width, 360);
-      height = canvas.height = Math.max(rect.height, 280);
+      width = canvas.width = Math.round(rect.width) || 200;
+      height = canvas.height = Math.round(rect.height) || 200;
     };
 
     updateSize();

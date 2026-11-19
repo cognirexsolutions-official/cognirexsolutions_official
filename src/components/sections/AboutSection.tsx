@@ -25,30 +25,30 @@ export default function AboutSection() {
             <div className="relative mx-auto max-w-[480px]">
               {/* Purple rounded accent backdrop */}
               <div
-                className="absolute -top-4 -left-4 w-40 h-40 rounded-2xl bg-[#EEE8FA] -z-10"
+                className="absolute -top-3 -left-3 sm:-top-4 sm:-left-4 w-32 h-32 sm:w-40 sm:h-40 rounded-2xl bg-[#EEE8FA] -z-10"
                 aria-hidden="true"
               />
 
               {/* Bold purple corner accent */}
               <div
-                className="absolute -bottom-6 -right-6 w-36 h-36 rounded-2xl bg-[#7C3AED] -z-10 opacity-90 shadow-sm"
+                className="absolute -bottom-3 -right-3 sm:-bottom-6 sm:-right-6 w-28 h-28 sm:w-36 sm:h-36 rounded-2xl bg-[#7C3AED] -z-10 opacity-90 shadow-sm"
                 aria-hidden="true"
               />
 
               {/* Yellow semicircle geometric element */}
               <div
-                className="absolute -top-3 right-10 w-12 h-6 rounded-t-full bg-[#FACC15] z-20"
+                className="absolute -top-3 right-6 sm:right-10 w-12 h-6 rounded-t-full bg-[#FACC15] z-20"
                 aria-hidden="true"
               />
 
               {/* Thin decorative circular line */}
               <div
-                className="absolute bottom-10 -left-8 w-24 h-24 rounded-full border border-[#7C3AED]/30 -z-10"
+                className="absolute bottom-10 -left-3 sm:-left-8 w-20 h-20 sm:w-24 sm:h-24 rounded-full border border-[#7C3AED]/30 -z-10"
                 aria-hidden="true"
               />
 
               {/* Image Frame with Authentic Collaborative Strategy Photo with padding & double border */}
-              <div className="relative rounded-2xl border-2 border-[#E5E1ED] shadow-card bg-white z-10 aspect-[4/3.2] p-2.5">
+              <div className="relative rounded-2xl border-2 border-[#E5E1ED] shadow-card bg-white z-10 aspect-[4/3.2] p-2 sm:p-2.5">
                 <div className="relative w-full h-full rounded-xl overflow-hidden border border-[#E5E1ED]">
                   <Image
                     src={about.aboutImage || "https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=800&auto=format&fit=crop"}
@@ -62,13 +62,13 @@ export default function AboutSection() {
               </div>
 
               {/* Floating Stat Badge */}
-              <div className="absolute -bottom-4 left-6 z-20 bg-white border border-[#E5E1ED] rounded-xl px-4 py-3 shadow-card flex items-center gap-3">
-                <div className="w-9 h-9 rounded-lg bg-[#EEE8FA] flex items-center justify-center text-[#7C3AED]">
-                  <CheckCircle2 className="w-5 h-5" />
+              <div className="absolute -bottom-4 left-3 sm:left-6 z-20 bg-white border border-[#E5E1ED] rounded-xl px-3 sm:px-4 py-2 sm:py-3 shadow-card flex items-center gap-2.5 sm:gap-3 max-w-[calc(100%-24px)]">
+                <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-[#EEE8FA] flex items-center justify-center text-[#7C3AED] shrink-0">
+                  <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5" />
                 </div>
                 <div>
                   <p className="text-xs font-bold text-[#1F1B2E]">{about.floatingBadgeTitle}</p>
-                  <p className="text-[11px] text-[#6F6A7C]">{about.floatingBadgeSubtitle}</p>
+                  <p className="text-[10px] sm:text-[11px] text-[#6F6A7C]">{about.floatingBadgeSubtitle}</p>
                 </div>
               </div>
             </div>

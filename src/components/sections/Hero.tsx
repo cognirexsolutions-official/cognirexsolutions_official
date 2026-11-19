@@ -29,13 +29,13 @@ export default function Hero() {
           {/* Left Column: Content */}
           <div className="lg:col-span-7 flex flex-col items-start text-left">
             {/* Main Headline */}
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-[#1F1B2E] tracking-tight leading-[1.12] mb-6 font-heading">
+            <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold text-[#1F1B2E] tracking-tight leading-[1.12] mb-6 font-heading">
               {hero.headlineLine1} <br className="hidden sm:inline" />
               <span className="text-[#7C3AED]">{hero.headlineHighlight}</span>
             </h1>
 
             {/* Description */}
-            <p className="text-lg sm:text-xl text-[#6F6A7C] max-w-xl leading-relaxed mb-8">
+            <p className="text-base sm:text-lg md:text-xl text-[#6F6A7C] max-w-xl leading-relaxed mb-8">
               {hero.description}
             </p>
 
@@ -77,9 +77,9 @@ export default function Hero() {
           </div>
 
           {/* Right Column: Visual Composition with Interactive Particle Web Behind Photo */}
-          <div className="lg:col-span-5 relative flex items-center justify-center lg:justify-end self-center my-auto min-h-[460px]">
+          <div className="lg:col-span-5 relative flex items-center justify-center lg:justify-end self-center my-auto min-h-[350px] sm:min-h-[420px] md:min-h-[460px] overflow-hidden sm:overflow-visible">
             {/* Dynamic Constellation Particle Network Layer (Behind Photo) */}
-            <div className="absolute -inset-16 sm:-inset-24 flex items-center justify-center pointer-events-none z-0">
+            <div className="absolute -inset-10 sm:-inset-24 flex items-center justify-center pointer-events-none z-0">
               <HeroParticleWeb className="w-full h-full" />
             </div>
 
@@ -87,17 +87,17 @@ export default function Hero() {
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
               {/* Outer soft lavender circle */}
               <div
-                className="w-[480px] h-[480px] rounded-full border border-[#7C3AED]/20 bg-[#EEE8FA]/25 animate-ripple-pulse"
+                className="w-[270px] h-[270px] sm:w-[380px] sm:h-[380px] md:w-[480px] md:h-[480px] rounded-full border border-[#7C3AED]/20 bg-[#EEE8FA]/25 animate-ripple-pulse"
                 aria-hidden="true"
               />
               {/* Mid dashed orbital ring (clockwise) */}
               <div
-                className="absolute w-[420px] h-[420px] rounded-full border border-dashed border-[#7C3AED]/30 animate-rotate-orbit"
+                className="absolute w-[230px] h-[230px] sm:w-[320px] sm:h-[320px] md:w-[420px] md:h-[420px] rounded-full border border-dashed border-[#7C3AED]/30 animate-rotate-orbit"
                 aria-hidden="true"
               />
             </div>
 
-            <div className="relative w-full max-w-[390px] sm:max-w-[420px] z-10">
+            <div className="relative w-full max-w-[280px] sm:max-w-[340px] md:max-w-[390px] lg:max-w-[420px] z-10">
               {/* Floating yellow geometric accent with gentle pulse */}
               <div
                 className="absolute top-1/2 -right-3.5 w-8 h-8 rounded-full bg-[#FACC15] shadow-md z-20 flex items-center justify-center animate-bounce duration-1000"
