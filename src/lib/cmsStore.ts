@@ -173,7 +173,8 @@ export interface StoredCareerApplication {
   phone: string;
   positionOfInterest: string;
   experience: string;
-  linkedIn?: string;
+  linkedIn: string;
+  resumeUrl?: string;
   resumeFileName?: string;
   shortIntroduction: string;
   status: "new" | "shortlisted" | "interviewing" | "rejected" | "hired";
@@ -982,6 +983,7 @@ export async function recordCareerApplicationFromWebsite(
         positionOfInterest: application.positionOfInterest,
         experience: application.experience,
         linkedIn: application.linkedIn,
+        resumeUrl: application.resumeUrl,
         resumeFileName: application.resumeFileName,
         shortIntroduction: application.shortIntroduction,
         privacyConsent: application.privacyConsent,
@@ -1029,6 +1031,7 @@ export async function listCareerApplications(): Promise<StoredCareerApplication[
       positionOfInterest: d.positionOfInterest,
       experience: d.experience,
       linkedIn: d.linkedIn,
+      resumeUrl: d.resumeUrl,
       resumeFileName: d.resumeFileName,
       shortIntroduction: d.shortIntroduction,
       status: d.status || "new",
@@ -1052,6 +1055,7 @@ export async function listCareerApplications(): Promise<StoredCareerApplication[
     positionOfInterest: d.positionOfInterest,
     experience: d.experience,
     linkedIn: d.linkedIn,
+    resumeUrl: d.resumeUrl,
     resumeFileName: d.resumeFileName,
     shortIntroduction: d.shortIntroduction,
     status: d.status || "new",
@@ -1078,6 +1082,7 @@ export async function updateCareerApplication(
       positionOfInterest: doc.positionOfInterest,
       experience: doc.experience,
       linkedIn: doc.linkedIn,
+      resumeUrl: doc.resumeUrl,
       resumeFileName: doc.resumeFileName,
       shortIntroduction: doc.shortIntroduction,
       status: doc.status,

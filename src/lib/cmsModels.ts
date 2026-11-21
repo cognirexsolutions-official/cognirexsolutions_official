@@ -173,7 +173,8 @@ export interface ICareerApplication extends Document {
   phone: string;
   positionOfInterest: string;
   experience: string;
-  linkedIn?: string;
+  linkedIn: string;
+  resumeUrl?: string;
   resumeFileName?: string;
   shortIntroduction: string;
   privacyConsent: boolean;
@@ -190,7 +191,8 @@ const CareerApplicationSchema = new Schema<ICareerApplication>(
     phone: { type: String, required: true },
     positionOfInterest: { type: String, required: true },
     experience: { type: String, required: true },
-    linkedIn: { type: String },
+    linkedIn: { type: String, required: true },
+    resumeUrl: { type: String },
     resumeFileName: { type: String },
     shortIntroduction: { type: String, required: true },
     privacyConsent: { type: Boolean, default: true },

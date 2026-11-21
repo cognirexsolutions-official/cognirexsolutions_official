@@ -36,17 +36,20 @@ export const careerSchema = z.object({
   experience: z.string().min(1, "Please indicate your years of experience"),
   linkedIn: z
     .string()
-    .url("Please enter a valid URL (e.g. https://linkedin.com/in/username)")
-    .optional()
-    .or(z.literal("")),
-  resumeFileName: z.string().min(3, "Please attach a resume file"),
-  resumeBase64: z.string().min(10, "Resume file content is missing or corrupt"),
+    .min(1, "Please provide your LinkedIn profile URL")
+    .url("Please enter a valid LinkedIn URL (e.g. https://linkedin.com/in/username)"),
+  resumeUrl: z
+    .string()
+    .min(1, "Please provide a link to your resume / CV")
+    .url("Please enter a valid URL (e.g. Google Drive, Dropbox, or public document link)"),
+  resumeFileName: z.string().optional(),
+  resumeBase64: z.string().optional(),
   shortIntroduction: z
     .string()
     .min(20, "Please share a brief introduction about your background (minimum 20 characters)")
     .max(1500, "Introduction cannot exceed 1500 characters"),
   privacyConsent: z.boolean().refine((val) => val === true, {
-    message: "You must consent to resume processing",
+    message: "You must consent to our application and data processing policy",
   }),
   honeypot: z.string().optional(),
 });

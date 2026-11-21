@@ -34,11 +34,11 @@ export async function sendCareerApplicationEmail(
 ): Promise<{ sent: boolean; message: string }> {
   const transporter = getTransporter();
 
-  const recipient = process.env.SMTP_TO_CAREERS_EMAIL || process.env.SMTP_TO_EMAIL || "careers@cognirexsolutions.com";
+  const recipient = process.env.SMTP_TO_CAREERS_EMAIL || process.env.SMTP_TO_EMAIL || "info@cognirexsolutions.in";
 
   const attachments: Array<{ filename: string; content: Buffer }> = [];
 
-  // Parse attached resume if available
+  // Parse attached resume if available (legacy fallback)
   if (application.rawResumeBase64 && application.resumeFileName) {
     try {
       const base64Data = application.rawResumeBase64.includes(";base64,")
@@ -100,10 +100,21 @@ export async function sendCareerApplicationEmail(
               <div class="label">Experience Level</div>
               <div class="value">${application.experience}</div>
             </div>
-            ${application.linkedIn ? `
             <div class="row">
-              <div class="label">LinkedIn / Portfolio URL</div>
-              <div class="value"><a href="${application.linkedIn}" target="_blank" style="color: #7C3AED;">${application.linkedIn}</a></div>
+              <div class="label">LinkedIn Profile</div>
+              <div class="value"><a href="${application.linkedIn}" target="_blank" style="color: #7C3AED; font-weight: 600;">${application.linkedIn}</a></div>
+            </div>
+            ${application.resumeUrl ? `
+            <div class="row">
+              <div class="label">Resume / CV Link</div>
+              <div class="value">
+                <a href="${application.resumeUrl}" target="_blank" style="display: inline-block; background: #7C3AED; color: #ffffff; text-decoration: none; padding: 8px 16px; border-radius: 8px; font-size: 13px; font-weight: 600; margin-top: 4px;">
+                  📄 View Candidate Resume &rarr;
+                </a>
+                <div style="font-size: 12px; color: #6F6A7C; margin-top: 6px; word-break: break-all;">
+                  ${application.resumeUrl}
+                </div>
+              </div>
             </div>` : ""}
             ${application.resumeFileName ? `
             <div class="row">

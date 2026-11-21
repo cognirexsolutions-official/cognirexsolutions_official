@@ -32,30 +32,6 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Verify allowed file extensions
-    const allowedExts = [".pdf", ".docx", ".doc"];
-    const ext = "." + (parsed.data.resumeFileName.split(".").pop()?.toLowerCase() || "");
-    if (!allowedExts.includes(ext)) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: "Invalid file format. Only PDF, DOC, and DOCX resumes are accepted.",
-        },
-        { status: 400 }
-      );
-    }
-
-    // Approximate size check for base64 (5MB limit: ~6.8M base64 characters)
-    if (parsed.data.resumeBase64.length > 7 * 1024 * 1024) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: "Resume file size exceeds the 5MB maximum limit.",
-        },
-        { status: 400 }
-      );
-    }
-
     const result = await saveCareerApplication(parsed.data);
 
     // Dispatch email to Cognirex Solutions team via SMTP (non-fatal if unconfigured)
@@ -63,7 +39,6 @@ export async function POST(req: NextRequest) {
       await sendCareerApplicationEmail({
         ...parsed.data,
         id: result.id,
-        rawResumeBase64: parsed.data.resumeBase64,
       });
     } catch (emailErr) {
       console.warn("Career application email dispatch warning:", emailErr);

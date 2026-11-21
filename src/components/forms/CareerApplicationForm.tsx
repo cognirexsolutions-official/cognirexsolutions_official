@@ -5,14 +5,12 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { careerSchema } from "@/lib/validation";
 import { Button } from "@/components/ui/Button";
-import { UploadCloud, CheckCircle2, AlertCircle, FileText, X } from "lucide-react";
+import { CheckCircle2, AlertCircle, Link2 } from "lucide-react";
 import { z } from "zod";
 
 type FormData = z.infer<typeof careerSchema>;
 
 export default function CareerApplicationForm({ initialRole = "General Expression of Interest" }: { initialRole?: string }) {
-  const [selectedFile, setSelectedFile] = useState<{ name: string; base64: string; sizeKb: number } | null>(null);
-  const [fileError, setFileError] = useState<string | null>(null);
   const [serverStatus, setServerStatus] = useState<{
     type: "idle" | "loading" | "success" | "error";
     message: string;
@@ -25,7 +23,6 @@ export default function CareerApplicationForm({ initialRole = "General Expressio
   const {
     register,
     handleSubmit,
-    setValue,
     reset,
     formState: { errors, isSubmitting },
   } = useForm<FormData>({
@@ -33,51 +30,12 @@ export default function CareerApplicationForm({ initialRole = "General Expressio
     defaultValues: {
       positionOfInterest: initialRole || "General Expression of Interest",
       experience: "1-3 years",
+      linkedIn: "",
+      resumeUrl: "",
       privacyConsent: false,
       honeypot: "",
     },
   });
-
-  // Handle file selection and convert to Base64 with size and type checks
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFileError(null);
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    const validExtensions = ["pdf", "docx", "doc"];
-    const ext = file.name.split(".").pop()?.toLowerCase();
-    if (!ext || !validExtensions.includes(ext)) {
-      setFileError("Invalid format. Please upload a PDF, DOC, or DOCX document.");
-      return;
-    }
-
-    if (file.size > 5 * 1024 * 1024) {
-      setFileError("File exceeds 5MB limit. Please compress or select a smaller file.");
-      return;
-    }
-
-    const reader = new FileReader();
-    reader.onload = () => {
-      const base64Str = reader.result as string;
-      setSelectedFile({
-        name: file.name,
-        base64: base64Str,
-        sizeKb: Math.round(file.size / 1024),
-      });
-      setValue("resumeFileName", file.name, { shouldValidate: true });
-      setValue("resumeBase64", base64Str, { shouldValidate: true });
-    };
-    reader.onerror = () => {
-      setFileError("Error reading file. Please try again.");
-    };
-    reader.readAsDataURL(file);
-  };
-
-  const removeFile = () => {
-    setSelectedFile(null);
-    setValue("resumeFileName", "");
-    setValue("resumeBase64", "");
-  };
 
   const onSubmit = async (data: FormData) => {
     setServerStatus({ type: "loading", message: "Transmitting application securely..." });
@@ -101,8 +59,8 @@ export default function CareerApplicationForm({ initialRole = "General Expressio
           "Phone Number": data.phone,
           "Position Applied": data.positionOfInterest,
           "Experience Level": data.experience,
-          "LinkedIn Profile": data.linkedIn || "Not provided",
-          "Resume Attached": data.resumeFileName,
+          "LinkedIn Profile": data.linkedIn,
+          "Resume Link": data.resumeUrl,
           "Brief Introduction": data.shortIntroduction,
           _subject: `New Career Application: ${data.fullName} (${data.positionOfInterest})`,
           _template: "table",
@@ -147,7 +105,6 @@ export default function CareerApplicationForm({ initialRole = "General Expressio
           applicationId: appId || `APP-${Date.now().toString(36).toUpperCase()}`,
         });
         reset();
-        setSelectedFile(null);
       } else {
         setServerStatus({
           type: "error",
@@ -323,11 +280,11 @@ export default function CareerApplicationForm({ initialRole = "General Expressio
           {/* LinkedIn Profile */}
           <div>
             <label className="block text-xs font-semibold uppercase tracking-wider text-[#1F1B2E] mb-2">
-              Portfolio / GitHub / LinkedIn <span className="text-[#6F6A7C] font-normal">(Optional)</span>
+              LinkedIn Profile <span className="text-[#7C3AED]">*</span>
             </label>
             <input
               type="url"
-              placeholder="https://..."
+              placeholder="https://linkedin.com/in/yourprofile"
               {...register("linkedIn")}
               className="w-full px-4 py-3 rounded-xl bg-[#F8F7FC] border border-[#E5E1ED] text-sm text-[#1F1B2E] focus:bg-white focus:border-[#7C3AED] focus:outline-none transition-colors"
             />
@@ -337,52 +294,28 @@ export default function CareerApplicationForm({ initialRole = "General Expressio
           </div>
         </div>
 
-        {/* Resume File Upload */}
+        {/* Resume Link */}
         <div>
           <label className="block text-xs font-semibold uppercase tracking-wider text-[#1F1B2E] mb-2">
-            Resume / CV <span className="text-[#7C3AED]">*</span>
-            <span className="text-gray-400 font-normal lowercase ml-1.5">(PDF, DOC, DOCX up to 5MB)</span>
+            Resume / CV Link <span className="text-[#7C3AED]">*</span>
+            <span className="text-gray-400 font-normal lowercase ml-1.5">(Google Drive, Dropbox, Notion, or cloud document)</span>
           </label>
-
-          {!selectedFile ? (
-            <label className="border-2 border-dashed border-[#E5E1ED] hover:border-[#7C3AED] rounded-2xl p-6 flex flex-col items-center justify-center cursor-pointer bg-[#F8F7FC] hover:bg-[#EEE8FA]/30 transition-all">
-              <UploadCloud className="w-8 h-8 text-[#7C3AED] mb-2 stroke-[1.5]" />
-              <span className="text-xs font-semibold text-[#1F1B2E]">
-                Click or drag resume file to upload
-              </span>
-              <span className="text-[11px] text-[#6F6A7C] mt-1">
-                Accepted formats: .pdf, .docx, .doc (Max 5MB)
-              </span>
-              <input
-                type="file"
-                accept=".pdf,.docx,.doc"
-                className="hidden"
-                onChange={handleFileChange}
-              />
-            </label>
-          ) : (
-            <div className="flex items-center justify-between p-3.5 rounded-xl bg-[#EEE8FA] border border-[#E5E1ED]">
-              <div className="flex items-center gap-3">
-                <FileText className="w-5 h-5 text-[#7C3AED]" />
-                <div>
-                  <p className="text-xs font-bold text-[#1F1B2E]">{selectedFile.name}</p>
-                  <p className="text-[10px] text-[#6F6A7C]">{selectedFile.sizeKb} KB</p>
-                </div>
-              </div>
-              <button
-                type="button"
-                onClick={removeFile}
-                className="p-1 rounded-md text-gray-400 hover:text-rose-600 cursor-pointer"
-                aria-label="Remove attached file"
-              >
-                <X className="w-4 h-4" />
-              </button>
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#7C3AED]">
+              <Link2 className="w-4 h-4" />
             </div>
-          )}
-
-          {fileError && <p className="text-xs text-rose-600 mt-1.5">{fileError}</p>}
-          {errors.resumeFileName && !fileError && (
-            <p className="text-xs text-rose-600 mt-1.5">{errors.resumeFileName.message}</p>
+            <input
+              type="url"
+              placeholder="https://drive.google.com/file/d/... or public resume URL"
+              {...register("resumeUrl")}
+              className="w-full pl-10 pr-4 py-3 rounded-xl bg-[#F8F7FC] border border-[#E5E1ED] text-sm text-[#1F1B2E] focus:bg-white focus:border-[#7C3AED] focus:outline-none transition-colors"
+            />
+          </div>
+          <p className="text-[11px] text-[#6F6A7C] mt-1.5">
+            Please ensure link sharing permissions are set to &ldquo;Anyone with the link can view&rdquo;.
+          </p>
+          {errors.resumeUrl && (
+            <p className="text-xs text-rose-600 mt-1.5">{errors.resumeUrl.message}</p>
           )}
         </div>
 

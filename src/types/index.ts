@@ -96,7 +96,8 @@ export interface CareerApplicationSubmission {
   phone: string;
   positionOfInterest: string;
   experience: string;
-  linkedIn?: string;
+  linkedIn: string;
+  resumeUrl: string;
   resumeFileName?: string;
   resumeBase64?: string;
   shortIntroduction: string;

@@ -48,7 +48,7 @@ export default function PrivacyPolicyPage() {
               1. Information Collection & Purpose
             </h2>
             <p className="text-[#6F6A7C]">
-              Cognirex Solutions collects information that you provide directly through our contact enquiries, career application submissions, and technology consultation requests. This data may include full names, business affiliations, email addresses, phone numbers, project descriptions, and uploaded resume files.
+              Cognirex Solutions collects information that you provide directly through our contact enquiries, career application submissions, and technology consultation requests. This data may include full names, business affiliations, email addresses, phone numbers, project descriptions, and resume document links.
             </p>
           </section>
 
