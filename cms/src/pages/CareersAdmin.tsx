@@ -83,7 +83,7 @@ export const CareersAdmin: React.FC = () => {
   });
 
   const exportCsv = () => {
-    const header = ['Name', 'Email', 'Phone', 'Role', 'Experience', 'LinkedIn', 'Status', 'Submitted'];
+    const header = ['Name', 'Email', 'Phone', 'Role', 'Experience', 'LinkedIn', 'Resume Link', 'Status', 'Submitted'];
     const rows = filtered.map((a) => [
       a.fullName,
       a.email,
@@ -91,6 +91,7 @@ export const CareersAdmin: React.FC = () => {
       a.positionOfInterest,
       a.experience,
       a.linkedIn || '',
+      a.resumeUrl || a.resumeFileName || '',
       a.status,
       a.submittedAt,
     ]);
@@ -187,7 +188,7 @@ export const CareersAdmin: React.FC = () => {
                   </div>
                   <p className="text-xs text-[#6F6A7C] mt-1">
                     {app.email} · {app.phone}
-                    {app.resumeFileName ? ` · Resume: ${app.resumeFileName}` : ''}
+                    {app.resumeFileName ? ` · File: ${app.resumeFileName}` : ''}
                   </p>
                 </div>
 
@@ -197,9 +198,20 @@ export const CareersAdmin: React.FC = () => {
                       href={app.linkedIn}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-[#E5E1ED] text-xs font-semibold text-[#7C3AED]"
+                      className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-[#E5E1ED] text-xs font-semibold text-[#7C3AED] hover:border-[#7C3AED]"
                     >
-                      <span>Profile</span>
+                      <span>LinkedIn</span>
+                      <ExternalLink className="w-3 h-3" />
+                    </a>
+                  )}
+                  {app.resumeUrl && (
+                    <a
+                      href={app.resumeUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-[#7C3AED]/40 bg-[#EEE8FA] text-xs font-semibold text-[#7C3AED] hover:bg-[#7C3AED] hover:text-white transition-colors"
+                    >
+                      <span>Resume Link</span>
                       <ExternalLink className="w-3 h-3" />
                     </a>
                   )}

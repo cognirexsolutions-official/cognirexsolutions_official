@@ -251,7 +251,7 @@ function getEnvAuthorizedEmails(): string[] {
   const raw =
     process.env.AUTHORIZED_EMAILS ||
     process.env.SUPER_ADMIN_EMAIL ||
-    "admin@cognirexsolutions.com";
+    "info@cognirexsolutions.in,admin@cognirexsolutions.in,admin@cognirexsolutions.com";
   return raw
     .split(",")
     .map((e) => e.trim().toLowerCase())
@@ -261,7 +261,7 @@ function getEnvAuthorizedEmails(): string[] {
 export function getPrimarySuperAdminEmail(): string {
   const envSuper = (process.env.SUPER_ADMIN_EMAIL || "").trim().toLowerCase();
   if (envSuper) return envSuper;
-  return getEnvAuthorizedEmails()[0] || "admin@cognirexsolutions.com";
+  return getEnvAuthorizedEmails()[0] || "info@cognirexsolutions.in";
 }
 
 export async function getAuthorizedEmails(): Promise<string[]> {

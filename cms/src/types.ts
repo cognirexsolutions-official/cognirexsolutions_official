@@ -300,6 +300,7 @@ export interface CmsCareerApplication {
   positionOfInterest: string;
   experience: string;
   linkedIn?: string;
+  resumeUrl?: string;
   resumeFileName?: string;
   shortIntroduction: string;
   status: 'new' | 'shortlisted' | 'interviewing' | 'rejected' | 'hired';
