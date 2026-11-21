@@ -12,6 +12,8 @@ export default function Hero() {
   const { content } = useCmsContent();
   const hero = content.hero;
 
+  //hello
+
   return (
     <section
       id="hero"
